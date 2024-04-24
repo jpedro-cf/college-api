@@ -1,8 +1,8 @@
 import { SignUpUseCase } from '@/application/auth/SignUpUseCase'
 import { IHasher } from '@/interfaces/application/cryptography/Hasher'
 import { IUsersRepository } from '@/interfaces/application/repositories/UsersRepository'
-import { makeFakeHasher } from '@/tests/infra/cryptography/Hasher.mock'
-import { makeFakeUsersRepository } from '@/tests/infra/repositories/UsersRepository.mock'
+import { makeFakeHasher } from '@/tests/mocks/cryptography/Hasher.mock'
+import { makeFakeUsersRepository } from '@/tests/mocks/repositories/UsersRepository.mock'
 import { makeFakeSignUpData } from '@/tests/mocks/entities/User.mock'
 
 interface ISut {

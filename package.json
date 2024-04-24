@@ -1,0 +1,40 @@
+{
+    "name": "college-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest",
+        "test:unit": "npm test -- --watch --silent=false -c jest-unit-config.ts",
+        "test:integration": "npm test -- --watch --silent=false -c jest-integration-config.ts",
+        "start": "node ./dist/main/server.js",
+        "build": "tsc -p tsconfig-build.json",
+        "dev": "nodemon -L ./src/main/server.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@eslint/js": "^9.1.1",
+        "@types/jest": "^29.5.12",
+        "@types/node": "^20.12.7",
+        "@types/nodemailer": "^6.4.14",
+        "eslint": "^8.57.0",
+        "globals": "^15.0.0",
+        "jest": "^29.7.0",
+        "mockdate": "^3.0.5",
+        "nodemon": "^3.1.0",
+        "ts-jest": "^29.1.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.4.5",
+        "typescript-eslint": "^7.7.1"
+    },
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "dotenv": "^16.4.5",
+        "fastify": "^4.26.2",
+        "mongodb": "^6.5.0",
+        "mongoose": "^8.3.2",
+        "nodemailer": "^6.9.13"
+    }
+}

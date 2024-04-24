@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "module": "CommonJS",
+        "target": "es6",
+        "allowJs": true,
+        "esModuleInterop": true,
+        "rootDir": "src",
+        "baseUrl": ".",
+        "typeRoots": ["./node_modules/@types", "./src/@types"],
+        "paths": {
+            "@/*": ["./src/*"]
+        }
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
+}

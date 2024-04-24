@@ -37,4 +37,19 @@ describe('SignUp usecase', () => {
         const promise = sut.signUp(makeFakeSignUpData())
         await expect(promise).rejects.toThrow()
     })
+
+    test('Should return an User on success', async () => {
+        const { sut } = makeSut()
+
+        const response = await sut.signUp(makeFakeSignUpData())
+
+        expect(response).toEqual({
+            id: 'any_id',
+            name: 'any_name',
+            email: 'any_email@email.com',
+            roles: ['student'],
+            points: 0,
+            ranking: 0
+        })
+    })
 })

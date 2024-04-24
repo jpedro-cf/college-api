@@ -8,4 +8,5 @@ export interface ISignUpDTO {
 
 export interface ISignUp {
     signUp(registerData: ISignUpDTO): Promise<IUser>
+    getUserByEmail(email: string): Promise<IUser>
 }

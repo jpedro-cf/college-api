@@ -35,7 +35,16 @@ describe('SignUp usecase', () => {
         jest.spyOn(hasher, 'hash').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const promise = sut.signUp(makeFakeSignUpData())
-        await expect(promise).rejects.toThrow()
+        expect(promise).rejects.toThrow()
+    })
+
+    test('Should return null if UsersRepository getByEmail returns null', async () => {
+        const { sut, usersRepository } = makeSut()
+
+        jest.spyOn(usersRepository, 'getByEmail').mockReturnValueOnce(Promise.resolve(null))
+
+        const promise = await sut.getUserByEmail('any_email@email.com')
+        expect(promise).toBeNull()
     })
 
     test('Should return an User on success', async () => {

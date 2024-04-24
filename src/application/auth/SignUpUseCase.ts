@@ -17,4 +17,8 @@ export class SignUpUseCase implements ISignUp {
         }
         return null
     }
+    async getUserByEmail(email: string): Promise<IUser> {
+        const user = await this.usersRepository.getByEmail(email)
+        return user
+    }
 }

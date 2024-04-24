@@ -8,6 +8,9 @@ export const makeFakeUsersRepository = (): IUsersRepository => {
         async create(userData: ISignUpDTO): Promise<IUserSchema> {
             return Promise.resolve(makeFakeUserModel())
         }
+        async getByEmail(email: string): Promise<IUserSchema> {
+            return Promise.resolve(makeFakeUserModel())
+        }
     }
     return new UsersRepositoryStub()
 }

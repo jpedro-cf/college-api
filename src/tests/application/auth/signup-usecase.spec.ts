@@ -28,4 +28,13 @@ describe('SignUp usecase', () => {
         const promise = sut.signUp(makeFakeSignUpData())
         await expect(promise).rejects.toThrow()
     })
+
+    test('Should throw if UsersRepository throws', async () => {
+        const { sut, hasher } = makeSut()
+
+        jest.spyOn(hasher, 'hash').mockReturnValueOnce(Promise.reject(new Error('')))
+
+        const promise = sut.signUp(makeFakeSignUpData())
+        await expect(promise).rejects.toThrow()
+    })
 })

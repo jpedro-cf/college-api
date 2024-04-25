@@ -67,4 +67,18 @@ describe('SignUp controller', () => {
         expect(res.statusCode).toBe(400)
         expect(res).toEqual(badRequest(new Error('Usuário com esse email já existe')))
     })
+
+    test('Should return a user on sucess', async () => {
+        const { sut } = makeSut()
+        const res = await sut.handle({
+            body: {
+                name: 'any',
+                email: 'any',
+                password: 'pass',
+                password_confirmation: 'pass'
+            }
+        })
+        console.log(res)
+        expect(res.statusCode).toBe(200)
+    })
 })

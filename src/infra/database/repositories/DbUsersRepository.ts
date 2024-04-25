@@ -12,7 +12,13 @@ export class DbUsersRepository implements IUsersRepository {
         })
         const userCreated = await user.save()
         if (userCreated) {
-            return userCreated
+            return userCreated.toObject()
         }
+    }
+    async getByEmail(email: string): Promise<IUserSchema> {
+        const user = await UserModel.findOne({
+            email: email
+        })
+        return user
     }
 }

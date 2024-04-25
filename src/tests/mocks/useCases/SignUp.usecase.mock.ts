@@ -13,6 +13,16 @@ export const makeSignUpUseCaseStub = (): ISignUp => {
                 ranking: 0
             })
         }
+        getUserByEmail(email: string): Promise<IUser> {
+            return Promise.resolve({
+                id: 'any_id',
+                name: 'any_name',
+                email: email,
+                roles: ['student'],
+                points: 0,
+                ranking: 0
+            })
+        }
     }
     return new SignUpUseCaseStub()
 }

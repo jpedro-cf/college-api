@@ -27,6 +27,7 @@ describe('SignUp controller', () => {
         })
         expect(res.statusCode).toBe(400)
     })
+
     test('Should return 400 if password != password_confirmation', async () => {
         const { sut } = makeSut()
 
@@ -40,5 +41,30 @@ describe('SignUp controller', () => {
         })
         expect(res.statusCode).toBe(400)
         expect(res).toEqual(badRequest(new Error('As senhas não são iguais')))
+    })
+
+    test('Should return 400 if email already in use', async () => {
+        const { sut, signUp } = makeSut()
+
+        jest.spyOn(signUp, 'getUserByEmail').mockResolvedValueOnce({
+            id: 'any_id',
+            name: 'any_name',
+            email: 'any_email@email.com',
+            roles: ['student'],
+            points: 0,
+            ranking: 0
+        })
+
+        const res = await sut.handle({
+            body: {
+                name: 'any',
+                email: 'any',
+                password: 'pass',
+                password_confirmation: 'pass'
+            }
+        })
+        console.log(res)
+        expect(res.statusCode).toBe(400)
+        expect(res).toEqual(badRequest(new Error('Usuário com esse email já existe')))
     })
 })

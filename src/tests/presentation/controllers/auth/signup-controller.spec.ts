@@ -63,9 +63,24 @@ describe('SignUp controller', () => {
                 password_confirmation: 'pass'
             }
         })
-        console.log(res)
         expect(res.statusCode).toBe(400)
         expect(res).toEqual(badRequest(new Error('Usuário com esse email já existe')))
+    })
+
+    test('Should return 500 if sign up throws', async () => {
+        const { sut, signUp } = makeSut()
+
+        jest.spyOn(signUp, 'signUp').mockReturnValueOnce(Promise.reject(new Error('')))
+
+        const res = await sut.handle({
+            body: {
+                name: 'any',
+                email: 'any',
+                password: 'pass',
+                password_confirmation: 'pass'
+            }
+        })
+        expect(res.statusCode).toBe(500)
     })
 
     test('Should return a user on sucess', async () => {
@@ -78,7 +93,6 @@ describe('SignUp controller', () => {
                 password_confirmation: 'pass'
             }
         })
-        console.log(res)
         expect(res.statusCode).toBe(200)
     })
 })

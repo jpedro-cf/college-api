@@ -3,7 +3,7 @@ import { env } from './config/env'
 import { corsConfig } from './config/config'
 import routesConfig from './config/routes'
 import mongoose from 'mongoose'
-import { setupDiscord } from '@/infra/discord/client'
+import { client, setupDiscord } from '@/infra/discord/client'
 
 const app: FastifyInstance = fastify({ logger: true })
 corsConfig(app)
@@ -15,6 +15,7 @@ const start = () => {
         app.listen({ port: env.port }, () => {
             console.log('Server running')
             setupDiscord()
+            client.login(env.discordToken)
         })
     })
 }

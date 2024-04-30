@@ -6,16 +6,8 @@ export const makeFakeDiscordUsersService = (): IDiscordUsersService => {
         getByUsername(username: string): Promise<IDiscordUser> {
             return Promise.resolve({
                 id: 'id',
-                bot: false,
-                system: false,
-                flags: { bitfield: 0 },
                 username: username,
-                globalName: 'Joao',
-                discriminator: '0',
-                avatar: null,
-                banner: undefined,
-                accentColor: undefined,
-                avatarDecoration: null
+                globalName: 'Joao'
             })
         }
     }

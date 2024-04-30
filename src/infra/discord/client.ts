@@ -1,17 +1,23 @@
-import { Client } from 'discord.js'
+import { Client, GatewayIntentBits } from 'discord.js'
 import { deployCommands } from './commands/deploy-commands'
 import { commands } from './commands/ping'
 import { env } from '@/main/config/env'
+import { DiscordUsersService } from './users/DiscordUsersService'
 
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers
+    ]
+})
 export const setupDiscord = async () => {
-    const client = new Client({
-        intents: ['Guilds', 'GuildMessages']
-    })
     client.once('ready', async () => {
         console.log('Discord bot is ready! 🤖')
-        client.guilds.cache.forEach(async (guild) => {
-            await deployCommands({ guildId: guild.id })
-        })
+        //
+        const guild = client.guilds.cache.first()
+        await deployCommands({ guildId: guild.id })
     })
 
     client.on('guildCreate', async (guild) => {
@@ -22,11 +28,11 @@ export const setupDiscord = async () => {
         if (!interaction.isCommand()) {
             return
         }
-
         const { commandName } = interaction
         if (commands[commandName as keyof typeof commands]) {
             commands[commandName as keyof typeof commands].execute(interaction)
         }
     })
-    await client.login(env.discordToken)
 }
+
+export { client }

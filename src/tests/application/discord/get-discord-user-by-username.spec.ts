@@ -22,4 +22,10 @@ describe('GetDiscordUserByUserNameUseCase', () => {
         const res = sut.get('joao')
         expect(res).rejects.toThrow()
     })
+    test('Should return a discord user on success', async () => {
+        const { sut } = makeSut()
+
+        const res = await sut.get('joao')
+        expect(res.username).toBe('joao')
+    })
 })

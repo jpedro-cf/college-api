@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "jest",
-        "test:unit": "npm test -- --watch --silent=false -c jest-unit-config.ts",
+        "test:unit": "npm test -- --watch --silent=false --runInBand -c jest-unit-config.ts",
         "test:integration": "npm test -- --watch --silent=false -c jest-integration-config.ts",
         "start": "node ./dist/main/server.js",
         "build": "tsc -p tsconfig-build.json",

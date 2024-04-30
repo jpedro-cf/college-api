@@ -5,7 +5,7 @@ import { env } from '@/main/config/env'
 
 export const setupDiscord = async () => {
     const client = new Client({
-        intents: ['Guilds', 'GuildMessages', 'DirectMessages']
+        intents: ['Guilds', 'GuildMessages']
     })
     client.once('ready', async () => {
         console.log('Discord bot is ready! 🤖')

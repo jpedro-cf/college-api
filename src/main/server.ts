@@ -7,6 +7,7 @@ import mongoose from 'mongoose'
 const app: FastifyInstance = fastify({ logger: true })
 corsConfig(app)
 routesConfig(app)
+export { app }
 
 const start = () => {
     mongoose.connect(env.mongoUrl).then(() => {

@@ -17,4 +17,12 @@ const userSchema = new Schema<IUserSchema>(
     { versionKey: false }
 )
 
+userSchema.set('toObject', {
+    transform: function (doc, ret) {
+        ret.id = ret._id
+        delete ret._id
+        delete ret.__v
+    }
+})
+
 export const UserModel = model<IUserSchema>('User', userSchema)

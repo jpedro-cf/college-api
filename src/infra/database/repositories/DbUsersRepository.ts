@@ -11,17 +11,23 @@ export class DbUsersRepository implements IUsersRepository {
         return user
     }
     async updateUser(data: IUserSchema): Promise<IUserSchema> {
-        const user = await UserModel.findById(data.id)
+        const updatedUser = await UserModel.findOneAndUpdate(
+            { _id: data.id }, // Critério de pesquisa: ID do usuário
+            {
+                $set: {
+                    name: data.name,
+                    discord_username: data.discord_username,
+                    email: data.email,
+                    roles: data.roles,
+                    points: data.points,
+                    ranking: data.ranking,
+                    discord_confirmed: data.discord_confirmed
+                }
+            },
+            { new: true } // Opção para retornar o documento atualizado
+        )
 
-        user.name = data.name
-        user.email = data.email
-        user.roles = data.roles
-        user.points = data.points
-        user.ranking = data.ranking
-
-        await user.save()
-
-        return user
+        return updatedUser
     }
     async create(userData: ISignUpDTO): Promise<IUserSchema> {
         const user = new UserModel({

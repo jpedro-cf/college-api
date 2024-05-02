@@ -76,4 +76,28 @@ describe('UsersRepository', () => {
             })
         })
     })
+    describe('updateUser()', () => {
+        test('Should return a user on success', async () => {
+            const { sut } = makeSut()
+            const user = new UserModel({
+                name: 'fake_name',
+                discord_username: 'discord',
+                email: 'fake_email@email.com',
+                password: 'fake_password'
+            })
+            await user.save()
+
+            user.discord_username = 'updated_username'
+            user.discord_confirmed = true
+
+            const account = await sut.updateUser(user)
+
+            expect(account).toBeTruthy()
+            expect(account.discord_username).toBe('updated_username')
+            expect(account.discord_confirmed).toBe(true)
+            await UserModel.deleteOne({
+                email: 'fake_email@email.com'
+            })
+        })
+    })
 })

@@ -25,7 +25,7 @@ export class DiscordUsersService implements IDiscordUsersService {
         } catch (error) {
             // Trata erros caso ocorram
             console.error('Erro ao buscar usuário do Discord:', error)
-            throw new Error('Erro ao buscar usuário do Discord')
+            throw new Error('Erro ao buscar usuário do Discord: ' + error)
         }
     }
 }

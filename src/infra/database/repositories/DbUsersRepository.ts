@@ -4,6 +4,12 @@ import { ISignUpDTO } from '@/interfaces/domain/useCases/auth/SignUp'
 import { UserModel } from '../models/UserModel'
 
 export class DbUsersRepository implements IUsersRepository {
+    async getByDiscord(discord_username: string): Promise<IUserSchema> {
+        throw new Error('Method not implemented.')
+    }
+    async updateUser(data: IUserSchema): Promise<IUserSchema> {
+        throw new Error('Method not implemented.')
+    }
     async create(userData: ISignUpDTO): Promise<IUserSchema> {
         const user = new UserModel({
             name: userData.name,

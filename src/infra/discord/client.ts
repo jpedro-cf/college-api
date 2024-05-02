@@ -1,8 +1,6 @@
 import { Client, GatewayIntentBits } from 'discord.js'
 import { deployCommands } from './commands/deploy-commands'
 import { commands } from './commands/ping'
-import { env } from '@/main/config/env'
-import { DiscordUsersService } from './users/DiscordUsersService'
 
 const client = new Client({
     intents: [
@@ -18,7 +16,6 @@ const client = new Client({
 export const setupDiscord = async () => {
     client.once('ready', async () => {
         console.log('Discord bot is ready! 🤖')
-        //
         const guild = client.guilds.cache.first()
         await deployCommands({ guildId: guild.id })
     })

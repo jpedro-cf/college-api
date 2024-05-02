@@ -5,6 +5,15 @@ import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
 
 export const makeFakeUsersRepository = (): IUsersRepository => {
     class UsersRepositoryStub implements IUsersRepository {
+        async updateUser(data: IUserSchema): Promise<IUserSchema> {
+            return data
+        }
+        async getByDiscord(discord_username: string): Promise<IUserSchema> {
+            const user = makeFakeUserModel()
+            user.discord_confirmed = true
+            user.discord_username = discord_username
+            return Promise.resolve(user)
+        }
         async create(userData: ISignUpDTO): Promise<IUserSchema> {
             return Promise.resolve(makeFakeUserModel())
         }

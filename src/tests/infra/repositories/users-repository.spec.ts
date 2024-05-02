@@ -31,11 +31,12 @@ describe('UsersRepository', () => {
 
             expect(account).toBeTruthy()
             expect(account.name).toBe('any_name')
+            expect(account.discord_username).toBe(null)
             expect(account.email).toBe('any_email@email.com')
             expect(account.password).toBe('any_password')
             expect(account.roles).toEqual(['student'])
             expect(account.points).toBe(0)
-            expect(account.email_confirmed).toBe(false)
+            expect(account.discord_confirmed).toBe(false)
         })
     })
     describe('getByEmail()', () => {

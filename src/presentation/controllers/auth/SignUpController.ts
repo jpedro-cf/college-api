@@ -47,11 +47,12 @@ export class SignUpController implements IController {
             }
             const userCreated = await this.signUp.signUp({
                 name,
+                discord_username: discord_username ?? null,
                 email,
                 password
             })
 
-            return ok(userCreated)
+            return ok(discord_username ? 'Mensagem de verificação do discord enviada!' : userCreated)
         } catch (error) {
             return serverError(error)
         }

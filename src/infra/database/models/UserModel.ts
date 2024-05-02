@@ -4,6 +4,7 @@ import { Schema, model } from 'mongoose'
 const userSchema = new Schema<IUserSchema>(
     {
         name: { type: String, required: true },
+        discord_username: { type: String, default: null },
         email: { type: String, required: true },
         password: { type: String, required: true },
         roles: {

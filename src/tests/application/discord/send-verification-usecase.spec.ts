@@ -23,4 +23,17 @@ describe('SendVerificationUseCase', () => {
         const res = sut.send('any')
         expect(res).rejects.toThrow()
     })
+
+    test('should return false if sendVerificationService returns false', async () => {
+        const { sut, sendVerificationService } = makeSut()
+        jest.spyOn(sendVerificationService, 'sendVerificationMessage').mockReturnValueOnce(Promise.resolve(false))
+        const res = await sut.send('any')
+        expect(res).toBeFalsy()
+    })
+
+    test('should return true on success', async () => {
+        const { sut } = makeSut()
+        const res = await sut.send('any')
+        expect(res).toBeTruthy()
+    })
 })

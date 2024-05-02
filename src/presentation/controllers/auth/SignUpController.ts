@@ -38,6 +38,7 @@ export class SignUpController implements IController {
                 if (!discord_user) {
                     return badRequest(new Error('Usuário do discord com esse username não existe.'))
                 }
+
                 const verificationMessageSent = await this.sendVerificationMessage.send(discord_user.id)
 
                 if (!verificationMessageSent) {

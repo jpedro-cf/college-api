@@ -5,10 +5,23 @@ import { UserModel } from '../models/UserModel'
 
 export class DbUsersRepository implements IUsersRepository {
     async getByDiscord(discord_username: string): Promise<IUserSchema> {
-        throw new Error('Method not implemented.')
+        const user = await UserModel.findOne({
+            discord_username: discord_username
+        })
+        return user
     }
     async updateUser(data: IUserSchema): Promise<IUserSchema> {
-        throw new Error('Method not implemented.')
+        const user = await UserModel.findById(data.id)
+
+        user.name = data.name
+        user.email = data.email
+        user.roles = data.roles
+        user.points = data.points
+        user.ranking = data.ranking
+
+        await user.save()
+
+        return user
     }
     async create(userData: ISignUpDTO): Promise<IUserSchema> {
         const user = new UserModel({

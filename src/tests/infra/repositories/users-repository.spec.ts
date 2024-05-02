@@ -57,4 +57,23 @@ describe('UsersRepository', () => {
             })
         })
     })
+    describe('getByDiscord()', () => {
+        test('Should return a user on success', async () => {
+            const { sut } = makeSut()
+            const user = new UserModel({
+                name: 'fake_name',
+                discord_username: 'discord',
+                email: 'fake_email@email.com',
+                password: 'fake_password'
+            })
+            await user.save()
+            const account = await sut.getByDiscord('discord')
+
+            expect(account).toBeTruthy()
+            expect(account.discord_username).toBe('discord')
+            await UserModel.deleteOne({
+                email: 'fake_email@email.com'
+            })
+        })
+    })
 })

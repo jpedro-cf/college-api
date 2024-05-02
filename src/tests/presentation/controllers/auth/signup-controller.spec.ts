@@ -1,22 +1,26 @@
 import { ISignUp } from '@/interfaces/domain/useCases/auth/SignUp'
 import { IGetDiscordUserByUserName } from '@/interfaces/domain/useCases/discord/users/GetUserByUserName'
+import { ISendVerification } from '@/interfaces/domain/useCases/discord/verification/SendVerification'
 import { badRequest } from '@/interfaces/presentation/codes'
 import { SignUpController } from '@/presentation/controllers/auth/SignUpController'
 import { makeGetDiscordUserByName } from '@/tests/mocks/useCases/GetDiscordByUserName.mock'
+import { makeSendVerificationService } from '@/tests/mocks/useCases/SendVerificationService.mock'
 import { makeSignUpUseCaseStub } from '@/tests/mocks/useCases/SignUp.usecase.mock'
 
 interface ISut {
     signUp: ISignUp
+    sendVerification: ISendVerification
     getDiscordUserByName: IGetDiscordUserByUserName
     sut: SignUpController
 }
 
 const makeSut = (): ISut => {
     const getDiscordUserByName = makeGetDiscordUserByName()
+    const sendVerification = makeSendVerificationService()
     const signUp = makeSignUpUseCaseStub()
-    const sut = new SignUpController(signUp, getDiscordUserByName)
+    const sut = new SignUpController(signUp, getDiscordUserByName, sendVerification)
 
-    return { sut, signUp, getDiscordUserByName }
+    return { sut, signUp, getDiscordUserByName, sendVerification }
 }
 
 describe('SignUp controller', () => {
@@ -98,6 +102,23 @@ describe('SignUp controller', () => {
             body: {
                 name: 'any',
                 email: 'any',
+                password: 'pass',
+                password_confirmation: 'pass'
+            }
+        })
+        expect(res.statusCode).toBe(500)
+    })
+
+    test('Should return 500 if sendVerification throws', async () => {
+        const { sut, sendVerification } = makeSut()
+
+        jest.spyOn(sendVerification, 'send').mockReturnValueOnce(Promise.reject(new Error('')))
+
+        const res = await sut.handle({
+            body: {
+                name: 'any',
+                email: 'any',
+                discord_username: 'any',
                 password: 'pass',
                 password_confirmation: 'pass'
             }

@@ -12,7 +12,7 @@ const userSchema = new Schema<IUserSchema>(
         },
         points: { type: Number, default: 0 },
         ranking: { type: Number },
-        email_confirmed: { type: Boolean, default: false }
+        discord_confirmed: { type: Boolean, default: false }
     },
     { versionKey: false }
 )

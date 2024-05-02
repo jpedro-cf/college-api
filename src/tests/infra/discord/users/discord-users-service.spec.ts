@@ -16,11 +16,11 @@ describe('DiscordUsersService', () => {
         const res = await sut.getByUsername('joao09537')
         expect(res).toBeTruthy()
         expect(res.username).toBe('joao09537')
-    }, 50000)
+    })
 
     test('Should return null if user doesnt exist', async () => {
         const sut = makeSut()
         const res = await sut.getByUsername('blablablabla')
         expect(res).toBeNull()
-    }, 50000)
+    })
 })

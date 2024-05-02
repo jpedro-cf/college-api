@@ -12,7 +12,7 @@ export class SignUpUseCase implements ISignUp {
 
         const createdUser = await this.usersRepository.create(registerData)
         if (createdUser) {
-            const { password, email_confirmed, ...user } = createdUser
+            const { password, discord_confirmed, ...user } = createdUser
             return user
         }
         return null

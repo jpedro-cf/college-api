@@ -1,18 +1,27 @@
+import { IDiscordUsersService } from '@/interfaces/application/discord/DiscordUsersService'
 import { ISignUp } from '@/interfaces/domain/useCases/auth/SignUp'
+import { IGetDiscordUserByUserName } from '@/interfaces/domain/useCases/discord/users/GetUserByUserName'
 import { badRequest, ok, serverError } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'
 
 export class SignUpController implements IController {
-    constructor(private readonly signUp: ISignUp) {}
+    constructor(private readonly signUp: ISignUp, private readonly getDiscordUserByName: IGetDiscordUserByUserName) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
             const requiredFields = ['name', 'email', 'password', 'password_confirmation']
-            const { name, email, password, password_confirmation } = httpRequest.body
+            const { name, email, password, password_confirmation, discord_username } = httpRequest.body
 
             for (const field of requiredFields) {
                 if (!httpRequest.body[field]) {
                     return badRequest(new Error(`Campo ${field} é obrigatório`))
+                }
+            }
+
+            if (discord_username) {
+                const discord_user = await this.getDiscordUserByName.get(discord_username)
+                if (!discord_user) {
+                    return badRequest(new Error('Usuário do discord com esse username não existe.'))
                 }
             }
 

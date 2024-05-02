@@ -22,6 +22,15 @@ describe('GetDiscordUserByUserNameUseCase', () => {
         const res = sut.get('joao')
         expect(res).rejects.toThrow()
     })
+
+    test('Should return null if discordUsersService returns null', async () => {
+        const { sut, discordUsersService } = makeSut()
+
+        jest.spyOn(discordUsersService, 'getByUsername').mockReturnValueOnce(Promise.resolve(null))
+
+        const res = await sut.get('joao')
+        expect(res).toBeNull()
+    })
     test('Should return a discord user on success', async () => {
         const { sut } = makeSut()
 

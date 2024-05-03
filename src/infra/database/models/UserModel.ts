@@ -12,6 +12,7 @@ const userSchema = new Schema<IUserSchema>(
             default: ['student']
         },
         points: { type: Number, default: 0 },
+        access_token: String,
         discord_confirmed: { type: Boolean, default: false }
     },
     { versionKey: false }

@@ -5,6 +5,21 @@ import { UserModel } from '../models/UserModel'
 import { ObjectId } from 'mongodb'
 
 export class DbUsersRepository implements IUsersRepository {
+    async getByToken(token: string): Promise<IUserSchema> {
+        const user = await UserModel.findOne({
+            access_token: token
+        })
+        return {
+            id: user.id.toString(),
+            name: user.name,
+            discord_username: user.discord_username,
+            email: user.email,
+            roles: user.roles,
+            password: user.password,
+            points: user.points,
+            discord_confirmed: user.discord_confirmed
+        }
+    }
     async deleteUser(id: string): Promise<boolean> {
         const deleted = await UserModel.deleteOne({
             _id: new ObjectId(id)

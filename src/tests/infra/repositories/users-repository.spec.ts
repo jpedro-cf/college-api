@@ -115,4 +115,24 @@ describe('UsersRepository', () => {
             expect(deleted).toBeTruthy()
         })
     })
+    describe('getByToken()', () => {
+        test('should return a user on success', async () => {
+            const { sut } = makeSut()
+
+            const user = new UserModel({
+                name: 'fake_name',
+                email: 'fake_email@email.com',
+                access_token: 'token',
+                password: 'fake_password'
+            })
+
+            await user.save()
+
+            const exists = await sut.getByToken('token')
+            expect(exists).toBeTruthy()
+            await UserModel.deleteOne({
+                email: 'fake_email@email.com'
+            })
+        })
+    })
 })

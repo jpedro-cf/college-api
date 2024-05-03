@@ -59,4 +59,10 @@ describe('AuthenticationUseCase', () => {
         const accessToken = await sut.auth({ email: 'any_email@email.com', password: 'any_password' })
         expect(accessToken).toBeNull()
     })
+
+    test('Should return token on success', async () => {
+        const { sut } = makeSut()
+        const res = await sut.auth({ email: 'any_email@email.com', password: 'any_password' })
+        expect(res.token).toBeTruthy()
+    })
 })

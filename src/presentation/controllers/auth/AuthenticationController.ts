@@ -16,10 +16,10 @@ export class AuthenticationController implements IController {
             const response = await this.authentication.auth({ email, password })
 
             if (!response) {
-                return forbidden(new Error('Credenciais incorretas.'))
+                return forbidden(new Error('Credenciais incorretas ou conta com esse email não existe.'))
             }
-
-            return ok(response)
+            console.log(response.user)
+            return ok(response.user, response.token)
         } catch (error) {
             return serverError(error)
         }

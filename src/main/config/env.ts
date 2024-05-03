@@ -6,5 +6,6 @@ export const env = {
     port: 3030,
     jwtSecret: process.env.JWT_SECRET,
     discordToken: process.env.DISCORD_TOKEN,
-    discordClientID: process.env.DISCORD_CLIENT_ID
+    discordClientID: process.env.DISCORD_CLIENT_ID,
+    cookieSecret: process.env.COOKIE_SECRET
 }

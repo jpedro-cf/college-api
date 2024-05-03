@@ -20,9 +20,10 @@ export const unauthorized = (error: Error): IHttpResponse => ({
     body: error
 })
 
-export const ok = (data: any): IHttpResponse => ({
+export const ok = (data: any, cookies?: any): IHttpResponse => ({
     statusCode: 200,
-    body: data
+    body: data,
+    cookies: cookies
 })
 
 export const noContent = (): IHttpResponse => ({

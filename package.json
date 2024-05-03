@@ -33,6 +33,7 @@
         "typescript-eslint": "^7.7.1"
     },
     "dependencies": {
+        "@fastify/cookie": "^9.3.1",
         "bcrypt": "^5.1.1",
         "discord.js": "^14.14.1",
         "dotenv": "^16.4.5",

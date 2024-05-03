@@ -35,7 +35,6 @@ export class AuthenticationUseCase implements IAuthentication {
         await this.usersRepository.updateUser(account)
 
         const { password, discord_confirmed, access_token, ...user } = account
-
         return {
             user,
             token: accessToken

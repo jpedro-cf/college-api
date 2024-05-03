@@ -35,8 +35,16 @@ export class DbUsersRepository implements IUsersRepository {
             },
             { new: true }
         )
-
-        return updatedUser
+        return {
+            id: updatedUser._id.toString(),
+            name: updatedUser.name,
+            discord_username: updatedUser.discord_username,
+            email: updatedUser.email,
+            roles: updatedUser.roles,
+            password: updatedUser.password,
+            points: updatedUser.points,
+            discord_confirmed: updatedUser.discord_confirmed
+        }
     }
     async create(userData: ISignUpDTO): Promise<IUserSchema> {
         const user = new UserModel({
@@ -54,6 +62,15 @@ export class DbUsersRepository implements IUsersRepository {
         const user = await UserModel.findOne({
             email: email
         })
-        return user
+        return {
+            id: user._id.toString(),
+            name: user.name,
+            discord_username: user.discord_username,
+            email: user.email,
+            roles: user.roles,
+            password: user.password,
+            points: user.points,
+            discord_confirmed: user.discord_confirmed
+        }
     }
 }

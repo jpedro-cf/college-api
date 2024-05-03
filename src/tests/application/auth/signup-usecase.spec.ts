@@ -4,6 +4,7 @@ import { IUsersRepository } from '@/interfaces/application/repositories/UsersRep
 import { makeFakeHasher } from '@/tests/mocks/cryptography/Hasher.mock'
 import { makeFakeUsersRepository } from '@/tests/mocks/repositories/UsersRepository.mock'
 import { makeFakeSignUpData } from '@/tests/mocks/entities/User.mock'
+import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
 
 interface ISut {
     sut: SignUpUseCase
@@ -45,6 +46,15 @@ describe('SignUp usecase', () => {
 
         const promise = await sut.getUserByEmail('any_email@email.com')
         expect(promise).toBeNull()
+    })
+    test('Should throw if discord_username already in use', async () => {
+        const { sut, usersRepository } = makeSut()
+
+        jest.spyOn(usersRepository, 'getByDiscord').mockReturnValueOnce(Promise.resolve(makeFakeUserModel()))
+        const data = makeFakeSignUpData()
+        data.discord_username = 'any'
+        const promise = sut.signUp(data)
+        expect(promise).rejects.toThrow()
     })
 
     test('Should return an User on success', async () => {

@@ -11,8 +11,9 @@ export class DbUsersRepository implements IUsersRepository {
         return user
     }
     async updateUser(data: IUserSchema): Promise<IUserSchema> {
+        console.log(data)
         const updatedUser = await UserModel.findOneAndUpdate(
-            { _id: data.id }, // Critério de pesquisa: ID do usuário
+            { _id: data.id },
             {
                 $set: {
                     name: data.name,
@@ -24,7 +25,7 @@ export class DbUsersRepository implements IUsersRepository {
                     discord_confirmed: data.discord_confirmed
                 }
             },
-            { new: true } // Opção para retornar o documento atualizado
+            { new: true }
         )
 
         return updatedUser
@@ -32,6 +33,7 @@ export class DbUsersRepository implements IUsersRepository {
     async create(userData: ISignUpDTO): Promise<IUserSchema> {
         const user = new UserModel({
             name: userData.name,
+            discord_username: userData.discord_username,
             email: userData.email,
             password: userData.password
         })

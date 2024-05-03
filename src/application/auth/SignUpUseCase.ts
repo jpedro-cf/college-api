@@ -7,6 +7,14 @@ export class SignUpUseCase implements ISignUp {
     constructor(private readonly usersRepository: IUsersRepository, private readonly hasher: IHasher) {}
 
     async signUp(registerData: ISignUpDTO): Promise<IUser> {
+        if (registerData.discord_username) {
+            const discord_user_exists = await this.usersRepository.getByDiscord(registerData.discord_username)
+
+            if (discord_user_exists) {
+                throw new Error('Usuário com esse discord já cadastrado em nosso sistema.')
+            }
+        }
+
         const hashedPassword = await this.hasher.hash(registerData.password)
         registerData.password = hashedPassword
 
@@ -17,6 +25,7 @@ export class SignUpUseCase implements ISignUp {
         }
         return null
     }
+
     async getUserByEmail(email: string): Promise<IUser> {
         const user = await this.usersRepository.getByEmail(email)
         return user

@@ -33,6 +33,13 @@ export class SignUpController implements IController {
                 return badRequest(new Error('Usuário com esse email já existe'))
             }
 
+            const userCreated = await this.signUp.signUp({
+                name,
+                discord_username: discord_username ? discord_username : null,
+                email,
+                password
+            })
+
             if (discord_username) {
                 const discord_user = await this.getDiscordUserByName.get(discord_username)
                 if (!discord_user) {
@@ -45,12 +52,6 @@ export class SignUpController implements IController {
                     return serverError(new Error('Erro ao enviar mensagem de verificação para o discord.'))
                 }
             }
-            const userCreated = await this.signUp.signUp({
-                name,
-                discord_username: discord_username ?? null,
-                email,
-                password
-            })
 
             return ok(discord_username ? 'Mensagem de verificação do discord enviada!' : userCreated)
         } catch (error) {

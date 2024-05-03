@@ -5,5 +5,4 @@ export interface IUser {
     email: string
     roles: string[]
     points: number
-    ranking: number
 }

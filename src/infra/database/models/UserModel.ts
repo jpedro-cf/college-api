@@ -12,7 +12,6 @@ const userSchema = new Schema<IUserSchema>(
             default: ['student']
         },
         points: { type: Number, default: 0 },
-        ranking: { type: Number },
         discord_confirmed: { type: Boolean, default: false }
     },
     { versionKey: false }

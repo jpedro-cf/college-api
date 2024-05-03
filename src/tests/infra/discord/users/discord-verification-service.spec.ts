@@ -59,9 +59,9 @@ describe('DiscordVerificationService', () => {
 
             const user = guild.members.cache.find((member) => member.user.username === 'joao09537')
             const mensagem = await user.send('Esta é uma mensagem para reagir.')
-            await mensagem.react('🔴')
             const author = mensagem.author
             author.username = 'joao09537'
+            console.log(author)
             const res = await sut.confirmVerification('joao09537', mensagem, author)
             expect(res).toBeTruthy()
         }, 20000)

@@ -8,7 +8,6 @@ export const makeFakeUserModel = (): IUserSchema => {
         email: 'any_email@email.com',
         roles: ['student'],
         points: 0,
-        ranking: 0,
         password: 'hashed_data',
         discord_confirmed: false
     }

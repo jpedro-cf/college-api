@@ -10,7 +10,6 @@ export class DenyVerificationUseCase implements IDenyVerification {
         if (!user) {
             throw new Error('Nome do discord não encontrado para deleção do usuário.')
         }
-        console.log(user.id)
         const deleted = await this.usersRepository.deleteUser(user.id)
         return deleted
     }

@@ -30,7 +30,6 @@ export class DbUsersRepository implements IUsersRepository {
                     email: data.email,
                     roles: data.roles,
                     points: data.points,
-                    ranking: data.ranking,
                     discord_confirmed: data.discord_confirmed
                 }
             },

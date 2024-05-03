@@ -9,8 +9,7 @@ export const makeSignUpUseCaseStub = (): ISignUp => {
                 name: 'any_name',
                 email: 'any_email@email.com',
                 roles: ['student'],
-                points: 0,
-                ranking: 0
+                points: 0
             })
         }
         getUserByEmail(email: string): Promise<IUser> {

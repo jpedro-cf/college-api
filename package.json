@@ -17,6 +17,7 @@
     "devDependencies": {
         "@eslint/js": "^9.1.1",
         "@types/jest": "^29.5.12",
+        "@types/jsonwebtoken": "^9.0.6",
         "@types/node": "^20.12.7",
         "@types/nodemailer": "^6.4.14",
         "eslint": "^8.57.0",
@@ -36,6 +37,7 @@
         "discord.js": "^14.14.1",
         "dotenv": "^16.4.5",
         "fastify": "^4.26.2",
+        "jsonwebtoken": "^9.0.2",
         "mongodb": "^6.5.0",
         "mongoose": "^8.3.2",
         "nodemailer": "^6.9.13"

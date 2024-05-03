@@ -100,4 +100,19 @@ describe('UsersRepository', () => {
             })
         })
     })
+    describe('deleteUser()', () => {
+        test('should delete a user on success', async () => {
+            const { sut } = makeSut()
+            const user = new UserModel({
+                name: 'fake_name',
+                discord_username: 'discord',
+                email: 'fake_email@email.com',
+                password: 'fake_password'
+            })
+            await user.save()
+
+            const deleted = await sut.deleteUser(user.id)
+            expect(deleted).toBeTruthy()
+        })
+    })
 })

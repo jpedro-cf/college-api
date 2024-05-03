@@ -2,8 +2,18 @@ import { IUsersRepository } from '@/interfaces/application/repositories/UsersRep
 import { IUserSchema } from '@/interfaces/application/schemas/UserSchema'
 import { ISignUpDTO } from '@/interfaces/domain/useCases/auth/SignUp'
 import { UserModel } from '../models/UserModel'
+import { ObjectId } from 'mongodb'
 
 export class DbUsersRepository implements IUsersRepository {
+    async deleteUser(id: string): Promise<boolean> {
+        const deleted = await UserModel.deleteOne({
+            id: new ObjectId(id)
+        })
+        if (deleted) {
+            return true
+        }
+        return false
+    }
     async getByDiscord(discord_username: string): Promise<IUserSchema> {
         const user = await UserModel.findOne({
             discord_username: discord_username
@@ -11,7 +21,6 @@ export class DbUsersRepository implements IUsersRepository {
         return user
     }
     async updateUser(data: IUserSchema): Promise<IUserSchema> {
-        console.log(data)
         const updatedUser = await UserModel.findOneAndUpdate(
             { _id: data.id },
             {

@@ -15,11 +15,13 @@ export class DiscordVerificationService {
 
             await message.react('✅')
             await message.react('🔴')
+
             this.confirmVerification(user.username, message, user)
+
             return true
         } catch (error) {
             console.log('Erro ao enviar mensagem ou adicionar reação:', error)
-            return false
+            throw new Error(error)
         }
     }
 
@@ -28,7 +30,7 @@ export class DiscordVerificationService {
             const filter = (reaction: MessageReaction, user: User) =>
                 ['✅', '🔴'].includes(reaction.emoji.name) && user.username == discord_username
 
-            const collector = message.createReactionCollector({ filter, time: 120000 })
+            const collector = message.createReactionCollector({ filter, time: 600000 })
 
             for await (const [reaction, user] of collector) {
                 if (reaction.emoji.name === '✅') {
@@ -36,9 +38,8 @@ export class DiscordVerificationService {
                     confirmed
                         ? await user.send('Conta verificada com sucesso ✅')
                         : await user.send('Ocorreu um erro ao verificar a conta.')
-                    break
+                    return confirmed
                 } else {
-                    await this.denyVerification()
                     await user.send('Verificação negada 🟥')
                     break
                 }
@@ -48,6 +49,4 @@ export class DiscordVerificationService {
             throw new Error(error)
         }
     }
-
-    async denyVerification() {}
 }

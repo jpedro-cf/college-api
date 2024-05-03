@@ -1,4 +1,4 @@
-import { IHasher } from '@/interfaces/application/cryptography/Hasher'
+import { IHashComparer, IHasher } from '@/interfaces/application/cryptography/Hasher'
 
 export const makeFakeHasher = (): IHasher => {
     class HasherStub implements IHasher {
@@ -7,4 +7,12 @@ export const makeFakeHasher = (): IHasher => {
         }
     }
     return new HasherStub()
+}
+export const makeFakeHasherCompare = (): IHashComparer => {
+    class HasheCompareStub implements IHashComparer {
+        async compare(value: string, hash: string): Promise<boolean> {
+            return Promise.resolve(true)
+        }
+    }
+    return new HasheCompareStub()
 }

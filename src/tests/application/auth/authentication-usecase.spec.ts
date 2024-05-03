@@ -4,6 +4,7 @@ import { IToken } from '@/interfaces/application/cryptography/Token'
 import { IUsersRepository } from '@/interfaces/application/repositories/UsersRepository'
 import { makeFakeHasherCompare } from '@/tests/mocks/cryptography/Hasher.mock'
 import { makeTokenMock } from '@/tests/mocks/cryptography/TokenMock'
+import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
 import { makeFakeUsersRepository } from '@/tests/mocks/repositories/UsersRepository.mock'
 
 interface ISut {
@@ -58,6 +59,16 @@ describe('AuthenticationUseCase', () => {
         jest.spyOn(hasherCompare, 'compare').mockReturnValueOnce(new Promise((resolve) => resolve(false)))
         const accessToken = await sut.auth({ email: 'any_email@email.com', password: 'any_password' })
         expect(accessToken).toBeNull()
+    })
+
+    test('Should throw if discord user is set but not confirmed yet', async () => {
+        const { sut, usersRepository } = makeSut()
+        const data = makeFakeUserModel()
+        data.discord_username = 'any'
+        data.discord_confirmed = false
+        jest.spyOn(usersRepository, 'getByEmail').mockReturnValueOnce(Promise.resolve(data))
+        const res = sut.auth({ email: 'any_email@email.com', password: 'any_password' })
+        expect(res).rejects.toThrow()
     })
 
     test('Should return token on success', async () => {

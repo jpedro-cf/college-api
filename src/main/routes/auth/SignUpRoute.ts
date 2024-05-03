@@ -1,6 +1,7 @@
 import { SignUpUseCase } from '@/application/auth/SignUpUseCase'
 import { GetDiscordUserByUserNameUseCase } from '@/application/discord/users/GetUserByUserNameUseCase'
 import { ConfirmVerificationUseCase } from '@/application/discord/verification/ConfirmVerificationUseCase'
+import { DenyVerificationUseCase } from '@/application/discord/verification/DenyVerificationUseCase'
 import { SendVerificationUseCase } from '@/application/discord/verification/SendVerificationUseCase'
 import { BcryptAdapter } from '@/infra/cryptography/Bcrypt'
 import { DbUsersRepository } from '@/infra/database/repositories/DbUsersRepository'
@@ -17,7 +18,8 @@ export const SignUpRoute: RouteHandlerMethod = async (request: FastifyRequest, r
     const discordUserService = new DiscordUsersService()
     const getDiscordByUsername = new GetDiscordUserByUserNameUseCase(discordUserService)
     const confirmVerification = new ConfirmVerificationUseCase(usersRepository)
-    const discordVerification = new DiscordVerificationService(client, confirmVerification)
+    const denyVerification = new DenyVerificationUseCase(usersRepository)
+    const discordVerification = new DiscordVerificationService(client, confirmVerification, denyVerification)
     const sendVerificationUseCase = new SendVerificationUseCase(discordVerification)
 
     const signUpUseCase = new SignUpUseCase(usersRepository, hasher)

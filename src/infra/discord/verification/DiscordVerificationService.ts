@@ -1,8 +1,13 @@
 import { IConfirmVerification } from '@/interfaces/domain/useCases/discord/verification/ConfirmVerification'
+import { IDenyVerification } from '@/interfaces/domain/useCases/discord/verification/DenyVerification'
 import { Client, EmbedBuilder, Message, MessageReaction, User } from 'discord.js'
 
 export class DiscordVerificationService {
-    constructor(private readonly client: Client, private readonly verifyAccount: IConfirmVerification) {}
+    constructor(
+        private readonly client: Client,
+        private readonly verifyAccount: IConfirmVerification,
+        private readonly denyVerification: IDenyVerification
+    ) {}
     async sendVerificationMessage(user_id: string): Promise<boolean> {
         try {
             const user = await this.client.users.fetch(user_id)
@@ -38,10 +43,13 @@ export class DiscordVerificationService {
                     confirmed
                         ? await user.send('Conta verificada com sucesso ✅')
                         : await user.send('Ocorreu um erro ao verificar a conta.')
-                    return confirmed
+                    return true
                 } else {
-                    await user.send('Verificação negada 🟥')
-                    break
+                    const deleted = await this.denyVerification.deny(discord_username)
+                    deleted
+                        ? await user.send('Verificação negada com sucesso 🟥')
+                        : await user.send('Ocorreu um erro ao verificar a conta.')
+                    return deleted
                 }
             }
         } catch (error) {

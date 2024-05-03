@@ -7,7 +7,7 @@ import { ObjectId } from 'mongodb'
 export class DbUsersRepository implements IUsersRepository {
     async deleteUser(id: string): Promise<boolean> {
         const deleted = await UserModel.deleteOne({
-            id: new ObjectId(id)
+            _id: new ObjectId(id)
         })
         if (deleted) {
             return true

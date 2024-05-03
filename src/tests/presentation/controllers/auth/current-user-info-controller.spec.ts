@@ -1,15 +1,15 @@
 import { IGetByToken } from '@/interfaces/domain/useCases/auth/GetByToken'
-import { CurrentUserInfo } from '@/presentation/controllers/auth/CurrentUserInfo'
+import { CurrentUserInfoController } from '@/presentation/controllers/auth/CurrentUserInfoController'
 import { makeFakeGetByToken } from '@/tests/mocks/useCases/GetByTokenUseCase.mock'
 
 interface ISut {
     getByToken: IGetByToken
-    sut: CurrentUserInfo
+    sut: CurrentUserInfoController
 }
 
 const makeSut = (): ISut => {
     const getByToken = makeFakeGetByToken()
-    const sut = new CurrentUserInfo(getByToken)
+    const sut = new CurrentUserInfoController(getByToken)
 
     return { sut, getByToken }
 }

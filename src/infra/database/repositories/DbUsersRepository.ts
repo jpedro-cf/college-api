@@ -9,16 +9,19 @@ export class DbUsersRepository implements IUsersRepository {
         const user = await UserModel.findOne({
             access_token: token
         })
-        return {
-            id: user.id.toString(),
-            name: user.name,
-            discord_username: user.discord_username,
-            email: user.email,
-            roles: user.roles,
-            password: user.password,
-            points: user.points,
-            discord_confirmed: user.discord_confirmed
+        if (user) {
+            return {
+                id: user.id.toString(),
+                name: user.name,
+                discord_username: user.discord_username,
+                email: user.email,
+                roles: user.roles,
+                password: user.password,
+                points: user.points,
+                discord_confirmed: user.discord_confirmed
+            }
         }
+        return null
     }
     async deleteUser(id: string): Promise<boolean> {
         const deleted = await UserModel.deleteOne({

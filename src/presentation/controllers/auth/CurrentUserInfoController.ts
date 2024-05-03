@@ -3,13 +3,13 @@ import { badRequest, ok, serverError } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'
 
-export class CurrentUserInfo implements IController {
+export class CurrentUserInfoController implements IController {
     constructor(private readonly getByToken: IGetByToken) {}
 
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const { access_token } = httpRequest.headers
-
+            const { access_token } = httpRequest.cookies
+            console.log('TOKEN AQUI --------:' + access_token)
             const user = await this.getByToken.get(access_token)
 
             if (!user) {

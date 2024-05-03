@@ -7,4 +7,5 @@ export interface IUsersRepository {
     getByDiscord(discord_username: string): Promise<IUserSchema>
     updateUser(data: IUserSchema): Promise<IUserSchema>
     deleteUser(id: string): Promise<boolean>
+    getByToken(token: string): Promise<IUserSchema>
 }

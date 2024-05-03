@@ -20,7 +20,7 @@ export const AuthenticationRoute: RouteHandlerMethod = async (request: FastifyRe
             console.log('COOKIES:' + httpResponse.cookies)
             reply.setCookie('access_token', httpResponse.cookies, {
                 path: '/',
-                expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
                 httpOnly: true
             })
         }

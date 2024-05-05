@@ -1,12 +1,12 @@
 import fastify, { FastifyInstance } from 'fastify'
 import { env } from './config/env'
-import { corsConfig } from './config/config'
+import { appConfig } from './config/config'
 import routesConfig from './config/routes'
 import mongoose from 'mongoose'
 import { client, setupDiscord } from '@/infra/discord/client'
 
 const app: FastifyInstance = fastify({ logger: true })
-corsConfig(app)
+appConfig(app)
 routesConfig(app)
 export { app }
 

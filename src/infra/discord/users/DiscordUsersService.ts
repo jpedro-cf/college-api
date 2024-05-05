@@ -10,6 +10,7 @@ export class DiscordUsersService implements IDiscordUsersService {
             await guild.members.fetch()
 
             const user = guild.members.cache.find((member) => member.user.username === username)
+
             if (!user) {
                 return null
             }
@@ -20,11 +21,9 @@ export class DiscordUsersService implements IDiscordUsersService {
                 globalName: user.user.globalName
             }
 
-            // Retorna o usuário encontrado
             return discordUser
         } catch (error) {
-            // Trata erros caso ocorram
-            console.error('Erro ao buscar usuário do Discord:', error)
+            console.error('Erro ao buscar usuário do Discord: ', error)
             throw new Error('Erro ao buscar usuário do Discord: ' + error)
         }
     }

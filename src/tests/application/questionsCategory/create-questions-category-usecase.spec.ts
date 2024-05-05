@@ -1,0 +1,18 @@
+import { CreateQuestionsCategoryUseCase } from '@/application/questionsCategories/CreateQuestionsCategoryUseCase'
+import { makeFakeQuestionsCategoryRepo } from '@/tests/mocks/repositories/QuestionsCategoryRepository.mock'
+
+const makeSut = () => {
+    const questionsCategoryRepository = makeFakeQuestionsCategoryRepo()
+    const sut = new CreateQuestionsCategoryUseCase(questionsCategoryRepository)
+    return { sut, questionsCategoryRepository }
+}
+
+describe('CreateQuestionCategoryUseCase', () => {
+    test('Should throw if repository throws', async () => {
+        const { sut, questionsCategoryRepository } = makeSut()
+        jest.spyOn(questionsCategoryRepository, 'createCategory').mockReturnValueOnce(Promise.reject(new Error('')))
+
+        const res = sut.create('title')
+        expect(res).rejects.toThrow()
+    })
+})

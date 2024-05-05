@@ -15,4 +15,10 @@ describe('CreateQuestionCategoryUseCase', () => {
         const res = sut.create('title')
         expect(res).rejects.toThrow()
     })
+    test('Should return a questionCategory on success', async () => {
+        const { sut } = makeSut()
+
+        const res = await sut.create('title')
+        expect(res.id).toBeTruthy()
+    })
 })

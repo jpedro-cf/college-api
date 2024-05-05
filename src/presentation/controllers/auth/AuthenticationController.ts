@@ -18,7 +18,6 @@ export class AuthenticationController implements IController {
             if (!response) {
                 return forbidden(new Error('Credenciais incorretas ou conta com esse email não existe.'))
             }
-            console.log(response.user)
             return ok(response.user, response.token)
         } catch (error) {
             return serverError(error)

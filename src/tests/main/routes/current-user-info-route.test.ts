@@ -38,7 +38,6 @@ describe('CurrentUserInfo', () => {
                 .get('/api/current_user')
                 .send()
                 .set('Cookie', ['access_token=any_token'])
-            console.log(res.body)
             expect(res.statusCode).toBe(400)
         })
     })

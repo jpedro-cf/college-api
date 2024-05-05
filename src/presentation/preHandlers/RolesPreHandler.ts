@@ -16,7 +16,6 @@ export class RolesPreHandler implements IPreHandler {
                 done()
             }
             const user = await this.getByToken.get(access_token)
-
             if (!user) {
                 reply.code(400)
                 reply.send('Nenhum usuário encontrado com esse token.')

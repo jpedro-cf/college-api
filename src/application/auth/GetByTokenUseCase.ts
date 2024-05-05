@@ -7,7 +7,10 @@ export class GetByTokenUseCase implements IGetByToken {
 
     async get(token: string): Promise<IUser> {
         const data = await this.usersRepository.getByToken(token)
-        const { password, discord_confirmed, ...user } = data
-        return user
+        if (data) {
+            const { password, discord_confirmed, ...user } = data
+            return user
+        }
+        return null
     }
 }

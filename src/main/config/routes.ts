@@ -1,4 +1,4 @@
-import { FastifyInstance } from 'fastify'
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { SignUpRoute } from '../routes/auth/SignUpRoute'
 import { AuthenticationRoute } from '../routes/auth/AuthenticationRoute'
 import { CurrentUserRoute } from '../routes/auth/CurrentUserInfoRoute'

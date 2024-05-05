@@ -6,7 +6,8 @@ export class GetByTokenUseCase implements IGetByToken {
     constructor(private readonly usersRepository: IUsersRepository) {}
 
     async get(token: string): Promise<IUser> {
-        const user = await this.usersRepository.getByToken(token)
+        const data = await this.usersRepository.getByToken(token)
+        const { password, discord_confirmed, ...user } = data
         return user
     }
 }

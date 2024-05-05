@@ -48,6 +48,7 @@ export class DbUsersRepository implements IUsersRepository {
                     email: data.email,
                     roles: data.roles,
                     points: data.points,
+                    access_token: data.access_token,
                     discord_confirmed: data.discord_confirmed
                 }
             },
@@ -80,6 +81,9 @@ export class DbUsersRepository implements IUsersRepository {
         const user = await UserModel.findOne({
             email: email
         })
+        if (!user) {
+            return null
+        }
         return {
             id: user._id.toString(),
             name: user.name,

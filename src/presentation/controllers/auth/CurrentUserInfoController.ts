@@ -1,5 +1,5 @@
 import { IGetByToken } from '@/interfaces/domain/useCases/auth/GetByToken'
-import { badRequest, ok, serverError } from '@/interfaces/presentation/codes'
+import { badRequest, ok, serverError, unauthorized } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'
 
@@ -9,7 +9,11 @@ export class CurrentUserInfoController implements IController {
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
             const { access_token } = httpRequest.cookies
-            console.log('TOKEN AQUI --------:' + access_token)
+
+            if (!access_token) {
+                return unauthorized(new Error('Token é obrigatório'))
+            }
+
             const user = await this.getByToken.get(access_token)
 
             if (!user) {

@@ -26,7 +26,6 @@ export class SignUpController implements IController {
             if (password != password_confirmation) {
                 return badRequest(new Error('As senhas não são iguais'))
             }
-
             const emailExists = await this.signUp.getUserByEmail(email)
 
             if (emailExists) {

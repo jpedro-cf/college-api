@@ -1,6 +1,7 @@
 import fastifyCookie from '@fastify/cookie'
 import { FastifyInstance } from 'fastify'
 import { env } from './env'
+import multipart from '@fastify/multipart'
 
 export const corsConfig = (app: FastifyInstance) => {
     const cookieOptions = {
@@ -11,6 +12,8 @@ export const corsConfig = (app: FastifyInstance) => {
         }
     }
     app.register(fastifyCookie, cookieOptions)
+    app.register(multipart, { attachFieldsToBody: true })
+
     app.addHook('onRequest', async (request, reply) => {
         reply.header('Access-Control-Allow-Origin', process.env.ALLOW_ORIGIN)
         reply.header('Access-Control-Allow-Credentials', true)

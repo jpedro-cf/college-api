@@ -5,7 +5,7 @@ import routesConfig from './config/routes'
 import mongoose from 'mongoose'
 import { client, setupDiscord } from '@/infra/discord/client'
 
-const app: FastifyInstance = fastify({ logger: true })
+const app: FastifyInstance = fastify({ logger: false })
 appConfig(app)
 routesConfig(app)
 export { app }

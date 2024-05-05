@@ -5,7 +5,7 @@ import { ICreateQuestionsCategory } from '@/interfaces/domain/useCases/questions
 export class CreateQuestionsCategoryUseCase implements ICreateQuestionsCategory {
     constructor(private readonly questionsCategoryRepository: IQuestionsCategoryRepository) {}
     async create(title: string, slug: string, image?: string): Promise<IQuestionsCategory> {
-        const created = await this.questionsCategoryRepository.createCategory(title, image)
+        const created = await this.questionsCategoryRepository.createCategory(title, slug, image)
 
         return created
     }

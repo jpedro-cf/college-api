@@ -10,18 +10,27 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
             image
         })
         await questionsCategory.save()
-        console.log(questionsCategory)
-        return questionsCategory
+        return {
+            id: questionsCategory.id,
+            title: questionsCategory.title,
+            slug: questionsCategory.slug,
+            image: questionsCategory.image,
+            created_at: questionsCategory.created_at
+        }
     }
     async getBySlug(slug: string): Promise<IQuestionsCategory> {
         const category = await QuestionsCategoryModel.findOne({
             slug: slug
         })
-        return {
-            id: category.id,
-            title: category.title,
-            slug: category.slug,
-            image: category.image
+        if (category) {
+            return {
+                id: category.id,
+                title: category.title,
+                slug: category.slug,
+                image: category.image,
+                created_at: category.created_at
+            }
         }
+        return null
     }
 }

@@ -15,9 +15,8 @@ export class CreateQuestionsCategoryController implements IController {
             const { title, image } = httpRequest.body
 
             const slug = convertToSlug(title)
-
             const exists = await this.getCategoryBySlug.get(slug)
-
+            console.log(exists)
             if (exists) {
                 return badRequest(new Error('Categoria já existe.'))
             }

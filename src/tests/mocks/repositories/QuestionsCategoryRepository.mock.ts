@@ -8,7 +8,8 @@ export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository =>
                 id: 'any_id',
                 title: 'title category',
                 slug: 'title_category',
-                image: 'image_url'
+                image: 'image_url',
+                created_at: new Date()
             })
         }
         async createCategory(title: string, slug: string, image?: string): Promise<IQuestionsCategory> {
@@ -16,7 +17,8 @@ export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository =>
                 id: 'any_id',
                 title: 'title category',
                 slug: 'title_category',
-                image: 'image_url'
+                image: 'image_url',
+                created_at: new Date()
             })
         }
     }

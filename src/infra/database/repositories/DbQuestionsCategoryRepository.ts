@@ -17,7 +17,6 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
         const category = await QuestionsCategoryModel.findOne({
             slug: slug
         })
-        console.log(category)
         return {
             id: category.id,
             title: category.title,

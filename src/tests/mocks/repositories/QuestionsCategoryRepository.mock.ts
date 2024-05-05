@@ -3,10 +3,19 @@ import { IQuestionsCategoryRepository } from '@/interfaces/application/repositor
 
 export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository => {
     class QuestionsCategoryRepo implements IQuestionsCategoryRepository {
-        async createCategory(title: string, image?: string): Promise<IQuestionsCategory> {
+        async getBySlug(slug: string): Promise<IQuestionsCategory> {
             return Promise.resolve({
                 id: 'any_id',
-                title: 'title',
+                title: 'title category',
+                slug: 'title_category',
+                image: 'image_url'
+            })
+        }
+        async createCategory(title: string, slug: string, image?: string): Promise<IQuestionsCategory> {
+            return Promise.resolve({
+                id: 'any_id',
+                title: 'title category',
+                slug: 'title_category',
                 image: 'image_url'
             })
         }

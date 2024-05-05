@@ -15,4 +15,10 @@ describe('GetQuestionCategoryBySlugUseCase', () => {
         const res = sut.get('title-category')
         expect(res).rejects.toThrow()
     })
+    test('Should return a category on success', async () => {
+        const { sut } = makeSut()
+
+        const res = await sut.get('title-category')
+        expect(res.id).toBeTruthy()
+    })
 })

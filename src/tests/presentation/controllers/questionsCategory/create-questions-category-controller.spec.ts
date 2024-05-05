@@ -25,4 +25,17 @@ describe('CreateQuestionsCategoryController', () => {
 
         expect(res.statusCode).toBe(400)
     })
+
+    test('Should return 200 on success', async () => {
+        const { sut, getCategoryBySlug } = makeSut()
+        jest.spyOn(getCategoryBySlug, 'get').mockReturnValueOnce(Promise.resolve(null))
+        const res = await sut.handle({
+            body: {
+                title: 'titulo',
+                image: 'imagem'
+            }
+        })
+
+        expect(res.statusCode).toBe(200)
+    })
 })

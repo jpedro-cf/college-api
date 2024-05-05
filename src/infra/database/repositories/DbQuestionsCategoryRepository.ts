@@ -14,6 +14,15 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
         return questionsCategory
     }
     async getBySlug(slug: string): Promise<IQuestionsCategory> {
-        throw new Error('Method not implemented.')
+        const category = await QuestionsCategoryModel.findOne({
+            slug: slug
+        })
+        console.log(category)
+        return {
+            id: category.id,
+            title: category.title,
+            slug: category.slug,
+            image: category.image
+        }
     }
 }

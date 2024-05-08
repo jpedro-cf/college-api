@@ -1,4 +1,5 @@
 import { IDiscordUsersService } from '@/interfaces/application/discord/DiscordUsersService'
+import { IAuthentication } from '@/interfaces/domain/useCases/auth/Authentication'
 import { ISignUp } from '@/interfaces/domain/useCases/auth/SignUp'
 import { IGetDiscordUserByUserName } from '@/interfaces/domain/useCases/discord/users/GetUserByUserName'
 import { ISendVerification } from '@/interfaces/domain/useCases/discord/verification/SendVerification'
@@ -10,7 +11,8 @@ export class SignUpController implements IController {
     constructor(
         private readonly signUp: ISignUp,
         private readonly getDiscordUserByName: IGetDiscordUserByUserName,
-        private readonly sendVerificationMessage: ISendVerification
+        private readonly sendVerificationMessage: ISendVerification,
+        private readonly authentication: IAuthentication
     ) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
@@ -32,13 +34,6 @@ export class SignUpController implements IController {
                 return badRequest(new Error('Usuário com esse email já existe'))
             }
 
-            const userCreated = await this.signUp.signUp({
-                name,
-                discord_username: discord_username ? discord_username : null,
-                email,
-                password
-            })
-
             if (discord_username) {
                 const discord_user = await this.getDiscordUserByName.get(discord_username)
                 if (!discord_user) {
@@ -52,7 +47,19 @@ export class SignUpController implements IController {
                 }
             }
 
-            return ok(discord_username ? 'Mensagem de verificação do discord enviada!' : userCreated)
+            const userCreated = await this.signUp.signUp({
+                name,
+                discord_username: discord_username ? discord_username : null,
+                email,
+                password
+            })
+
+            let access_token = null
+
+            if (!discord_username) {
+                access_token = await this.authentication.auth({ email, password })
+            }
+            return ok(discord_username ? 'Mensagem de verificação do discord enviada!' : userCreated, access_token)
         } catch (error) {
             return serverError(error)
         }

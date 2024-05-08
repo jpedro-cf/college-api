@@ -15,7 +15,12 @@ export const appConfig = (app: FastifyInstance) => {
     app.register(multipart, { attachFieldsToBody: true })
 
     app.addHook('onRequest', async (request, reply) => {
-        reply.header('Access-Control-Allow-Origin', '*')
+        const allowedOrigins = ['http://localhost:5173']
+
+        const origin = request.headers.origin
+        if (allowedOrigins.includes(origin)) {
+            reply.header('Access-Control-Allow-Origin', origin)
+        }
         reply.header('Access-Control-Allow-Credentials', true)
         reply.header(
             'Access-Control-Allow-Headers',

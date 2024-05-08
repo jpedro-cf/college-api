@@ -17,6 +17,7 @@ export const AuthenticationRoute: RouteHandlerMethod = async (request: FastifyRe
     const httpResponse = await controller.handle(request)
     if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
         if (httpResponse.cookies) {
+            console.log(httpResponse.cookies)
             reply.setCookie('access_token', httpResponse.cookies, {
                 path: '/',
                 expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
@@ -25,6 +26,6 @@ export const AuthenticationRoute: RouteHandlerMethod = async (request: FastifyRe
         }
         reply.status(httpResponse.statusCode).send(httpResponse.body)
     } else {
-        reply.status(httpResponse.statusCode).send({ error: httpResponse.body.message })
+        reply.status(httpResponse.statusCode).send(httpResponse.body.message)
     }
 }

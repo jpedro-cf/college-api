@@ -19,6 +19,6 @@ export const CreateQuestionsCategoryRoute: RouteHandlerMethod = async (
     if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
         reply.status(httpResponse.statusCode).send(httpResponse.body)
     } else {
-        reply.status(httpResponse.statusCode).send({ error: httpResponse.body.message })
+        reply.status(httpResponse.statusCode).send(httpResponse.body.message)
     }
 }

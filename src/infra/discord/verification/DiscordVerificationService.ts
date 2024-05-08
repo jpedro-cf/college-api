@@ -37,7 +37,7 @@ export class DiscordVerificationService {
 
             const collector = message.createReactionCollector({ filter, time: 600000 })
 
-            for await (const [reaction, user] of collector) {
+            collector.on('collect', async (reaction, user) => {
                 if (reaction.emoji.name === '✅') {
                     const confirmed = await this.verifyAccount.confirm(discord_username)
                     confirmed
@@ -48,10 +48,18 @@ export class DiscordVerificationService {
                     const deleted = await this.denyVerification.deny(discord_username)
                     deleted
                         ? await user.send('Verificação negada com sucesso 🟥')
-                        : await user.send('Ocorreu um erro ao verificar a conta.')
+                        : await user.send('Ocorreu um erro ao cancelar.')
                     return deleted
                 }
-            }
+            })
+
+            collector.on('end', async () => {
+                const deleted = await this.denyVerification.deny(discord_username)
+                deleted
+                    ? await user.send('Tempo de confirmação expirou!')
+                    : await user.send('Ocorreu um erro na expiração.')
+                return deleted
+            })
         } catch (error) {
             await user.send('Ocorreu um erro ao verificar a conta.')
             throw new Error(error)

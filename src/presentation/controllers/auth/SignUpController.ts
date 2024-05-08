@@ -59,7 +59,10 @@ export class SignUpController implements IController {
             if (!discord_username) {
                 access_token = await this.authentication.auth({ email, password })
             }
-            return ok(discord_username ? 'Mensagem de verificação do discord enviada!' : userCreated, access_token)
+            return ok(
+                discord_username ? 'Mensagem de verificação do discord enviada!' : userCreated,
+                access_token?.token
+            )
         } catch (error) {
             return serverError(error)
         }

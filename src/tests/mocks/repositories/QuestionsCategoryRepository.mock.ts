@@ -4,11 +4,11 @@ import { IGetQuestionsCategoriesDTO } from '@/interfaces/domain/useCases/questio
 
 export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository => {
     class QuestionsCategoryRepo implements IQuestionsCategoryRepository {
-        async getAll(data: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]> {
+        async getAll(data?: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]> {
             return Promise.resolve([
                 {
                     id: 'any_id',
-                    title: data.search,
+                    title: data ? data.search : 'titulo',
                     slug: 'title_category',
                     image: 'image_url',
                     created_at: new Date()

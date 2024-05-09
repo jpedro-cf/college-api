@@ -10,6 +10,6 @@ export class GetQuestionsCategoryUseCase implements IGetQuestionsCategories {
 
     async get(data?: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]> {
         const categories = await this.questionCategoryRepository.getAll(data)
-        return null
+        return categories
     }
 }

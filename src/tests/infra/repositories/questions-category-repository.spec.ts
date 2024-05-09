@@ -35,4 +35,21 @@ describe('QuestionsCategoryRepository', () => {
             slug: 'titulo-teste'
         })
     })
+    test('should return a list of category on getAll() success', async () => {
+        const questionsCategory = new QuestionsCategoryModel({
+            title: 'titulo teste impossivel existir',
+            slug: 'titulo-teste-impossivel-existir',
+            image: 'url',
+            created_at: new Date()
+        })
+        await questionsCategory.save()
+        const sut = new DbQuestionsCategoryRepository()
+
+        const res = await sut.getAll({ search: 'impossivel' })
+        console.log(res)
+        expect(res[0].title).toContain('impossivel')
+        await QuestionsCategoryModel.deleteOne({
+            slug: 'titulo-teste-impossivel-existir'
+        })
+    })
 })

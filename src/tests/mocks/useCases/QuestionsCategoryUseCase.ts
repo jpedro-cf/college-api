@@ -9,7 +9,8 @@ export const makeFakeCreateQuestionsCategoryUseCase = (): ICreateQuestionsCatego
                 id: 'any_id',
                 title: 'title category',
                 slug: 'title_category',
-                image: 'image_url'
+                image: 'image_url',
+                created_at: new Date()
             })
         }
     }
@@ -23,7 +24,8 @@ export const makeFakeGetQuestionsCategoryBySlugUseCase = (): IGetQuestionsCatego
                 id: 'any_id',
                 title: 'title category',
                 slug: 'title_category',
-                image: 'image_url'
+                image: 'image_url',
+                created_at: new Date()
             })
         }
     }

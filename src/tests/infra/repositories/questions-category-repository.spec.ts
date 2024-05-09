@@ -46,7 +46,6 @@ describe('QuestionsCategoryRepository', () => {
         const sut = new DbQuestionsCategoryRepository()
 
         const res = await sut.getAll({ search: 'impossivel' })
-        console.log(res)
         expect(res[0].title).toContain('impossivel')
         await QuestionsCategoryModel.deleteOne({
             slug: 'titulo-teste-impossivel-existir'

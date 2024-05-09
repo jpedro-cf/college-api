@@ -21,13 +21,10 @@ export class RolesPreHandler implements IPreHandler {
                 reply.send('Nenhum usuário encontrado com esse token.')
                 done()
             }
-
-            for (const role in this.roles) {
-                if (!user.roles.includes(this.roles[role])) {
-                    reply.code(400)
-                    reply.send('Você não tem permissão para realizar essa operação.')
-                    done()
-                }
+            if (!this.roles.some((r) => user.roles.includes(r))) {
+                reply.code(400)
+                reply.send('Você não tem permissão para realizar essa operação.')
+                done()
             }
         } catch (error) {
             reply.code(500)

@@ -17,6 +17,7 @@ export interface IMultiPartFile {
 }
 
 export interface IHttpRequest {
+    query?: any
     body?: any
     headers?: any
     params?: any

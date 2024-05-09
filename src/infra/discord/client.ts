@@ -15,7 +15,6 @@ const client = new Client({
 })
 export const setupDiscord = async () => {
     client.once('ready', async () => {
-        console.log('Discord bot is ready! 🤖')
         const guild = client.guilds.cache.first()
         await deployCommands({ guildId: guild.id })
     })

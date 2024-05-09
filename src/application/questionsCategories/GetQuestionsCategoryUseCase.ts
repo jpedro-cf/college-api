@@ -9,7 +9,10 @@ export class GetQuestionsCategoryUseCase implements IGetQuestionsCategories {
     constructor(private readonly questionCategoryRepository: IQuestionsCategoryRepository) {}
 
     async get(data?: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]> {
-        const categories = await this.questionCategoryRepository.getAll(data)
+        const categories = await this.questionCategoryRepository.getAll({
+            search: data.search ?? null,
+            order: data.order ?? null
+        })
         return categories
     }
 }

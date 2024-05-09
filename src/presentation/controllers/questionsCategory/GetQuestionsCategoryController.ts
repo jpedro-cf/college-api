@@ -7,9 +7,10 @@ export class GetQuestionsCategoryController implements IController {
     constructor(private readonly getQuestionsCategories: IGetQuestionsCategories) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const { search, order } = httpRequest.body
-
-            const categories = await this.getQuestionsCategories.get({ search, order })
+            const categories = await this.getQuestionsCategories.get({
+                search: httpRequest.query.search ?? null,
+                order: httpRequest.query.order ?? null
+            })
             return ok(categories)
         } catch (error) {
             return serverError(error)

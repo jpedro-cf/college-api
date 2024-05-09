@@ -7,15 +7,17 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
     async getAll(data?: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]> {
         let query = {}
 
-        // Verifica se há parâmetros de pesquisa e monta a consulta correspondente
         if (data && data.search) {
-            query = { title: { $regex: data.search, $options: 'i' } } // Procura por títulos que contenham o texto especificado, ignorando maiúsculas e minúsculas
+            query = { title: { $regex: data.search, $options: 'i' } }
         }
         const categories = await QuestionsCategoryModel.find(query)
             .sort(data?.order === 'desc' ? { created_at: -1 } : { created_at: 1 })
             .exec()
-
-        return categories
+        if (categories) {
+            const categoriesObjects = categories.map((category) => category.toObject())
+            return categoriesObjects
+        }
+        return []
     }
     async createCategory(title: string, slug: string, image?: string): Promise<IQuestionsCategory> {
         const questionsCategory = new QuestionsCategoryModel({

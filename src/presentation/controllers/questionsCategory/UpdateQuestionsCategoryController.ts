@@ -8,31 +8,29 @@ import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse, IMultiPartFile } from '@/interfaces/presentation/http'
 import { IUpdateQuestionsCategory } from '@/interfaces/domain/useCases/questionsCategory/UpdateQuestionsCategory'
 import { convertToSlug } from '@/utils/converToSlug'
+import { IGetQuestionsCategoryByID } from '@/interfaces/domain/useCases/questionsCategory/GetByID'
 
 interface IHandleFormDataResponse {
-    title: string
-    image: string
-    slug: string
+    title?: string
+    image?: string
     id: string
 }
 
 export class UpdateQuestionsCategoryController implements IController {
     constructor(
         private readonly getCategoryBySlug: IGetQuestionsCategoryBySlug,
+        private readonly getCategoryByID: IGetQuestionsCategoryByID,
         private readonly updateCategory: IUpdateQuestionsCategory
     ) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const { image, title, slug, id } = await this.handleMultpartForm(httpRequest)
+            const { image, title, id } = await this.handleMultpartForm(httpRequest)
 
             if (!id) {
                 return badRequest(new Error('ID da categoria é obrigatório'))
             }
-            if (!slug) {
-                return badRequest(new Error('Slug da categoria é obrigatório'))
-            }
 
-            const category = await this.getCategoryBySlug.get(slug)
+            const category = await this.getCategoryByID.get(id)
 
             if (!category) {
                 return badRequest(new Error('Categoria não existe.'))
@@ -52,8 +50,6 @@ export class UpdateQuestionsCategoryController implements IController {
 
             const { created_at, ...query } = category
 
-            console.log(query)
-
             const updated = await this.updateCategory.update(query)
             return ok(updated)
         } catch (error) {
@@ -72,7 +68,6 @@ export class UpdateQuestionsCategoryController implements IController {
             let image = null
             let title = null
             let id = null
-            let slug = null
 
             for await (const value of parts) {
                 const part = value as IMultiPartFile
@@ -84,13 +79,11 @@ export class UpdateQuestionsCategoryController implements IController {
                     }
                 } else if (part.fieldname === 'title') {
                     title = part.value
-                } else if (part.fieldname === 'slug') {
-                    slug = part.value
                 } else if (part.fieldname === 'id') {
                     id = part.value
                 }
             }
-            return { image, title, slug, id }
+            return { image, title, id }
         } catch (error) {
             throw new Error(error)
         }

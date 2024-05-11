@@ -81,8 +81,7 @@ describe('QuestionsCategoryRepository', () => {
             id: questionsCategory.id.toString(),
             title: 'titulo atualizado',
             slug: 'titulo-atualizado',
-            image: 'url',
-            created_at: null
+            image: 'url'
         })
         expect(res.title).toContain('atualizado')
         await QuestionsCategoryModel.deleteOne({

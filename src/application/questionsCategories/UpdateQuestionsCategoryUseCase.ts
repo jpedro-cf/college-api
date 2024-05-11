@@ -4,7 +4,7 @@ import { IUpdateQuestionsCategory } from '@/interfaces/domain/useCases/questions
 
 export class UpdateQuestionsCategoryUseCase implements IUpdateQuestionsCategory {
     constructor(private readonly questionsCategoryRepository: IQuestionsCategoryRepository) {}
-    async update(data: IQuestionsCategory): Promise<IQuestionsCategory> {
+    async update(data: Omit<IQuestionsCategory, 'created_at'>): Promise<IQuestionsCategory> {
         const exists = await this.questionsCategoryRepository.getByID(data.id)
         if (!exists) {
             throw new Error('Categoria com esse ID não existe.')

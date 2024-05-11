@@ -14,7 +14,7 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
         }
         return null
     }
-    async updateCategory(data: IQuestionsCategory): Promise<IQuestionsCategory> {
+    async updateCategory(data: Omit<IQuestionsCategory, 'created_at'>): Promise<IQuestionsCategory> {
         const updatedCategory = await QuestionsCategoryModel.findOneAndUpdate(
             { _id: new ObjectId(data.id) }, // ou { _id: data.id } se estiver usando o id
             {
@@ -27,7 +27,6 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
             { new: true } // Para retornar o documento atualizado
         )
 
-        console.log(updatedCategory)
         if (updatedCategory) {
             return updatedCategory.toObject()
         } else {

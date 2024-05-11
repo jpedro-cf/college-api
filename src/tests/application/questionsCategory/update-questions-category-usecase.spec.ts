@@ -18,8 +18,7 @@ describe('UpdateQuestionsCategoryUseCase', () => {
             id: 'id',
             title: 'title category',
             slug: 'title_category',
-            image: 'image_url',
-            created_at: new Date()
+            image: 'image_url'
         })
         expect(res).rejects.toThrow()
     })
@@ -32,8 +31,7 @@ describe('UpdateQuestionsCategoryUseCase', () => {
             id: 'id',
             title: 'title category',
             slug: 'title_category',
-            image: 'image_url',
-            created_at: new Date()
+            image: 'image_url'
         })
         expect(res).rejects.toThrow()
     })
@@ -44,8 +42,7 @@ describe('UpdateQuestionsCategoryUseCase', () => {
             id: 'id',
             title: 'title category updated',
             slug: 'title-category-updated',
-            image: 'image_url',
-            created_at: new Date()
+            image: 'image_url'
         })
         expect(res.title).toBe('title category updated')
         expect(res.slug).toBe('title-category-updated')

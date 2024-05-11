@@ -4,6 +4,18 @@ import { QuestionsCategoryModel } from '../models/QuestionsCategoryModel'
 import { IGetQuestionsCategoriesDTO } from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
 
 export class DbQuestionsCategoryRepository implements IQuestionsCategoryRepository {
+    async getByID(id: string): Promise<IQuestionsCategory> {
+        const category = await QuestionsCategoryModel.findOne({
+            _id: id
+        })
+        if (category) {
+            return category.toObject()
+        }
+        return null
+    }
+    updateCategory(data: IQuestionsCategory): Promise<IQuestionsCategory> {
+        throw new Error('Method not implemented.')
+    }
     async getAll(data?: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]> {
         let query = {}
 

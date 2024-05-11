@@ -9,7 +9,12 @@ export class UpdateQuestionsCategoryUseCase implements IUpdateQuestionsCategory 
         if (!exists) {
             throw new Error('Categoria com esse ID não existe.')
         }
-        const updated = await this.questionsCategoryRepository.updateCategory(data)
+
+        exists.title = data.title
+        exists.slug = data.slug
+        exists.image = data.image
+
+        const updated = await this.questionsCategoryRepository.updateCategory(exists)
         return updated ?? null
     }
 }

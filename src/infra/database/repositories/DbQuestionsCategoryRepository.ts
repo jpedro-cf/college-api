@@ -2,6 +2,7 @@ import { IQuestionsCategory } from '@/domain/QuestionsCategory'
 import { IQuestionsCategoryRepository } from '@/interfaces/application/repositories/QuestionsCategoryRepository'
 import { QuestionsCategoryModel } from '../models/QuestionsCategoryModel'
 import { IGetQuestionsCategoriesDTO } from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
+import { ObjectId } from 'mongodb'
 
 export class DbQuestionsCategoryRepository implements IQuestionsCategoryRepository {
     async getByID(id: string): Promise<IQuestionsCategory> {
@@ -13,8 +14,25 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
         }
         return null
     }
-    updateCategory(data: IQuestionsCategory): Promise<IQuestionsCategory> {
-        throw new Error('Method not implemented.')
+    async updateCategory(data: IQuestionsCategory): Promise<IQuestionsCategory> {
+        const updatedCategory = await QuestionsCategoryModel.findOneAndUpdate(
+            { _id: new ObjectId(data.id) }, // ou { _id: data.id } se estiver usando o id
+            {
+                $set: {
+                    title: data.title,
+                    slug: data.slug,
+                    image: data.image
+                }
+            }, // Os dados que você quer atualizar
+            { new: true } // Para retornar o documento atualizado
+        )
+
+        console.log(updatedCategory)
+        if (updatedCategory) {
+            return updatedCategory.toObject()
+        } else {
+            return null // Retorna null se a categoria não for encontrada
+        }
     }
     async getAll(data?: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]> {
         let query = {}

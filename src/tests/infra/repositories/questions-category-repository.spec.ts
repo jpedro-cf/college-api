@@ -51,4 +51,42 @@ describe('QuestionsCategoryRepository', () => {
             slug: 'titulo-teste-impossivel-existir'
         })
     })
+    test('should return a list of category on getByID() success', async () => {
+        const questionsCategory = new QuestionsCategoryModel({
+            title: 'titulo teste impossivel existir',
+            slug: 'titulo-teste-impossivel-existir',
+            image: 'url',
+            created_at: new Date()
+        })
+        await questionsCategory.save()
+        const sut = new DbQuestionsCategoryRepository()
+
+        const res = await sut.getByID(questionsCategory._id.toString())
+        expect(res.title).toContain('impossivel')
+        await QuestionsCategoryModel.deleteOne({
+            slug: 'titulo-teste-impossivel-existir'
+        })
+    })
+    test('should return a upodated category on updateCategory() success', async () => {
+        const questionsCategory = new QuestionsCategoryModel({
+            title: 'titulo teste impossivel existir',
+            slug: 'titulo-teste-impossivel-existir',
+            image: 'url',
+            created_at: new Date()
+        })
+        await questionsCategory.save()
+        const sut = new DbQuestionsCategoryRepository()
+
+        const res = await sut.updateCategory({
+            id: questionsCategory.id.toString(),
+            title: 'titulo atualizado',
+            slug: 'titulo-atualizado',
+            image: 'url',
+            created_at: null
+        })
+        expect(res.title).toContain('atualizado')
+        await QuestionsCategoryModel.deleteOne({
+            slug: 'titulo-atualizado'
+        })
+    })
 })

@@ -22,7 +22,7 @@ export class RolesPreHandler implements IPreHandler {
                 done()
             }
             if (!this.roles.some((r) => user.roles.includes(r))) {
-                reply.code(400)
+                reply.code(401)
                 reply.send('Você não tem permissão para realizar essa operação.')
                 done()
             }

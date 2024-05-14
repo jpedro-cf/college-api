@@ -8,6 +8,7 @@ import { GetByTokenUseCase } from '@/application/auth/GetByTokenUseCase'
 import { DbUsersRepository } from '@/infra/database/repositories/DbUsersRepository'
 import { GetQuestionsCategoryRoute } from '../routes/questionsCategory/GetQuestionsCategoriesRoute'
 import { JWTAdapter } from '@/infra/cryptography/Jwt'
+import { UpdateQuestionsCategoryRoute } from '../routes/questionsCategory/UpdateQuestionsCategoryRoute'
 // import fs from 'fs'
 // import { pipeline } from 'stream'
 // import util from 'util'
@@ -67,6 +68,11 @@ export default function routesConfig(app: FastifyInstance) {
         '/api/questions_category',
         { preHandler: adminPrehandler.handle.bind(adminPrehandler) },
         CreateQuestionsCategoryRoute
+    )
+    app.put(
+        '/api/questions_category',
+        { preHandler: adminPrehandler.handle.bind(adminPrehandler) },
+        UpdateQuestionsCategoryRoute
     )
     app.get(
         '/api/questions_category',

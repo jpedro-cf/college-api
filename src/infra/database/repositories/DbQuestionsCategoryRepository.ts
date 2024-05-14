@@ -16,22 +16,21 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
     }
     async updateCategory(data: Omit<IQuestionsCategory, 'created_at'>): Promise<IQuestionsCategory> {
         const updatedCategory = await QuestionsCategoryModel.findOneAndUpdate(
-            { _id: new ObjectId(data.id) }, // ou { _id: data.id } se estiver usando o id
+            { _id: new ObjectId(data.id) },
             {
                 $set: {
                     title: data.title,
                     slug: data.slug,
                     image: data.image
                 }
-            }, // Os dados que você quer atualizar
-            { new: true } // Para retornar o documento atualizado
+            },
+            { new: true }
         )
 
         if (updatedCategory) {
             return updatedCategory.toObject()
-        } else {
-            return null // Retorna null se a categoria não for encontrada
         }
+        return null
     }
     async getAll(data?: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]> {
         let query = {}

@@ -4,6 +4,9 @@ import { IGetQuestionsCategoriesDTO } from '@/interfaces/domain/useCases/questio
 
 export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository => {
     class QuestionsCategoryRepo implements IQuestionsCategoryRepository {
+        async deleteCategory(id: string): Promise<boolean> {
+            return Promise.resolve(true)
+        }
         async getByID(id: string): Promise<IQuestionsCategory> {
             return Promise.resolve({
                 id: id,

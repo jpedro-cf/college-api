@@ -5,6 +5,12 @@ import { IGetQuestionsCategoriesDTO } from '@/interfaces/domain/useCases/questio
 import { ObjectId } from 'mongodb'
 
 export class DbQuestionsCategoryRepository implements IQuestionsCategoryRepository {
+    async deleteCategory(id: string): Promise<boolean> {
+        const deleted = await QuestionsCategoryModel.findOneAndDelete({
+            _id: new ObjectId(id)
+        })
+        return deleted ? true : false
+    }
     async getByID(id: string): Promise<IQuestionsCategory> {
         const category = await QuestionsCategoryModel.findOne({
             _id: id

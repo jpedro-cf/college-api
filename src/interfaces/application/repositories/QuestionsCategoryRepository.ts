@@ -7,4 +7,5 @@ export interface IQuestionsCategoryRepository {
     getByID(id: string): Promise<IQuestionsCategory>
     getAll(data?: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]>
     updateCategory(data: IQuestionsCategory): Promise<IQuestionsCategory>
+    deleteCategory(id: string): Promise<boolean>
 }

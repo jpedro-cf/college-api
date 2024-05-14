@@ -11,6 +11,7 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
         })
         return deleted ? true : false
     }
+
     async getByID(id: string): Promise<IQuestionsCategory> {
         const category = await QuestionsCategoryModel.findOne({
             _id: id
@@ -20,6 +21,7 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
         }
         return null
     }
+
     async updateCategory(data: Omit<IQuestionsCategory, 'created_at'>): Promise<IQuestionsCategory> {
         const updatedCategory = await QuestionsCategoryModel.findOneAndUpdate(
             { _id: new ObjectId(data.id) },

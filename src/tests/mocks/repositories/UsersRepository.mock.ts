@@ -5,6 +5,9 @@ import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
 
 export const makeFakeUsersRepository = (): IUsersRepository => {
     class UsersRepositoryStub implements IUsersRepository {
+        async getByField(field: string, value: string): Promise<IUserSchema> {
+            return Promise.resolve(makeFakeUserModel())
+        }
         async getByToken(token: string): Promise<IUserSchema> {
             return Promise.resolve(makeFakeUserModel())
         }

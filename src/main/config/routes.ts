@@ -9,6 +9,7 @@ import { DbUsersRepository } from '@/infra/database/repositories/DbUsersReposito
 import { GetQuestionsCategoryRoute } from '../routes/questionsCategory/GetQuestionsCategoriesRoute'
 import { JWTAdapter } from '@/infra/cryptography/Jwt'
 import { UpdateQuestionsCategoryRoute } from '../routes/questionsCategory/UpdateQuestionsCategoryRoute'
+import { DeleteQuestionsCategoryRoute } from '../routes/questionsCategory/DeleteQuestionsCategoryRoute'
 // import fs from 'fs'
 // import { pipeline } from 'stream'
 // import util from 'util'
@@ -73,6 +74,11 @@ export default function routesConfig(app: FastifyInstance) {
         '/api/questions_category',
         { preHandler: adminPrehandler.handle.bind(adminPrehandler) },
         UpdateQuestionsCategoryRoute
+    )
+    app.delete(
+        '/api/questions_category',
+        { preHandler: adminPrehandler.handle.bind(adminPrehandler) },
+        DeleteQuestionsCategoryRoute
     )
     app.get(
         '/api/questions_category',

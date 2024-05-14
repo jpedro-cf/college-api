@@ -22,4 +22,11 @@ describe('DeleteQuestionsCategoryUseCase', () => {
         const res = sut.delete('any_id')
         expect(res).rejects.toThrow()
     })
+
+    test('should delete a category on success', async () => {
+        const { sut } = makeSut()
+
+        const res = await sut.delete('any_id')
+        expect(res).toBeTruthy()
+    })
 })

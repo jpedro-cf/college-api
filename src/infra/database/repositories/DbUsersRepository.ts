@@ -5,6 +5,17 @@ import { UserModel } from '../models/UserModel'
 import { ObjectId } from 'mongodb'
 
 export class DbUsersRepository implements IUsersRepository {
+    async getByField(field: string, value: string): Promise<IUserSchema> {
+        const query = { [field]: value }
+
+        const user = await UserModel.findOne(query)
+
+        if (user) {
+            return user.toObject()
+        }
+        return null
+    }
+
     async getByToken(token: string): Promise<IUserSchema> {
         const user = await UserModel.findOne({
             access_token: token

@@ -18,7 +18,7 @@ export class UpdateUserUseCase implements IUpdateUser {
             throw new NotFoundError('Usuário com esse ID não encontrado.')
         }
         const query: IUserSchema = {
-            id: user.id,
+            id: current_user.id,
             name: data.name ?? user.name,
             email: data.email ?? user.email,
             discord_username: user.discord_username,
@@ -29,8 +29,9 @@ export class UpdateUserUseCase implements IUpdateUser {
             password: user.password
         }
 
-        if (data.roles) {
-            if (current_user.roles.includes('admin') && data.id.toString() != current_user.id.toString()) {
+        if (current_user.roles.includes('admin')) {
+            query.id = data.id
+            if (data.roles && data.id.toString() != current_user.id.toString()) {
                 query.roles = data.roles
             }
         }

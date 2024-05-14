@@ -10,6 +10,7 @@ import { GetQuestionsCategoryRoute } from '../routes/questionsCategory/GetQuesti
 import { JWTAdapter } from '@/infra/cryptography/Jwt'
 import { UpdateQuestionsCategoryRoute } from '../routes/questionsCategory/UpdateQuestionsCategoryRoute'
 import { DeleteQuestionsCategoryRoute } from '../routes/questionsCategory/DeleteQuestionsCategoryRoute'
+import { UpdateUserRoute } from '../routes/users/UpdateUserRoute'
 // import fs from 'fs'
 // import { pipeline } from 'stream'
 // import util from 'util'
@@ -21,6 +22,7 @@ export default function routesConfig(app: FastifyInstance) {
     app.post('/api/register', {}, SignUpRoute)
     app.post('/api/login', {}, AuthenticationRoute)
     app.get('/api/current_user', {}, CurrentUserRoute)
+    app.put('/api/users', {}, UpdateUserRoute)
 
     // app.post('/api/upload', {}, async (req, reply) => {
     //     try {

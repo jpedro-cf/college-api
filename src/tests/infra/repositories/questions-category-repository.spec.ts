@@ -88,4 +88,19 @@ describe('QuestionsCategoryRepository', () => {
             slug: 'titulo-atualizado'
         })
     })
+    test('should delete a category on success', async () => {
+        const sut = new DbQuestionsCategoryRepository()
+        const questionsCategory = new QuestionsCategoryModel({
+            title: 'titulo',
+            slug: 'titulo',
+            image: 'url',
+            created_at: new Date()
+        })
+        await questionsCategory.save()
+        const res = await sut.deleteCategory(questionsCategory.id)
+        expect(res).toBeTruthy()
+        await QuestionsCategoryModel.deleteOne({
+            slug: 'titulo'
+        })
+    })
 })

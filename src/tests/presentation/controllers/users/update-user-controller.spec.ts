@@ -1,4 +1,5 @@
 import { UpdateUserController } from '@/presentation/controllers/users/UpdateUserController'
+import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
 import { makeFakeGetByToken } from '@/tests/mocks/useCases/GetByTokenUseCase.mock'
 import { makeFakeUpdateUser } from '@/tests/mocks/useCases/UpdateUserUseCase.mock'
 import { NotFoundError } from '@/utils/customErrors'
@@ -32,13 +33,20 @@ describe('UpdateUserController', () => {
         expect(res.statusCode).toBe(400)
     })
     test('should return 400 if not user found with id', async () => {
-        const { sut, updateUser } = makeSut()
+        const { sut, updateUser, getByToken } = makeSut()
+        const user = makeFakeUserModel()
+
+        jest.spyOn(getByToken, 'get').mockReturnValueOnce(Promise.resolve(user))
         jest.spyOn(updateUser, 'update').mockReturnValueOnce(Promise.reject(new NotFoundError('')))
-        const res = await sut.handle({ cookies: { access_token: '12312312123312' }, query: { id: '123' } })
+        const res = await sut.handle({ cookies: { access_token: '12312312123312' }, query: { id: user.id } })
         expect(res.statusCode).toBe(400)
     })
-    test('should updated a user on usccess', async () => {
-        const { sut } = makeSut()
+    test('should updated a user on success', async () => {
+        const { sut, getByToken } = makeSut()
+        const user = makeFakeUserModel()
+        user.roles = ['admin']
+
+        jest.spyOn(getByToken, 'get').mockReturnValueOnce(Promise.resolve(user))
 
         const res = await sut.handle({
             cookies: { access_token: '12312312123312' },

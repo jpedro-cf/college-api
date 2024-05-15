@@ -1,7 +1,10 @@
 import { IQuestionsCategory } from '@/domain/QuestionsCategory'
 import { IQuestionsCategoryRepository } from '@/interfaces/application/repositories/QuestionsCategoryRepository'
 import { QuestionsCategoryModel } from '../models/QuestionsCategoryModel'
-import { IGetQuestionsCategoriesDTO } from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
+import {
+    IGetAllCategoriesResponse,
+    IGetQuestionsCategoriesDTO
+} from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
 import { ObjectId } from 'mongodb'
 
 export class DbQuestionsCategoryRepository implements IQuestionsCategoryRepository {
@@ -40,26 +43,35 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
         }
         return null
     }
-    async getAll(data?: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]> {
+    async getAll(data: IGetQuestionsCategoriesDTO): Promise<IGetAllCategoriesResponse> {
         let query = {}
 
         if (data && data.search) {
             query = { title: { $regex: data.search, $options: 'i' } }
         }
+
+        const perPage = data.per_page || 10
+        const currentPage = data.current_page || 1
+
+        const totalCount = await QuestionsCategoryModel.countDocuments(query)
+
+        const totalPages = Math.ceil(totalCount / perPage)
+
         const categories = await QuestionsCategoryModel.find(query)
+            .limit(perPage)
+            .skip((currentPage - 1) * perPage)
             .sort(data?.order === 'desc' ? { created_at: -1 } : { created_at: 1 })
             .exec()
-        if (categories) {
-            const categoriesObjects = categories.map((category) => category.toObject())
-            return categoriesObjects
-        }
-        return []
+
+        const categoriesObjects = categories.map((category) => category.toObject())
+        return { categories: categoriesObjects, pages: totalPages }
     }
     async createCategory(title: string, slug: string, image?: string): Promise<IQuestionsCategory> {
         const questionsCategory = new QuestionsCategoryModel({
             title,
             slug,
-            image
+            image,
+            created_at: new Date()
         })
         await questionsCategory.save()
         return questionsCategory.toObject()

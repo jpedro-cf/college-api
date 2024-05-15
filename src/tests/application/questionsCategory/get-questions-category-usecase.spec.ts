@@ -13,13 +13,13 @@ describe('GetQuestionsCategoryUseCase', () => {
 
         jest.spyOn(categoryRepository, 'getAll').mockReturnValueOnce(Promise.reject(new Error('')))
 
-        const res = sut.get()
+        const res = sut.get({})
         expect(res).rejects.toThrow()
     })
     test('should return a list of categories', async () => {
         const { sut } = makeSut()
 
         const res = await sut.get({ search: 'title' })
-        expect(res.length).toBeGreaterThan(0)
+        expect(res.categories.length).toBeGreaterThan(0)
     })
 })

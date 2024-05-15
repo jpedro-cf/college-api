@@ -6,7 +6,7 @@ const questionsCategorySchema = new Schema<IQuestionsCategory>(
         title: { type: String, required: true },
         slug: String,
         image: String,
-        created_at: { type: Date, default: new Date() }
+        created_at: Date
     },
     { versionKey: false }
 )

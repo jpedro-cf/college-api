@@ -46,12 +46,12 @@ describe('QuestionsCategoryRepository', () => {
         const sut = new DbQuestionsCategoryRepository()
 
         const res = await sut.getAll({ search: 'impossivel' })
-        expect(res[0].title).toContain('impossivel')
+        expect(res.categories[0].title).toContain('impossivel')
         await QuestionsCategoryModel.deleteOne({
             slug: 'titulo-teste-impossivel-existir'
         })
     })
-    test('should return a list of category on getByID() success', async () => {
+    test('should return a category on getByID() success', async () => {
         const questionsCategory = new QuestionsCategoryModel({
             title: 'titulo teste impossivel existir',
             slug: 'titulo-teste-impossivel-existir',

@@ -1,6 +1,9 @@
 import { IQuestionsCategory } from '@/domain/QuestionsCategory'
 import { IQuestionsCategoryRepository } from '@/interfaces/application/repositories/QuestionsCategoryRepository'
-import { IGetQuestionsCategoriesDTO } from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
+import {
+    IGetAllCategoriesResponse,
+    IGetQuestionsCategoriesDTO
+} from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
 
 export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository => {
     class QuestionsCategoryRepo implements IQuestionsCategoryRepository {
@@ -19,16 +22,19 @@ export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository =>
         updateCategory(data: IQuestionsCategory): Promise<IQuestionsCategory> {
             return Promise.resolve(data)
         }
-        async getAll(data?: IGetQuestionsCategoriesDTO): Promise<IQuestionsCategory[]> {
-            return Promise.resolve([
-                {
-                    id: 'any_id',
-                    title: data ? data.search : 'titulo',
-                    slug: 'title_category',
-                    image: 'image_url',
-                    created_at: new Date()
-                }
-            ])
+        async getAll(data?: IGetQuestionsCategoriesDTO): Promise<IGetAllCategoriesResponse> {
+            return Promise.resolve({
+                categories: [
+                    {
+                        id: 'any_id',
+                        title: data ? data.search : 'titulo',
+                        slug: 'title_category',
+                        image: 'image_url',
+                        created_at: new Date()
+                    }
+                ],
+                pages: 1
+            })
         }
         async getBySlug(slug: string): Promise<IQuestionsCategory> {
             return Promise.resolve({

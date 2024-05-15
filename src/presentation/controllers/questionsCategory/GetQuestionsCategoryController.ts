@@ -8,8 +8,10 @@ export class GetQuestionsCategoryController implements IController {
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
             const categories = await this.getQuestionsCategories.get({
-                search: httpRequest.query.search ?? null,
-                order: httpRequest.query.order ?? null
+                search: httpRequest.query.search ?? '',
+                order: httpRequest.query.order ?? 'desc',
+                per_page: httpRequest.query.per_page ?? 9,
+                current_page: httpRequest.query.current_page ?? 1
             })
             return ok(categories)
         } catch (error) {

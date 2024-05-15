@@ -2,9 +2,16 @@ import { IUsersRepository } from '@/interfaces/application/repositories/UsersRep
 import { ISignUpDTO } from '@/interfaces/domain/useCases/auth/SignUp'
 import { IUserSchema } from '@/interfaces/application/schemas/UserSchema'
 import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
+import { IGetUsersDTO, IGetUsersResponse } from '@/interfaces/domain/useCases/users/GetUsers'
 
 export const makeFakeUsersRepository = (): IUsersRepository => {
     class UsersRepositoryStub implements IUsersRepository {
+        async getAll(data: IGetUsersDTO): Promise<IGetUsersResponse> {
+            return Promise.resolve({
+                users: [makeFakeUserModel()],
+                pages: 1
+            })
+        }
         async getByField(field: string, value: string): Promise<IUserSchema> {
             return Promise.resolve(makeFakeUserModel())
         }

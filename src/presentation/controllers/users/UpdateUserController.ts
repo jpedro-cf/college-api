@@ -26,7 +26,6 @@ export class UpdateUserController implements IController {
             if (!id) {
                 return badRequest(new Error('ID é obrigatório'))
             }
-            console.log(current_user)
             if (!current_user.roles.includes('admin') && id != current_user.id) {
                 return unauthorized(new Error('Sem permissões para realizar essa operação'))
             }

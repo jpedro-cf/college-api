@@ -26,7 +26,8 @@ export class UpdateUserUseCase implements IUpdateUser {
             roles: user.roles,
             discord_confirmed: user.discord_confirmed,
             access_token: user.access_token,
-            password: user.password
+            password: user.password,
+            created_at: user.created_at
         }
 
         if (current_user.roles.includes('admin')) {

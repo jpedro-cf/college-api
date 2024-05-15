@@ -30,7 +30,6 @@ describe('UpdateUserUseCase', () => {
         user.roles = ['admin']
 
         const res = await sut.update('id', user)
-        console.log(res.roles)
         expect(res.name).toBe('joao')
     })
     test('should updated a user on success ( admin )', async () => {

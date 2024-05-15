@@ -37,6 +37,9 @@ describe('UsersRepository', () => {
             expect(account.roles).toEqual(['student'])
             expect(account.points).toBe(0)
             expect(account.discord_confirmed).toBe(false)
+            await UserModel.deleteOne({
+                _id: account.id
+            })
         })
     })
     describe('getByEmail()', () => {
@@ -152,6 +155,38 @@ describe('UsersRepository', () => {
             expect(exists).toBeTruthy()
             await UserModel.deleteOne({
                 email: 'fake_email@email.com'
+            })
+        })
+    })
+    describe('getAll()', () => {
+        test('should return a list of users on success', async () => {
+            const { sut } = makeSut()
+
+            const user = new UserModel({
+                name: 'fake_name',
+                email: 'fake_email@email.com',
+                access_token: 'token',
+                password: 'fake_password'
+            })
+            const user2 = new UserModel({
+                name: 'other_name',
+                email: 'other_email@email.com',
+                access_token: 'token',
+                password: 'fake_password'
+            })
+
+            await user.save()
+            await user2.save()
+
+            const response = await sut.getAll({ per_page: 1 })
+
+            expect(response.users.length).toBeGreaterThan(0)
+            expect(response.pages).toBe(2)
+            await UserModel.deleteOne({
+                email: 'fake_email@email.com'
+            })
+            await UserModel.deleteOne({
+                email: 'other_email@email.com'
             })
         })
     })

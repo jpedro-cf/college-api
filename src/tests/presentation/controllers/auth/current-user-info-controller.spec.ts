@@ -20,15 +20,14 @@ describe('GetUserInfoController', () => {
 
         jest.spyOn(getByToken, 'get').mockReturnValueOnce(Promise.resolve(null))
 
-        const res = await sut.handle({ headers: 'any_token' })
-
+        const res = await sut.handle({ cookies: { access_token: 'any_token' } })
         expect(res.statusCode).toBe(400)
     })
 
     test('Should return 200 on success', async () => {
         const { sut } = makeSut()
 
-        const res = await sut.handle({ headers: 'any_token' })
+        const res = await sut.handle({ cookies: { access_token: 'any_token' } })
 
         expect(res.statusCode).toBe(200)
     })

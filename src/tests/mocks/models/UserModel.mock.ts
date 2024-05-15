@@ -9,6 +9,7 @@ export const makeFakeUserModel = (): IUserSchema => {
         roles: ['student'],
         points: 0,
         password: 'hashed_data',
-        discord_confirmed: false
+        discord_confirmed: false,
+        created_at: new Date()
     }
 }

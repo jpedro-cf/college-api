@@ -3,8 +3,35 @@ import { IUserSchema } from '@/interfaces/application/schemas/UserSchema'
 import { ISignUpDTO } from '@/interfaces/domain/useCases/auth/SignUp'
 import { UserModel } from '../models/UserModel'
 import { ObjectId } from 'mongodb'
+import { IGetUsersDTO, IGetUsersResponse } from '@/interfaces/domain/useCases/users/GetUsers'
 
 export class DbUsersRepository implements IUsersRepository {
+    async getAll(data: IGetUsersDTO): Promise<IGetUsersResponse> {
+        let query = {}
+
+        if (data && data.search) {
+            const searchRegex = { $regex: data.search, $options: 'i' }
+            query = {
+                $or: [{ name: searchRegex }, { email: searchRegex }, { discord_username: searchRegex }]
+            }
+        }
+
+        const perPage = data.per_page || 10
+        const currentPage = data.current_page || 1
+
+        const totalCount = await UserModel.countDocuments(query)
+
+        const totalPages = Math.ceil(totalCount / perPage)
+
+        const users = await UserModel.find(query)
+            .limit(perPage)
+            .skip((currentPage - 1) * perPage)
+            .sort(data?.order === 'desc' ? { created_at: -1 } : { created_at: 1 })
+            .exec()
+
+        const usersObjects = users.map((category) => category.toObject())
+        return { users: usersObjects, pages: totalPages }
+    }
     async getByField(field: string, value: string): Promise<IUserSchema> {
         const query = { [field]: value }
 
@@ -56,23 +83,15 @@ export class DbUsersRepository implements IUsersRepository {
             },
             { new: true }
         )
-        return {
-            id: updatedUser._id.toString(),
-            name: updatedUser.name,
-            discord_username: updatedUser.discord_username,
-            email: updatedUser.email,
-            roles: updatedUser.roles,
-            password: updatedUser.password,
-            points: updatedUser.points,
-            discord_confirmed: updatedUser.discord_confirmed
-        }
+        return updatedUser.toObject()
     }
     async create(userData: ISignUpDTO): Promise<IUserSchema> {
         const user = new UserModel({
             name: userData.name,
             discord_username: userData.discord_username,
             email: userData.email,
-            password: userData.password
+            password: userData.password,
+            created_at: new Date()
         })
         const userCreated = await user.save()
         if (userCreated) {
@@ -86,15 +105,6 @@ export class DbUsersRepository implements IUsersRepository {
         if (!user) {
             return null
         }
-        return {
-            id: user._id.toString(),
-            name: user.name,
-            discord_username: user.discord_username,
-            email: user.email,
-            roles: user.roles,
-            password: user.password,
-            points: user.points,
-            discord_confirmed: user.discord_confirmed
-        }
+        return user.toObject()
     }
 }

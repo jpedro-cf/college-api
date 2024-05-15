@@ -13,7 +13,8 @@ const userSchema = new Schema<IUserSchema>(
         },
         points: { type: Number, default: 0 },
         access_token: String,
-        discord_confirmed: { type: Boolean, default: false }
+        discord_confirmed: { type: Boolean, default: false },
+        created_at: Date
     },
     { versionKey: false }
 )

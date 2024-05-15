@@ -179,7 +179,6 @@ describe('UsersRepository', () => {
             await user2.save()
 
             const response = await sut.getAll({ per_page: 1 })
-
             expect(response.users.length).toBeGreaterThan(0)
             expect(response.pages).toBe(2)
             await UserModel.deleteOne({

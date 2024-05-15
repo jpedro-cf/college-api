@@ -24,6 +24,7 @@ export class DbUsersRepository implements IUsersRepository {
         const totalPages = Math.ceil(totalCount / perPage)
 
         const users = await UserModel.find(query)
+            .select('-password -access_token -discord_confirmed')
             .limit(perPage)
             .skip((currentPage - 1) * perPage)
             .sort(data?.order === 'desc' ? { created_at: -1 } : { created_at: 1 })

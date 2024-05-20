@@ -34,7 +34,6 @@ describe('QuestionsCategoryRoutes', () => {
 
             const res = await request(app.server)
                 .get('/api/questions_category')
-                .send()
                 .set('Cookie', ['access_token=' + token])
             expect(res.statusCode).toBe(200)
             await UserModel.deleteOne({

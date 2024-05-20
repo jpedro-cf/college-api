@@ -1,5 +1,4 @@
 import { CreateQuestionsCategoryUseCase } from '@/application/questionsCategories/CreateQuestionsCategoryUseCase'
-import { GetQuestionsCategoryBySlugUseCase } from '@/application/questionsCategories/GetQuestionsCategoryBySlugUseCase'
 import { DbQuestionsCategoryRepository } from '@/infra/database/repositories/DbQuestionsCategoryRepository'
 import { CreateQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/CreateQuestionsCategoryController'
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify'
@@ -10,10 +9,9 @@ export const CreateQuestionsCategoryRoute: RouteHandlerMethod = async (
 ) => {
     const questionsCategoryRepository = new DbQuestionsCategoryRepository()
 
-    const getCategoryBySlug = new GetQuestionsCategoryBySlugUseCase(questionsCategoryRepository)
     const createQuestionsCategory = new CreateQuestionsCategoryUseCase(questionsCategoryRepository)
 
-    const controller = new CreateQuestionsCategoryController(getCategoryBySlug, createQuestionsCategory)
+    const controller = new CreateQuestionsCategoryController(createQuestionsCategory)
 
     const httpResponse = await controller.handle(request)
     if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {

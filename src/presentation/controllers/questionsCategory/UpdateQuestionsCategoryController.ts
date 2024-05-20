@@ -2,13 +2,13 @@ import fs from 'fs'
 import { pipeline } from 'stream'
 import util from 'util'
 import path from 'path'
-import { IGetQuestionsCategoryBySlug } from '@/interfaces/domain/useCases/questionsCategory/GetBySlug'
 import { badRequest, ok, serverError } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse, IMultiPartFile } from '@/interfaces/presentation/http'
 import { IUpdateQuestionsCategory } from '@/interfaces/domain/useCases/questionsCategory/UpdateQuestionsCategory'
 import { convertToSlug } from '@/utils/converToSlug'
 import { IGetQuestionsCategoryByID } from '@/interfaces/domain/useCases/questionsCategory/GetByID'
+import { mapErrorToHttpResponse } from '@/presentation/helpers/ErrorMapper'
 
 interface IHandleFormDataResponse {
     title?: string
@@ -18,7 +18,6 @@ interface IHandleFormDataResponse {
 
 export class UpdateQuestionsCategoryController implements IController {
     constructor(
-        private readonly getCategoryBySlug: IGetQuestionsCategoryBySlug,
         private readonly getCategoryByID: IGetQuestionsCategoryByID,
         private readonly updateCategory: IUpdateQuestionsCategory
     ) {}
@@ -38,10 +37,7 @@ export class UpdateQuestionsCategoryController implements IController {
 
             if (title) {
                 const newSlug = convertToSlug(title)
-                const alreadyExists = await this.getCategoryBySlug.get(newSlug)
-                if (alreadyExists) {
-                    return badRequest(new Error('Categoria com esse título já existe.'))
-                }
+
                 category.title = title
                 category.slug = newSlug
             }
@@ -53,7 +49,7 @@ export class UpdateQuestionsCategoryController implements IController {
             const updated = await this.updateCategory.update(query)
             return ok(updated)
         } catch (error) {
-            return serverError(error)
+            return mapErrorToHttpResponse(error)
         }
     }
     async handleMultpartForm(httpRequest: IHttpRequest): Promise<IHandleFormDataResponse> {

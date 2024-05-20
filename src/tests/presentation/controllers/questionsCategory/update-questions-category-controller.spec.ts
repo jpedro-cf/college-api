@@ -1,14 +1,13 @@
 import { UpdateQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/UpdateQuestionsCategoryController'
 import { makeFakeGetQuestionsCategoryByIdUseCase } from '@/tests/mocks/useCases/GetQuestionsCategoryByIdUseCase.mock'
-import { makeFakeGetQuestionsCategoryBySlugUseCase } from '@/tests/mocks/useCases/QuestionsCategoryUseCase'
 import { makeFakeUpdateQuestionsCategory } from '@/tests/mocks/useCases/UpdateQuestionsCategoryUseCase.mock'
+import { AlreadyInUseError } from '@/utils/customErrors'
 
 const makeSut = () => {
-    const getBySlug = makeFakeGetQuestionsCategoryBySlugUseCase()
     const getById = makeFakeGetQuestionsCategoryByIdUseCase()
     const updateCategory = makeFakeUpdateQuestionsCategory()
-    const sut = new UpdateQuestionsCategoryController(getBySlug, getById, updateCategory)
-    return { sut, getById, getBySlug, updateCategory }
+    const sut = new UpdateQuestionsCategoryController(getById, updateCategory)
+    return { sut, getById, updateCategory }
 }
 
 describe('UpdateQuestionsCategoryController', () => {
@@ -27,45 +26,25 @@ describe('UpdateQuestionsCategoryController', () => {
         })
         expect(res.statusCode).toBe(500)
     })
-    test('should return 500 if getBySlug throws', async () => {
-        const { sut, getBySlug } = makeSut()
+
+    test('should return 400 if slug already exists', async () => {
+        const { sut, updateCategory } = makeSut()
 
         jest.spyOn(sut, 'handleMultpartForm').mockImplementationOnce(async () => {
-            return { title: 'string', image: 'string', id: 'string' }
+            return { title: 'string atualizada', id: 'id' }
         })
 
-        jest.spyOn(getBySlug, 'get').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(updateCategory, 'update').mockReturnValueOnce(Promise.reject(new AlreadyInUseError('')))
         const res = await sut.handle({
             parts: () => {
                 return { id: true }
             }
         })
-        expect(res.statusCode).toBe(500)
-    })
-    test('should return 500 if updateCategory throws', async () => {
-        const { sut, updateCategory, getBySlug } = makeSut()
-
-        jest.spyOn(getBySlug, 'get').mockImplementationOnce(async () => {
-            return null
-        })
-        jest.spyOn(sut, 'handleMultpartForm').mockImplementationOnce(async () => {
-            return { title: 'string', image: 'string', id: 'string' }
-        })
-
-        jest.spyOn(updateCategory, 'update').mockImplementationOnce(() => {
-            throw new Error('')
-        })
-        const res = await sut.handle({
-            parts: () => {
-                return { id: true }
-            }
-        })
-        expect(res.statusCode).toBe(500)
+        expect(res.statusCode).toBe(400)
     })
 
     test('Should return 200 on success', async () => {
-        const { sut, getBySlug } = makeSut()
-        jest.spyOn(getBySlug, 'get').mockReturnValueOnce(Promise.resolve(null))
+        const { sut } = makeSut()
         jest.spyOn(sut, 'handleMultpartForm').mockImplementationOnce(async () => {
             return { title: 'string atualizada', id: 'id' }
         })

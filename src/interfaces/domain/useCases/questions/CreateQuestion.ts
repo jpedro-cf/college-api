@@ -1,5 +1,5 @@
 import { IQuestion } from '@/domain/Question'
 
-export interface ICreatQuestion {
-    create(question: IQuestion): Promise<IQuestion>
+export interface ICreateQuestion {
+    create(question: IQuestion, correct: number): Promise<IQuestion>
 }

@@ -35,7 +35,6 @@ describe('CreateQuestionUseCase', () => {
         const { sut } = makeSut()
 
         const res = await sut.create(makeCreateQuestionData(), 3)
-
         expect(res).toBeTruthy()
     })
 })

@@ -1,8 +1,8 @@
 export const makeCreateQuestionData = () => {
     return {
-        id: '132231312',
-        question: 'Titulo da questão',
-        category_id: '312312',
+        id: '0000000000',
+        question: 'QUESTÃO DE TESTE (IGNORAR)',
+        category_id: '000000',
         material: 'https://google.com.br',
         answers: [
             {

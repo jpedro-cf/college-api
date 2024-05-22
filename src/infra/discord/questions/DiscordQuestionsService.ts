@@ -24,9 +24,8 @@ export class DiscordQuestionsService implements IDiscordQuestionsService {
                 continue
             }
 
-            const channel = this.client.channels.cache.get(config.questions_channel_id)
-
-            if (!channel || !(channel instanceof TextChannel || channel.isThread())) {
+            const channel = await this.client.channels.fetch(config.questions_channel_id)
+            if (!channel || !(channel instanceof TextChannel)) {
                 console.error(`Invalid or non-text channel: ${config.questions_channel_id}`)
                 continue
             }

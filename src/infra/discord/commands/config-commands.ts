@@ -1,4 +1,3 @@
-import { DiscordConfigModel } from '@/infra/database/models/DiscordConfigurationModel'
 import { DbDiscordConfigurationRepository } from '@/infra/database/repositories/DbDiscordConfigurationRepository'
 import { ChannelType, ChatInputCommandInteraction, GuildMember, SlashCommandBuilder } from 'discord.js'
 
@@ -9,14 +8,14 @@ export const configCommand = new SlashCommandBuilder()
     .addChannelOption((option) =>
         option
             .setName('canal_questoes')
-            .setDescription('Canal para configurar as questões')
+            .setDescription('Canal que irá aparecer as questões.')
             .addChannelTypes(ChannelType.GuildText)
             .setRequired(true)
     )
     .addChannelOption((option) =>
         option
             .setName('canal_ranking')
-            .setDescription('Canal para configurar as questões')
+            .setDescription('Canal irá mostrar o ranking, status e etc.')
             .addChannelTypes(ChannelType.GuildText)
             .setRequired(true)
     )
@@ -30,6 +29,8 @@ export async function executeConfig(interaction: ChatInputCommandInteraction) {
         return
     }
     const discordConfiguration = await configRepository.getByField('guild_id', interaction.guildId)
+
+    await configRepository.updateConfig(discordConfiguration)
 
     const questions_channel = interaction.options.getChannel('canal_questoes')
     if (discordConfiguration.questions_channel_id == questions_channel.id) {

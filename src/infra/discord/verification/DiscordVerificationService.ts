@@ -46,9 +46,7 @@ export class DiscordVerificationService {
                     return true
                 } else {
                     const deleted = await this.denyVerification.deny(discord_username)
-                    deleted
-                        ? await user.send('Verificação negada com sucesso 🟥')
-                        : await user.send('Ocorreu um erro ao cancelar.')
+                    deleted ? await user.send('Verificação negada 🟥') : await user.send('Ocorreu um erro ao cancelar.')
                     return deleted
                 }
             })

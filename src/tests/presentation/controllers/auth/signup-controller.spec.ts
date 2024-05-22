@@ -1,30 +1,17 @@
-import { IAuthentication } from '@/interfaces/domain/useCases/auth/Authentication'
-import { ISignUp } from '@/interfaces/domain/useCases/auth/SignUp'
-import { IGetDiscordUserByUserName } from '@/interfaces/domain/useCases/discord/users/GetUserByUserName'
-import { ISendVerification } from '@/interfaces/domain/useCases/discord/verification/SendVerification'
 import { badRequest } from '@/interfaces/presentation/codes'
 import { SignUpController } from '@/presentation/controllers/auth/SignUpController'
 import { makeFakeAuthentication } from '@/tests/mocks/useCases/AuthenticationUseCaseMock'
-import { makeGetDiscordUserByName } from '@/tests/mocks/useCases/GetDiscordByUserName.mock'
 import { makeSendVerificationService } from '@/tests/mocks/useCases/SendVerificationService.mock'
 import { makeSignUpUseCaseStub } from '@/tests/mocks/useCases/SignUp.usecase.mock'
+import { NotFoundError } from '@/utils/customErrors'
 
-interface ISut {
-    signUp: ISignUp
-    sendVerification: ISendVerification
-    getDiscordUserByName: IGetDiscordUserByUserName
-    authentication: IAuthentication
-    sut: SignUpController
-}
-
-const makeSut = (): ISut => {
-    const getDiscordUserByName = makeGetDiscordUserByName()
+const makeSut = () => {
     const sendVerification = makeSendVerificationService()
     const signUp = makeSignUpUseCaseStub()
     const authentication = makeFakeAuthentication()
-    const sut = new SignUpController(signUp, getDiscordUserByName, sendVerification, authentication)
+    const sut = new SignUpController(signUp, sendVerification, authentication)
 
-    return { sut, signUp, getDiscordUserByName, sendVerification, authentication }
+    return { sut, signUp, sendVerification, authentication }
 }
 
 describe('SignUp controller', () => {
@@ -38,21 +25,6 @@ describe('SignUp controller', () => {
             }
         })
         expect(res.statusCode).toBe(400)
-    })
-
-    test('Should return 400 if password != password_confirmation', async () => {
-        const { sut } = makeSut()
-
-        const res = await sut.handle({
-            body: {
-                name: 'any',
-                email: 'any',
-                password: 'pass',
-                password_confirmation: 'any'
-            }
-        })
-        expect(res.statusCode).toBe(400)
-        expect(res).toEqual(badRequest(new Error('As senhas não são iguais')))
     })
 
     test('Should return 400 if email already in use', async () => {
@@ -70,30 +42,11 @@ describe('SignUp controller', () => {
             body: {
                 name: 'any',
                 email: 'any',
-                password: 'pass',
-                password_confirmation: 'pass'
+                password: 'pass'
             }
         })
         expect(res.statusCode).toBe(400)
         expect(res).toEqual(badRequest(new Error('Usuário com esse email já existe')))
-    })
-
-    test('should 400 if get discord user by name returns null', async () => {
-        const { sut, getDiscordUserByName } = makeSut()
-
-        jest.spyOn(getDiscordUserByName, 'get').mockReturnValueOnce(null)
-
-        const res = await sut.handle({
-            body: {
-                name: 'any',
-                email: 'any',
-                discord_username: 'any',
-                password: 'pass',
-                password_confirmation: 'pass'
-            }
-        })
-
-        expect(res.statusCode).toBe(400)
     })
 
     test('Should return 500 if sign up throws', async () => {
@@ -105,8 +58,7 @@ describe('SignUp controller', () => {
             body: {
                 name: 'any',
                 email: 'any',
-                password: 'pass',
-                password_confirmation: 'pass'
+                password: 'pass'
             }
         })
         expect(res.statusCode).toBe(500)
@@ -122,28 +74,26 @@ describe('SignUp controller', () => {
                 name: 'any',
                 email: 'any',
                 discord_username: 'any',
-                password: 'pass',
-                password_confirmation: 'pass'
+                password: 'pass'
             }
         })
         expect(res.statusCode).toBe(500)
     })
 
-    test('Should return 500 if get discord by user throws', async () => {
-        const { sut, getDiscordUserByName } = makeSut()
+    test('Should return 400 if username not found', async () => {
+        const { sut, sendVerification } = makeSut()
 
-        jest.spyOn(getDiscordUserByName, 'get').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(sendVerification, 'send').mockReturnValueOnce(Promise.reject(new NotFoundError('')))
 
         const res = await sut.handle({
             body: {
                 name: 'any',
                 email: 'any',
-                password: 'pass',
-                password_confirmation: 'pass',
-                discord_username: 'any'
+                discord_username: 'any',
+                password: 'pass'
             }
         })
-        expect(res.statusCode).toBe(500)
+        expect(res.statusCode).toBe(400)
     })
 
     test('Should return 500 if get discord by user throws', async () => {
@@ -155,8 +105,7 @@ describe('SignUp controller', () => {
             body: {
                 name: 'any',
                 email: 'any',
-                password: 'pass',
-                password_confirmation: 'pass'
+                password: 'pass'
             }
         })
         expect(res.statusCode).toBe(500)
@@ -168,8 +117,7 @@ describe('SignUp controller', () => {
             body: {
                 name: 'any',
                 email: 'any',
-                password: 'pass',
-                password_confirmation: 'pass'
+                password: 'pass'
             }
         })
         expect(res.statusCode).toBe(200)

@@ -6,8 +6,7 @@ import {
     MessageActionRowComponentBuilder,
     ComponentType,
     EmbedBuilder,
-    Client,
-    TextBasedChannel
+    Client
 } from 'discord.js'
 import { IDiscordQuestionsService, ISendQuestionDTO } from '@/interfaces/application/discord/DiscordQuestionsService'
 import { format } from 'date-fns'

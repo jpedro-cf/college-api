@@ -1,16 +1,12 @@
 import { SendVerificationUseCase } from '@/application/discord/verification/SendVerificationUseCase'
-import { IDiscordVerificationService } from '@/interfaces/application/discord/DiscordVerificationService'
+import { makeFakeDiscordUsersService } from '@/tests/mocks/discord/DiscordUsersService.mock'
 import { makeFakeSendVerification } from '@/tests/mocks/discord/VerificationService.mock'
 
-interface ISut {
-    sendVerificationService: IDiscordVerificationService
-    sut: SendVerificationUseCase
-}
-
-const makeSut = (): ISut => {
+const makeSut = () => {
     const sendVerificationService = makeFakeSendVerification()
-    const sut = new SendVerificationUseCase(sendVerificationService)
-    return { sut, sendVerificationService }
+    const usersService = makeFakeDiscordUsersService()
+    const sut = new SendVerificationUseCase(sendVerificationService, usersService)
+    return { sut, sendVerificationService, usersService }
 }
 
 describe('SendVerificationUseCase', () => {
@@ -20,6 +16,14 @@ describe('SendVerificationUseCase', () => {
         jest.spyOn(sendVerificationService, 'sendVerificationMessage').mockReturnValueOnce(
             Promise.reject(new Error(''))
         )
+        const res = sut.send('any')
+        expect(res).rejects.toThrow()
+    })
+
+    test('should throw if usersService returns null', async () => {
+        const { sut, usersService } = makeSut()
+
+        jest.spyOn(usersService, 'getByUsername').mockReturnValueOnce(Promise.resolve(null))
         const res = sut.send('any')
         expect(res).rejects.toThrow()
     })

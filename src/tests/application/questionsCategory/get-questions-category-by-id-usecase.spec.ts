@@ -1,5 +1,4 @@
 import { GetQuestionsCategoryByIdUseCase } from '@/application/questionsCategories/GetQuestionsCategoryByIDUseCase'
-import { GetQuestionsCategoryBySlugUseCase } from '@/application/questionsCategories/GetQuestionsCategoryBySlugUseCase'
 import { makeFakeQuestionsCategoryRepo } from '@/tests/mocks/repositories/QuestionsCategoryRepository.mock'
 
 const makeSut = () => {

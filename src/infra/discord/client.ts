@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits } from 'discord.js'
 import { deployCommands } from './commands/deploy-commands'
-import { commands } from './commands/ping'
+import { commands } from './commands'
 
 const client = new Client({
     intents: [
@@ -15,16 +15,18 @@ const client = new Client({
 })
 export const setupDiscord = async () => {
     client.once('ready', async () => {
-        const guild = client.guilds.cache.first()
-        await deployCommands({ guildId: guild.id })
-    })
+        const guilds = client.guilds.cache
 
+        for (const guild of guilds.values()) {
+            await deployCommands({ guildId: guild.id })
+        }
+        console.log('DiscordBot ready')
+    })
     client.on('guildCreate', async (guild) => {
         await deployCommands({ guildId: guild.id })
     })
-
     client.on('interactionCreate', async (interaction) => {
-        if (!interaction.isCommand()) {
+        if (!interaction.isChatInputCommand()) {
             return
         }
         const { commandName } = interaction

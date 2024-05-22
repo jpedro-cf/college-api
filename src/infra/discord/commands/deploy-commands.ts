@@ -1,6 +1,7 @@
 import { REST, Routes } from 'discord.js'
-import { commands } from './ping'
+import { commands } from '.'
 import { env } from '@/main/config/env'
+import { DbDiscordConfigurationRepository } from '@/infra/database/repositories/DbDiscordConfigurationRepository'
 
 const commandsData = Object.values(commands).map((command) => command.data)
 
@@ -12,7 +13,13 @@ type DeployCommandsProps = {
 
 export async function deployCommands({ guildId }: DeployCommandsProps) {
     try {
-        await rest.put(Routes.applicationGuildCommands(env.discordClientID, guildId), {
+        const configRepository = new DbDiscordConfigurationRepository()
+        let discordConfiguration = await configRepository.getByField('guild_id', guildId)
+        if (!discordConfiguration) {
+            discordConfiguration = await configRepository.createConfig(guildId)
+        }
+
+        await rest.put(Routes.applicationGuildCommands(env.discordClientID, discordConfiguration.guild_id), {
             body: commandsData
         })
     } catch (error) {

@@ -35,7 +35,6 @@ export class DbUsersRepository implements IUsersRepository {
     }
     async getByField(field: string, value: string): Promise<IUserSchema> {
         const query = { [field]: value }
-
         const user = await UserModel.findOne(query)
 
         if (user) {
@@ -55,7 +54,7 @@ export class DbUsersRepository implements IUsersRepository {
     }
     async updateUser(data: IUserSchema): Promise<IUserSchema> {
         const updatedUser = await UserModel.findOneAndUpdate(
-            { _id: data._id },
+            { _id: data._id.toString() },
             {
                 $set: {
                     name: data.name,
@@ -67,7 +66,7 @@ export class DbUsersRepository implements IUsersRepository {
             },
             { new: true }
         )
-        return updatedUser.toObject()
+        return updatedUser ? updatedUser.toObject() : null
     }
     async create(userData: ISignUpDTO): Promise<IUserSchema> {
         const user = new UserModel({
@@ -77,7 +76,9 @@ export class DbUsersRepository implements IUsersRepository {
         })
         const userCreated = await user.save()
         if (userCreated) {
-            return userCreated.toObject()
+            const userObject = userCreated.toObject()
+            return userObject
         }
+        return null
     }
 }

@@ -7,7 +7,7 @@ export const testeCommand = new SlashCommandBuilder().setName('teste').setDescri
 
 export async function executeTeste(interaction: ChatInputCommandInteraction) {
     const question = {
-        id: '321123123',
+        _id: '321123123',
         question: 'Titulo da questão',
         category_id: '213idoau2e89q',
         category_title: 'titulo da categoria',

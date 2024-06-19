@@ -7,12 +7,10 @@ import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify'
 
 export const UpdateUserRoute: RouteHandlerMethod = async (request: FastifyRequest, reply: FastifyReply) => {
     const usersRepository = new DbUsersRepository()
-    const jwt = new JWTAdapter()
 
-    const getByToken = new GetByTokenUseCase(usersRepository, jwt)
     const updateUser = new UpdateUserUseCase(usersRepository)
 
-    const controller = new UpdateUserController(getByToken, updateUser)
+    const controller = new UpdateUserController(updateUser)
 
     const httpResponse = await controller.handle(request)
 

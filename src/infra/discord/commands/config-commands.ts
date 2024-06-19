@@ -19,6 +19,12 @@ export const configCommand = new SlashCommandBuilder()
             .addChannelTypes(ChannelType.GuildText)
             .setRequired(true)
     )
+    .addRoleOption((option) =>
+        option
+            .setName('cargo')
+            .setDescription('Cargo que será usado para verificação e menção de participantes.')
+            .setRequired(true)
+    )
 
 export async function executeConfig(interaction: ChatInputCommandInteraction) {
     const configRepository = new DbDiscordConfigurationRepository()
@@ -38,6 +44,15 @@ export async function executeConfig(interaction: ChatInputCommandInteraction) {
         return
     }
     discordConfiguration.questions_channel_id = questions_channel.id
+
+    await configRepository.updateConfig(discordConfiguration)
+
+    const role = interaction.options.getRole('cargo')
+    if (discordConfiguration.role_id == role.id) {
+        await interaction.reply(`${role} já está configurado`)
+        return
+    }
+    discordConfiguration.role_id = role.id
 
     await configRepository.updateConfig(discordConfiguration)
 

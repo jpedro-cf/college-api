@@ -5,7 +5,8 @@ const discordSchema = new Schema<IDiscordConfigurationSchema>(
     {
         guild_id: { type: String, required: true },
         questions_channel_id: String,
-        ranking_channel_id: String
+        ranking_channel_id: String,
+        role_id: String
     },
     { versionKey: false, timestamps: true }
 )

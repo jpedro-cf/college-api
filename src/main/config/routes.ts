@@ -23,7 +23,7 @@ export default function routesConfig(app: FastifyInstance) {
     app.post('/api/login', {}, AuthenticationRoute)
     app.get('/api/current_user', {}, CurrentUserRoute)
 
-    app.put('/api/users', {}, UpdateUserRoute)
+    app.put('/api/users', { preHandler: adminPrehandler.handle.bind(adminPrehandler) }, UpdateUserRoute)
     app.get('/api/users', { preHandler: adminPrehandler.handle.bind(adminPrehandler) }, GetUsersRoute)
 
     app.post(

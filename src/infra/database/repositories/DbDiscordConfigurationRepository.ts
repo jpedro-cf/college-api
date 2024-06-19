@@ -43,7 +43,8 @@ export class DbDiscordConfigurationRepository implements IDiscordConfigurationRe
                 $set: {
                     guild_id: data.guild_id,
                     ranking_channel_id: data.ranking_channel_id,
-                    questions_channel_id: data.questions_channel_id
+                    questions_channel_id: data.questions_channel_id,
+                    role_id: data.role_id
                 }
             },
             { new: true }

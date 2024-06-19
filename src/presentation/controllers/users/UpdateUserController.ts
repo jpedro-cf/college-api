@@ -6,31 +6,16 @@ import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'
 import { mapErrorToHttpResponse } from '@/presentation/helpers/ErrorMapper'
 
 export class UpdateUserController implements IController {
-    constructor(private readonly getByToken: IGetByToken, private readonly updateUser: IUpdateUser) {}
+    constructor(private readonly updateUser: IUpdateUser) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const { access_token } = httpRequest.cookies
-
-            if (!access_token) {
-                return unauthorized(new Error('Sem permissões para realizar essa operação'))
-            }
-
-            const current_user = await this.getByToken.get(access_token)
-
-            if (!current_user) {
-                return unauthorized(new Error('Sem permissões para realizar essa operação'))
-            }
-
-            const { id, name, email, password, roles } = httpRequest.query
+            const { id, name, email, roles } = httpRequest.query
 
             if (!id) {
                 return badRequest(new Error('ID é obrigatório'))
             }
-            if (!current_user.roles.includes('admin') && id != current_user._id) {
-                return unauthorized(new Error('Sem permissões para realizar essa operação'))
-            }
 
-            const updated = await this.updateUser.update(current_user._id, { _id: id, name, email, password, roles })
+            const updated = await this.updateUser.update({ _id: id, name, email, roles })
             return ok(updated)
         } catch (error) {
             return mapErrorToHttpResponse(error)

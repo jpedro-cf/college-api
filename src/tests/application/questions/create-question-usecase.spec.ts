@@ -11,20 +11,19 @@ const makeSut = () => {
 }
 
 describe('CreateQuestionUseCase', () => {
-    test('Should throw if questionsRepository throws', async () => {
-        const { sut, questionsRepository } = makeSut()
+    test('Should throw if categoryRepository returns null', async () => {
+        const { sut, categoryRepository } = makeSut()
 
-        jest.spyOn(questionsRepository, 'createQuestion').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(categoryRepository, 'getByID').mockReturnValueOnce(Promise.resolve(null))
 
         const res = sut.create(makeCreateQuestionData(), 3)
 
         expect(res).rejects.toThrow()
     })
+    test('Should throw if questionsRepository throws', async () => {
+        const { sut, questionsRepository } = makeSut()
 
-    test('Should throw if categoryRepository returns null', async () => {
-        const { sut, categoryRepository } = makeSut()
-
-        jest.spyOn(categoryRepository, 'getByID').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(questionsRepository, 'createQuestion').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = sut.create(makeCreateQuestionData(), 3)
 

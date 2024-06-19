@@ -7,6 +7,8 @@ import { badRequest, ok, serverError } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse, IMultiPartFile } from '@/interfaces/presentation/http'
 import { convertToSlug } from '@/utils/converToSlug'
+import { MissingParamError } from '@/utils/customErrors'
+import { mapErrorToHttpResponse } from '@/presentation/helpers/ErrorMapper'
 
 interface IHandleFormDataResponse {
     title: string
@@ -29,7 +31,7 @@ export class CreateQuestionsCategoryController implements IController {
 
             return ok(created)
         } catch (error) {
-            return serverError(error)
+            return mapErrorToHttpResponse(error)
         }
     }
     async handleMultpartForm(httpRequest: IHttpRequest): Promise<IHandleFormDataResponse> {
@@ -39,7 +41,7 @@ export class CreateQuestionsCategoryController implements IController {
             const parts = httpRequest.parts()
 
             if (!parts) {
-                throw new Error('A request deve ser um multpart form.')
+                throw new MissingParamError('A request deve ser um multpart form.')
             }
             let image = null
             let title = null

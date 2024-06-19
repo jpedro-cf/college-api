@@ -10,10 +10,11 @@ export class GetByTokenUseCase implements IGetByToken {
         const access_token = await this.token.decrypt(token)
         if (access_token) {
             const data = await this.usersRepository.getByField('access_token', token)
-            if (data) {
-                const { password, ...user } = data
-                return user
+            if (!data) {
+                return null
             }
+            const { password, ...user } = data
+            return user
         }
         return null
     }

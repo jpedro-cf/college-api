@@ -18,16 +18,14 @@ export class SignUpController implements IController {
                 }
             }
 
-            const userCreated = await this.signUp.signUp({
+            await this.signUp.signUp({
                 name,
                 email,
                 password
             })
 
-            let access_token = null
-
-            access_token = await this.authentication.auth({ email, password })
-            return ok(userCreated, access_token?.token)
+            const token = await this.authentication.auth({ email, password })
+            return ok(token.user, token.token)
         } catch (error) {
             return mapErrorToHttpResponse(error)
         }

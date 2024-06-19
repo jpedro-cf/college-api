@@ -9,30 +9,15 @@ const makeSut = () => {
 }
 
 describe('UpdateUserUseCase', () => {
-    test('should throw if repository throws', async () => {
-        const { sut, repository } = makeSut()
-
-        jest.spyOn(repository, 'getByField').mockReturnValueOnce(Promise.reject(new Error('')))
-        const res = sut.update('id', {})
-        expect(res).rejects.toThrow()
-    })
-    test('should throw if get by id throws', async () => {
+    test('should throw if user does not exist', async () => {
         const { sut, repository } = makeSut()
 
         jest.spyOn(repository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
-        const res = sut.update('id', {})
+        const res = sut.update({})
         expect(res).rejects.toThrow()
     })
-    test('should updated a user on success ( not admin )', async () => {
-        const { sut } = makeSut()
-        const user = makeFakeUserModel()
-        user.name = 'joao'
-        user.roles = ['admin']
 
-        const res = await sut.update('id', user)
-        expect(res.name).toBe('joao')
-    })
-    test('should updated a user on success ( admin )', async () => {
+    test('should updated a user on success ', async () => {
         const { sut, repository } = makeSut()
 
         const user = makeFakeUserModel()
@@ -44,7 +29,7 @@ describe('UpdateUserUseCase', () => {
         user2._id = '12344556'
         user2.roles = ['manager']
 
-        const res = await sut.update(user._id, user2)
+        const res = await sut.update(user2)
         expect(res.roles).toContain('manager')
     })
 })

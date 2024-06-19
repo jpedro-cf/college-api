@@ -22,28 +22,26 @@ const makeSut = (): ISut => {
 }
 
 describe('SignUp usecase', () => {
-    test('Should throw if UsersRepository throws', async () => {
-        const { sut, usersRepository } = makeSut()
-
-        jest.spyOn(usersRepository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
-        jest.spyOn(usersRepository, 'create').mockReturnValueOnce(Promise.reject(new Error('')))
-
-        const promise = sut.signUp(makeFakeSignUpData())
-        expect(promise).rejects.toThrow()
-    })
-
     test('Should throw if email in use', async () => {
         const { sut } = makeSut()
 
         const promise = sut.signUp(makeFakeSignUpData())
         expect(promise).rejects.toThrow()
     })
-
     test('Should throw if hasher throws', async () => {
         const { sut, hasher, usersRepository } = makeSut()
 
         jest.spyOn(usersRepository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
         jest.spyOn(hasher, 'hash').mockReturnValueOnce(Promise.reject(new Error('')))
+
+        const promise = sut.signUp(makeFakeSignUpData())
+        expect(promise).rejects.toThrow()
+    })
+    test('Should throw if UsersRepository throws', async () => {
+        const { sut, usersRepository } = makeSut()
+
+        jest.spyOn(usersRepository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(usersRepository, 'create').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const promise = sut.signUp(makeFakeSignUpData())
         expect(promise).rejects.toThrow()

@@ -1,5 +1,5 @@
 export interface IQuestionsCategory {
-    id: string
+    _id: string
     title: string
     slug: string
     image: string

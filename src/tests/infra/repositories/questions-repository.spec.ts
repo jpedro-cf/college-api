@@ -21,7 +21,7 @@ describe('DbQuestionsRepository', () => {
         const { sut } = makeSut()
 
         const res = await sut.createQuestion(makeCreateQuestionData(), 2)
-        expect(res.id).toBeTruthy()
+        expect(res._id).toBeTruthy()
         expect(res.correct_answer_id).toBeTruthy()
     })
 })

@@ -19,6 +19,6 @@ describe('GetQuestionCategoryByIdUseCase', () => {
         const { sut } = makeSut()
 
         const res = await sut.get('12344565677')
-        expect(res.id).toBeTruthy()
+        expect(res._id).toBeTruthy()
     })
 })

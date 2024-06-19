@@ -2,22 +2,19 @@ import { QuestionsCategoryModel } from '@/infra/database/models/QuestionsCategor
 import { DbQuestionsCategoryRepository } from '@/infra/database/repositories/DbQuestionsCategoryRepository'
 import mongoose, { Collection } from 'mongoose'
 
-let questionsCategoryCollection: Collection
-
 describe('QuestionsCategoryRepository', () => {
     beforeAll(async () => {
         await mongoose.connect('mongodb://127.0.0.1:27017/college-api')
     }, 5000)
     afterAll(async () => {
-        questionsCategoryCollection = QuestionsCategoryModel.collection
-        await questionsCategoryCollection.deleteMany({})
+        await QuestionsCategoryModel.deleteMany({})
     })
     test('should return a category on create() success', async () => {
         const sut = new DbQuestionsCategoryRepository()
 
         const res = await sut.createCategory('titulo categoria', 'titulo-categoria', 'image_url')
 
-        expect(res.id).toBeTruthy()
+        expect(res._id).toBeTruthy()
     })
     test('should return a category on getBySlug() success', async () => {
         const questionsCategory = new QuestionsCategoryModel({
@@ -29,8 +26,7 @@ describe('QuestionsCategoryRepository', () => {
         const sut = new DbQuestionsCategoryRepository()
 
         const res = await sut.getBySlug('titulo-teste')
-
-        expect(res.id).toBeTruthy()
+        expect(res._id).toBeTruthy()
         await QuestionsCategoryModel.deleteOne({
             slug: 'titulo-teste'
         })
@@ -78,7 +74,7 @@ describe('QuestionsCategoryRepository', () => {
         const sut = new DbQuestionsCategoryRepository()
 
         const res = await sut.updateCategory({
-            id: questionsCategory.id.toString(),
+            _id: questionsCategory.id.toString(),
             title: 'titulo atualizado',
             slug: 'titulo-atualizado',
             image: 'url'

@@ -12,7 +12,7 @@ export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository =>
         }
         async getByID(id: string): Promise<IQuestionsCategory> {
             return Promise.resolve({
-                id: id,
+                _id: id,
                 title: 'title category',
                 slug: 'title_category',
                 image: 'image_url',
@@ -26,7 +26,7 @@ export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository =>
             return Promise.resolve({
                 categories: [
                     {
-                        id: 'any_id',
+                        _id: 'any_id',
                         title: data ? data.search : 'titulo',
                         slug: 'title_category',
                         image: 'image_url',
@@ -38,7 +38,7 @@ export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository =>
         }
         async getBySlug(slug: string): Promise<IQuestionsCategory> {
             return Promise.resolve({
-                id: 'any_id',
+                _id: 'any_id',
                 title: 'title category',
                 slug: 'title_category',
                 image: 'image_url',
@@ -47,7 +47,7 @@ export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository =>
         }
         async createCategory(title: string, slug: string, image?: string): Promise<IQuestionsCategory> {
             return Promise.resolve({
-                id: 'any_id',
+                _id: 'any_id',
                 title: 'title category',
                 slug: 'title_category',
                 image: 'image_url',

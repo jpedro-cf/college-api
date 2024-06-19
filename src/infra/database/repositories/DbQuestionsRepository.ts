@@ -4,7 +4,7 @@ import { IQuestionSchema } from '@/interfaces/application/schemas/QuestionSchema
 import { QuestionModel } from '../models/QuestionModel'
 
 export class DbQuestionsRepository implements IQuestionsRepository {
-    async createQuestion(question: Omit<IQuestion, 'id'>, correct: number): Promise<IQuestionSchema> {
+    async createQuestion(question: Omit<IQuestion, '_id'>, correct: number): Promise<IQuestionSchema> {
         const data = new QuestionModel({
             question: question.question,
             category_id: question.category_id,

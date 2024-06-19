@@ -27,7 +27,7 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
 
     async updateCategory(data: Omit<IQuestionsCategory, 'created_at'>): Promise<IQuestionsCategory> {
         const updatedCategory = await QuestionsCategoryModel.findOneAndUpdate(
-            { _id: new ObjectId(data.id) },
+            { _id: new ObjectId(data._id) },
             {
                 $set: {
                     title: data.title,

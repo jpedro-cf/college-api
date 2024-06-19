@@ -11,7 +11,7 @@ export const makeFakeGetQuestionsCategoies = (): IGetQuestionsCategories => {
             return Promise.resolve({
                 categories: [
                     {
-                        id: 'any_id',
+                        _id: 'any_id',
                         title: data ? data.search : 'titulo',
                         slug: 'title_category',
                         image: 'image_url',

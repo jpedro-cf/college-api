@@ -5,7 +5,7 @@ export const makeFakeCreateQuestionsCategoryUseCase = (): ICreateQuestionsCatego
     class CreateQuestionsCategoryUseCaseStub implements ICreateQuestionsCategory {
         async create(title: string, slug: string, image?: string): Promise<IQuestionsCategory> {
             return Promise.resolve({
-                id: 'any_id',
+                _id: 'any_id',
                 title: 'title category',
                 slug: 'title_category',
                 image: 'image_url',

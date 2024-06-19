@@ -12,7 +12,7 @@ export class UpdateQuestionsCategoryUseCase implements IUpdateQuestionsCategory 
             throw new AlreadyInUseError('Categoria com esse slug já existe.')
         }
 
-        const exists = await this.questionsCategoryRepository.getByID(data.id)
+        const exists = await this.questionsCategoryRepository.getByID(data._id)
         if (!exists) {
             throw new Error('Categoria com esse ID não existe.')
         }

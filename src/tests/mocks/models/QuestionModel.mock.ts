@@ -2,7 +2,7 @@ import { IQuestionSchema } from '@/interfaces/application/schemas/QuestionSchema
 
 export const makeFakeQuestion = (): IQuestionSchema => {
     return {
-        id: '321123123',
+        _id: '321123123',
         question: 'Titulo da questão',
         category_id: '213idoau2e89q',
         material: 'https://google.com.br',

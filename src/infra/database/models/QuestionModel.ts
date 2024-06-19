@@ -21,12 +21,4 @@ const questionSchema = new Schema<IQuestionSchema>(
     { versionKey: false }
 )
 
-questionSchema.set('toObject', {
-    transform: function (doc, ret) {
-        ret.id = ret._id
-        delete ret._id
-        delete ret.__v
-    }
-})
-
 export const QuestionModel = model<IQuestionSchema>('Questions', questionSchema)

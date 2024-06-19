@@ -19,7 +19,7 @@ export class DiscordUsersService implements IDiscordUsersService {
                 }
 
                 const discordUser: IDiscordUser = {
-                    id: user.user.id,
+                    _id: user.user.id,
                     username: user.user.username,
                     globalName: user.user.globalName
                 }

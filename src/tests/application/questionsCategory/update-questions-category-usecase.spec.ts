@@ -15,7 +15,7 @@ describe('UpdateQuestionsCategoryUseCase', () => {
         jest.spyOn(repository, 'getByID').mockReturnValueOnce(Promise.resolve(null))
 
         const res = sut.update({
-            id: 'id',
+            _id: 'id',
             title: 'title category',
             slug: 'title_category',
             image: 'image_url'
@@ -28,7 +28,7 @@ describe('UpdateQuestionsCategoryUseCase', () => {
 
         jest.spyOn(repository, 'getBySlug').mockReturnValueOnce(
             Promise.resolve({
-                id: 'id',
+                _id: 'id',
                 title: 'title category',
                 slug: 'title_category',
                 image: 'image_url',
@@ -37,7 +37,7 @@ describe('UpdateQuestionsCategoryUseCase', () => {
         )
 
         const res = sut.update({
-            id: 'id',
+            _id: 'id',
             title: 'title category',
             slug: 'title_category',
             image: 'image_url'
@@ -53,7 +53,7 @@ describe('UpdateQuestionsCategoryUseCase', () => {
         jest.spyOn(repository, 'getByID').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = sut.update({
-            id: 'id',
+            _id: 'id',
             title: 'title category',
             slug: 'title_category',
             image: 'image_url'
@@ -65,7 +65,7 @@ describe('UpdateQuestionsCategoryUseCase', () => {
         jest.spyOn(repository, 'getBySlug').mockReturnValueOnce(Promise.resolve(null))
 
         const res = await sut.update({
-            id: 'id',
+            _id: 'id',
             title: 'title category updated',
             slug: 'title-category-updated',
             image: 'image_url'

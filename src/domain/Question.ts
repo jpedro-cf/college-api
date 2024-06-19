@@ -4,7 +4,7 @@ export interface IAnswer {
 }
 
 export interface IQuestion {
-    id: string
+    _id: string
     question: string
     material?: string
     category_id: string

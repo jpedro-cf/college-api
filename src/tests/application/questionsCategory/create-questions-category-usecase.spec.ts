@@ -12,7 +12,7 @@ describe('CreateQuestionCategoryUseCase', () => {
         const { sut, questionsCategoryRepository } = makeSut()
         jest.spyOn(questionsCategoryRepository, 'getBySlug').mockReturnValueOnce(
             Promise.resolve({
-                id: '1232132',
+                _id: '1232132',
                 title: 'title category',
                 slug: 'title_category',
                 image: 'image_url',
@@ -37,6 +37,6 @@ describe('CreateQuestionCategoryUseCase', () => {
         jest.spyOn(questionsCategoryRepository, 'getBySlug').mockReturnValueOnce(Promise.resolve(null))
 
         const res = await sut.create('title', 'title-category')
-        expect(res.id).toBeTruthy()
+        expect(res._id).toBeTruthy()
     })
 })

@@ -5,7 +5,7 @@ export const makeFakeGetQuestionsCategoryByIdUseCase = (): IGetQuestionsCategory
     class GetQuestionsCategoryByIdStub implements IGetQuestionsCategoryByID {
         async get(id: string): Promise<IQuestionsCategory> {
             return Promise.resolve({
-                id: id,
+                _id: id,
                 title: 'title category',
                 slug: 'title_category',
                 image: 'image_url',

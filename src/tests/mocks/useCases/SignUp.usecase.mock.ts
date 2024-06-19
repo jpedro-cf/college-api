@@ -5,7 +5,7 @@ export const makeSignUpUseCaseStub = (): ISignUp => {
     class SignUpUseCaseStub implements ISignUp {
         async signUp(registerData: ISignUpDTO): Promise<IUser> {
             return Promise.resolve({
-                id: 'any_id',
+                _id: 'any_id',
                 name: 'any_name',
                 email: 'any_email@email.com',
                 roles: ['student'],

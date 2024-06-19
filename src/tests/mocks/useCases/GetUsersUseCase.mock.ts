@@ -12,7 +12,7 @@ export const makeFakeGetUsers = (): IGetUsers => {
                         email: 'fake_email@email.com',
                         roles: ['student'],
                         points: 0,
-                        id: '111111111'
+                        _id: '111111111'
                     }
                 ],
                 pages: 1

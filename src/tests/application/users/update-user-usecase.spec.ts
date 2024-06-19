@@ -41,10 +41,10 @@ describe('UpdateUserUseCase', () => {
         jest.spyOn(repository, 'getByField').mockReturnValueOnce(Promise.resolve(user))
 
         const user2 = makeFakeUserModel()
-        user2.id = '12344556'
+        user2._id = '12344556'
         user2.roles = ['manager']
 
-        const res = await sut.update(user.id, user2)
+        const res = await sut.update(user._id, user2)
         expect(res.roles).toContain('manager')
     })
 })

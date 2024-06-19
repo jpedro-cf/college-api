@@ -27,7 +27,7 @@ export class DbUsersRepository implements IUsersRepository {
             .select('-password -access_token -discord_confirmed')
             .limit(perPage)
             .skip((currentPage - 1) * perPage)
-            .sort(data?.order === 'desc' ? { created_at: -1 } : { created_at: 1 })
+            .sort(data?.order === 'desc' ? { createdAt: -1 } : { createdAt: 1 })
             .exec()
 
         const usersObjects = users.map((category) => category.toObject())
@@ -44,15 +44,6 @@ export class DbUsersRepository implements IUsersRepository {
         return null
     }
 
-    async getByToken(token: string): Promise<IUserSchema> {
-        const user = await UserModel.findOne({
-            access_token: token
-        })
-        if (user) {
-            return user.toObject()
-        }
-        return null
-    }
     async deleteUser(id: string): Promise<boolean> {
         const deleted = await UserModel.deleteOne({
             _id: new ObjectId(id)
@@ -62,24 +53,16 @@ export class DbUsersRepository implements IUsersRepository {
         }
         return false
     }
-    async getByDiscord(discord_username: string): Promise<IUserSchema> {
-        const user = await UserModel.findOne({
-            discord_username: discord_username
-        })
-        return user
-    }
     async updateUser(data: IUserSchema): Promise<IUserSchema> {
         const updatedUser = await UserModel.findOneAndUpdate(
-            { _id: data.id },
+            { _id: data._id },
             {
                 $set: {
                     name: data.name,
-                    discord_username: data.discord_username,
                     email: data.email,
                     roles: data.roles,
                     points: data.points,
-                    access_token: data.access_token,
-                    discord_confirmed: data.discord_confirmed
+                    access_token: data.access_token
                 }
             },
             { new: true }
@@ -89,23 +72,12 @@ export class DbUsersRepository implements IUsersRepository {
     async create(userData: ISignUpDTO): Promise<IUserSchema> {
         const user = new UserModel({
             name: userData.name,
-            discord_username: userData.discord_username,
             email: userData.email,
-            password: userData.password,
-            created_at: new Date()
+            password: userData.password
         })
         const userCreated = await user.save()
         if (userCreated) {
             return userCreated.toObject()
         }
-    }
-    async getByEmail(email: string): Promise<IUserSchema> {
-        const user = await UserModel.findOne({
-            email: email
-        })
-        if (!user) {
-            return null
-        }
-        return user.toObject()
     }
 }

@@ -4,7 +4,6 @@ import { Schema, model } from 'mongoose'
 const userSchema = new Schema<IUserSchema>(
     {
         name: { type: String, required: true },
-        discord_username: { type: String, default: null },
         email: { type: String, required: true },
         password: { type: String, required: true },
         roles: {
@@ -12,11 +11,9 @@ const userSchema = new Schema<IUserSchema>(
             default: ['student']
         },
         points: { type: Number, default: 0 },
-        access_token: String,
-        discord_confirmed: { type: Boolean, default: false },
-        created_at: Date
+        access_token: String
     },
-    { versionKey: false }
+    { versionKey: false, timestamps: true }
 )
 
 userSchema.set('toObject', {

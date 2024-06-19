@@ -26,11 +26,11 @@ export class UpdateUserController implements IController {
             if (!id) {
                 return badRequest(new Error('ID é obrigatório'))
             }
-            if (!current_user.roles.includes('admin') && id != current_user.id) {
+            if (!current_user.roles.includes('admin') && id != current_user._id) {
                 return unauthorized(new Error('Sem permissões para realizar essa operação'))
             }
 
-            const updated = await this.updateUser.update(current_user.id, { id, name, email, password, roles })
+            const updated = await this.updateUser.update(current_user._id, { _id: id, name, email, password, roles })
             return ok(updated)
         } catch (error) {
             return mapErrorToHttpResponse(error)

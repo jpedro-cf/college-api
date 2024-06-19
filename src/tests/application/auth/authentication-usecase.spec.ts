@@ -7,14 +7,7 @@ import { makeTokenMock } from '@/tests/mocks/cryptography/TokenMock'
 import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
 import { makeFakeUsersRepository } from '@/tests/mocks/repositories/UsersRepository.mock'
 
-interface ISut {
-    hasherCompare: IHashComparer
-    tokenMock: IToken
-    usersRepository: IUsersRepository
-    sut: AuthenticationUseCase
-}
-
-const makeSut = (): ISut => {
+const makeSut = () => {
     const usersRepository = makeFakeUsersRepository()
     const hasherCompare = makeFakeHasherCompare()
     const tokenMock = makeTokenMock()
@@ -50,7 +43,7 @@ describe('AuthenticationUseCase', () => {
 
     test('Should return null if usersRepository returns null', async () => {
         const { sut, usersRepository } = makeSut()
-        jest.spyOn(usersRepository, 'getByEmail').mockReturnValueOnce(null as any)
+        jest.spyOn(usersRepository, 'getByField').mockReturnValueOnce(null as any)
         const accessToken = await sut.auth({ email: 'any_email@email.com', password: 'any_password' })
         expect(accessToken).toBe(null)
     })
@@ -59,16 +52,6 @@ describe('AuthenticationUseCase', () => {
         jest.spyOn(hasherCompare, 'compare').mockReturnValueOnce(new Promise((resolve) => resolve(false)))
         const accessToken = await sut.auth({ email: 'any_email@email.com', password: 'any_password' })
         expect(accessToken).toBeNull()
-    })
-
-    test('Should throw if discord user is set but not confirmed yet', async () => {
-        const { sut, usersRepository } = makeSut()
-        const data = makeFakeUserModel()
-        data.discord_username = 'any'
-        data.discord_confirmed = false
-        jest.spyOn(usersRepository, 'getByEmail').mockReturnValueOnce(Promise.resolve(data))
-        const res = sut.auth({ email: 'any_email@email.com', password: 'any_password' })
-        expect(res).rejects.toThrow()
     })
 
     test('Should return token on success', async () => {

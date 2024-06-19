@@ -20,7 +20,7 @@ const makeSut = (): ISut => {
 describe('GetByTokenUseCase', () => {
     test('Should throw if users repository throws', async () => {
         const { sut, usersRepository } = makeSut()
-        jest.spyOn(usersRepository, 'getByToken').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(usersRepository, 'getByField').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = sut.get('any_token')
         expect(res).rejects.toThrow()
@@ -44,7 +44,7 @@ describe('GetByTokenUseCase', () => {
 
     test('Should return nulls if repository returns null', async () => {
         const { sut, usersRepository } = makeSut()
-        jest.spyOn(usersRepository, 'getByToken').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(usersRepository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
 
         const res = await sut.get('any_token')
         expect(res).toBeNull()
@@ -55,6 +55,6 @@ describe('GetByTokenUseCase', () => {
 
         const res = await sut.get('any_token')
 
-        expect(res.id).toBeTruthy()
+        expect(res._id).toBeTruthy()
     })
 })

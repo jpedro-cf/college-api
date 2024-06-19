@@ -9,7 +9,7 @@ export class CreateQuestionUseCase implements ICreateQuestion {
         private readonly questionsRepository: IQuestionsRepository,
         private readonly categoriesRepository: IQuestionsCategoryRepository
     ) {}
-    async create(question: IQuestion, correct: number): Promise<ICreateQuestionResponse> {
+    async create(question: Omit<IQuestion, 'id'>, correct: number): Promise<ICreateQuestionResponse> {
         const category_exists = await this.categoriesRepository.getByID(question.category_id)
 
         if (!category_exists) {

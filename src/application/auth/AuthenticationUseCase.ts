@@ -14,7 +14,7 @@ export class AuthenticationUseCase implements IAuthentication {
         private readonly token: IToken
     ) {}
     async auth(authentication: IAuthenticationDTO): Promise<IAuthenticationResponse> {
-        const account = await this.usersRepository.getByEmail(authentication.email)
+        const account = await this.usersRepository.getByField('email', authentication.email)
 
         if (!account) {
             return null
@@ -26,15 +26,11 @@ export class AuthenticationUseCase implements IAuthentication {
             return null
         }
 
-        if (account.discord_username && account.discord_confirmed == false) {
-            throw new Error('Você precisa fazer a verificação do seu discord.')
-        }
-
-        const accessToken = await this.token.encrypt(account.id)
+        const accessToken = await this.token.encrypt(account._id)
         account.access_token = accessToken
         await this.usersRepository.updateUser(account)
 
-        const { password, discord_confirmed, access_token, ...user } = account
+        const { password, access_token, ...user } = account
         return {
             user,
             token: accessToken

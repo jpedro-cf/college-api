@@ -12,27 +12,26 @@ export class UpdateUserUseCase implements IUpdateUser {
             throw new NotFoundError('Sessão atual com erro, tente novamente mais tarde.')
         }
 
-        const user = await this.usersRepository.getByField('_id', data.id.toString())
+        const user = await this.usersRepository.getByField('_id', data._id.toString())
 
         if (!user) {
             throw new NotFoundError('Usuário com esse ID não encontrado.')
         }
         const query: IUserSchema = {
-            id: current_user.id,
+            _id: current_user._id,
             name: data.name ?? user.name,
             email: data.email ?? user.email,
-            discord_username: user.discord_username,
             points: data.points ?? user.points,
             roles: user.roles,
-            discord_confirmed: user.discord_confirmed,
             access_token: user.access_token,
             password: user.password,
-            created_at: user.created_at
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt
         }
 
         if (current_user.roles.includes('admin')) {
-            query.id = data.id
-            if (data.roles && data.id.toString() != current_user.id.toString()) {
+            query._id = data._id
+            if (data.roles && data._id.toString() != current_user._id.toString()) {
                 query.roles = data.roles
             }
         }

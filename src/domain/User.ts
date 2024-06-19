@@ -1,6 +1,5 @@
 export interface IUser {
-    id: string
-    discord_username?: string
+    _id: string
     name: string
     email: string
     roles: string[]

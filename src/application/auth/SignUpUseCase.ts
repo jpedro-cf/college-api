@@ -2,17 +2,16 @@ import { IHasher } from '@/interfaces/application/cryptography/Hasher'
 import { IUsersRepository } from '@/interfaces/application/repositories/UsersRepository'
 import { IUser } from '@/domain/User'
 import { ISignUpDTO, ISignUp } from '@/interfaces/domain/useCases/auth/SignUp'
+import { AlreadyInUseError } from '@/utils/customErrors'
 
 export class SignUpUseCase implements ISignUp {
     constructor(private readonly usersRepository: IUsersRepository, private readonly hasher: IHasher) {}
 
     async signUp(registerData: ISignUpDTO): Promise<IUser> {
-        if (registerData.discord_username) {
-            const discord_user_exists = await this.usersRepository.getByDiscord(registerData.discord_username)
+        const exists = await this.usersRepository.getByField('email', registerData.email)
 
-            if (discord_user_exists) {
-                throw new Error('Usuário com esse discord já cadastrado em nosso sistema.')
-            }
+        if (exists) {
+            throw new AlreadyInUseError('Usuário com esse email já existe')
         }
 
         const hashedPassword = await this.hasher.hash(registerData.password)
@@ -20,14 +19,9 @@ export class SignUpUseCase implements ISignUp {
 
         const createdUser = await this.usersRepository.create(registerData)
         if (createdUser) {
-            const { password, discord_confirmed, ...user } = createdUser
+            const { password, ...user } = createdUser
             return user
         }
         return null
-    }
-
-    async getUserByEmail(email: string): Promise<IUser> {
-        const user = await this.usersRepository.getByEmail(email)
-        return user
     }
 }

@@ -5,5 +5,5 @@ export interface ICreateQuestionResponse extends IQuestion {
 }
 
 export interface ICreateQuestion {
-    create(question: IQuestion, correct: number): Promise<ICreateQuestionResponse>
+    create(question: Omit<IQuestion, 'id'>, correct: number): Promise<ICreateQuestionResponse>
 }

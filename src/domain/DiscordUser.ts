@@ -1,5 +1,11 @@
 export interface IDiscordUser {
-    _id: string
+    id: string
     username: string
     globalName: string
+}
+
+export interface IDiscordUserSchema extends IDiscordUser {
+    points: number
+    createdAt: Date
+    updatedAt: Date
 }

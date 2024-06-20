@@ -1,6 +1,9 @@
 import { Client, GatewayIntentBits } from 'discord.js'
 import { deployCommands } from './commands/deploy-commands'
-import { commands } from './commands'
+import { DiscordCommands } from './commands'
+import { ConfigurationCommand } from './commands/config-commands'
+import { DbDiscordConfigurationRepository } from '../database/repositories/DbDiscordConfigurationRepository'
+import { DbDiscordUsersRepository } from '../database/repositories/DbDiscordUsersRepository'
 
 const client = new Client({
     intents: [
@@ -14,6 +17,12 @@ const client = new Client({
     ]
 })
 export const setupDiscord = async () => {
+    const configCommand = new ConfigurationCommand(
+        new DbDiscordConfigurationRepository(),
+        new DbDiscordUsersRepository()
+    )
+    const discordCommands = new DiscordCommands([configCommand])
+
     client.once('ready', async () => {
         const guilds = client.guilds.cache
 
@@ -29,10 +38,7 @@ export const setupDiscord = async () => {
         if (!interaction.isChatInputCommand()) {
             return
         }
-        const { commandName } = interaction
-        if (commands[commandName as keyof typeof commands]) {
-            commands[commandName as keyof typeof commands].execute(interaction)
-        }
+        await discordCommands.execute(interaction)
     })
 }
 

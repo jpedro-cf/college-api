@@ -1,13 +1,18 @@
-import { configCommand, executeConfig } from './config-commands'
-import { executeTeste, testeCommand } from './teste-command'
+import { ChatInputCommandInteraction } from 'discord.js'
 
-export const commands = {
-    teste: {
-        data: testeCommand,
-        execute: executeTeste
-    },
-    config: {
-        data: configCommand,
-        execute: executeConfig
+export interface IDiscordCommand {
+    name: string
+    execute(interaction: ChatInputCommandInteraction): Promise<void>
+}
+
+export class DiscordCommands {
+    constructor(private readonly commands: IDiscordCommand[]) {}
+    async execute(interaction: ChatInputCommandInteraction) {
+        const { commandName } = interaction
+        for (const command of this.commands) {
+            if (command.name == commandName) {
+                return command.execute(interaction)
+            }
+        }
     }
 }

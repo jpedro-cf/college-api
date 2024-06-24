@@ -1,5 +1,5 @@
 export interface IDiscordUser {
-    id: string
+    discord_id: string
     username: string
     globalName: string
 }

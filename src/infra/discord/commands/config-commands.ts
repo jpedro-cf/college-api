@@ -1,4 +1,3 @@
-import { DbDiscordConfigurationRepository } from '@/infra/database/repositories/DbDiscordConfigurationRepository'
 import {
     CacheType,
     ChannelType,
@@ -87,12 +86,22 @@ export class ConfigurationCommand implements IDiscordCommand {
             const collector = reactionMessage.createReactionCollector({ filter })
 
             collector.on('collect', async (reaction, user) => {
-                const guildMember = await reaction.message.guild.members.fetch(user.id)
-                if (guildMember.roles.cache.has(role.id)) {
-                    await user.send(`Você já possui o cargo ${role.name}.`)
-                } else {
-                    await guildMember.roles.add(role.id)
-                    await user.send(`Você recebeu o cargo "${role.name}" ao reagir à mensagem.`)
+                try {
+                    const guildMember = await reaction.message.guild.members.fetch(user.id)
+                    if (guildMember.roles.cache.has(role.id)) {
+                        await user.send(`Você já possui o cargo ${role.name}.`)
+                    } else {
+                        const data = {
+                            discord_id: user.id,
+                            username: user.username,
+                            globalName: user.globalName
+                        }
+                        await this.discordUsersRepository.create(data)
+                        await guildMember.roles.add(role.id)
+                        await user.send(`Você recebeu o cargo "${role.name}" ao reagir à mensagem.`)
+                    }
+                } catch (error) {
+                    await user.send(`Ocorreu um erro ao adicionar o seu cargo.`)
                 }
             })
             await interaction.reply('Configurado com sucesso.')

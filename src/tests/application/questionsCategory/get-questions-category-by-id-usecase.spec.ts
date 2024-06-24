@@ -10,7 +10,7 @@ const makeSut = () => {
 describe('GetQuestionCategoryByIdUseCase', () => {
     test('Should throw if repository throws', async () => {
         const { sut, questionsCategoryRepository } = makeSut()
-        jest.spyOn(questionsCategoryRepository, 'getByID').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(questionsCategoryRepository, 'getByField').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = sut.get('12344565677')
         expect(res).rejects.toThrow()

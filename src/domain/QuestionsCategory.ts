@@ -3,5 +3,6 @@ export interface IQuestionsCategory {
     title: string
     slug: string
     image: string
-    created_at: Date
+    createdAt: Date
+    updatedAt: Date
 }

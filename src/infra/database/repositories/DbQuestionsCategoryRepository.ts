@@ -15,17 +15,7 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
         return deleted ? true : false
     }
 
-    async getByID(id: string): Promise<IQuestionsCategory> {
-        const category = await QuestionsCategoryModel.findOne({
-            _id: id
-        })
-        if (category) {
-            return category.toObject()
-        }
-        return null
-    }
-
-    async updateCategory(data: Omit<IQuestionsCategory, 'created_at'>): Promise<IQuestionsCategory> {
+    async updateCategory(data: Omit<IQuestionsCategory, 'createdAt' | 'updatedAt'>): Promise<IQuestionsCategory> {
         const updatedCategory = await QuestionsCategoryModel.findOneAndUpdate(
             { _id: new ObjectId(data._id) },
             {
@@ -76,10 +66,11 @@ export class DbQuestionsCategoryRepository implements IQuestionsCategoryReposito
         await questionsCategory.save()
         return questionsCategory.toObject()
     }
-    async getBySlug(slug: string): Promise<IQuestionsCategory> {
-        const category = await QuestionsCategoryModel.findOne({
-            slug: slug
-        })
+    async getByField(field: keyof IQuestionsCategory, value: any): Promise<IQuestionsCategory> {
+        const query = { [field]: value }
+
+        const category = await QuestionsCategoryModel.findOne(query)
+
         if (category) {
             return category.toObject()
         }

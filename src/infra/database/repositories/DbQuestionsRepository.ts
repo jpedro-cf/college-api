@@ -14,6 +14,9 @@ export class DbQuestionsRepository implements IQuestionsRepository {
             created_at: question.created_at ?? new Date()
         })
         await data.save()
-        return data.toObject()
+
+        const populated = await data.populate('category_id')
+
+        return populated.toObject()
     }
 }

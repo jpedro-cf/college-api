@@ -4,55 +4,29 @@ import {
     IGetAllCategoriesResponse,
     IGetQuestionsCategoriesDTO
 } from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
+import { makeFakeCategory } from '../models/CategoryModel.mock'
 
 export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository => {
     class QuestionsCategoryRepo implements IQuestionsCategoryRepository {
+        async getByField(field: keyof IQuestionsCategory, value: any): Promise<IQuestionsCategory> {
+            return Promise.resolve(makeFakeCategory())
+        }
         async deleteCategory(id: string): Promise<boolean> {
             return Promise.resolve(true)
         }
-        async getByID(id: string): Promise<IQuestionsCategory> {
-            return Promise.resolve({
-                _id: id,
-                title: 'title category',
-                slug: 'title_category',
-                image: 'image_url',
-                created_at: new Date()
-            })
-        }
+
         updateCategory(data: IQuestionsCategory): Promise<IQuestionsCategory> {
             return Promise.resolve(data)
         }
         async getAll(data?: IGetQuestionsCategoriesDTO): Promise<IGetAllCategoriesResponse> {
             return Promise.resolve({
-                categories: [
-                    {
-                        _id: 'any_id',
-                        title: data ? data.search : 'titulo',
-                        slug: 'title_category',
-                        image: 'image_url',
-                        created_at: new Date()
-                    }
-                ],
+                categories: [makeFakeCategory()],
                 pages: 1
             })
         }
-        async getBySlug(slug: string): Promise<IQuestionsCategory> {
-            return Promise.resolve({
-                _id: 'any_id',
-                title: 'title category',
-                slug: 'title_category',
-                image: 'image_url',
-                created_at: new Date()
-            })
-        }
+
         async createCategory(title: string, slug: string, image?: string): Promise<IQuestionsCategory> {
-            return Promise.resolve({
-                _id: 'any_id',
-                title: 'title category',
-                slug: 'title_category',
-                image: 'image_url',
-                created_at: new Date()
-            })
+            return Promise.resolve(makeFakeCategory())
         }
     }
     return new QuestionsCategoryRepo()

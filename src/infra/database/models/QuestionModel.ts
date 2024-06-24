@@ -12,7 +12,7 @@ const answerSchema = new Schema(
 const questionSchema = new Schema<IQuestionSchema>(
     {
         question: { type: String, required: true },
-        category_id: { type: String, required: true },
+        category_id: { type: String, required: true, ref: 'QuestionsCategory' },
         material: String,
         answers: { type: [answerSchema], required: true },
         correct_answer_id: { type: Number, required: true },

@@ -5,10 +5,9 @@ const questionsCategorySchema = new Schema<IQuestionsCategory>(
     {
         title: { type: String, required: true },
         slug: String,
-        image: String,
-        created_at: Date
+        image: String
     },
-    { versionKey: false }
+    { versionKey: false, timestamps: true }
 )
 
 // questionsCategorySchema.set('toObject', {

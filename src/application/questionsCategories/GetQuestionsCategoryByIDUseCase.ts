@@ -5,7 +5,7 @@ import { IGetQuestionsCategoryByID } from '@/interfaces/domain/useCases/question
 export class GetQuestionsCategoryByIdUseCase implements IGetQuestionsCategoryByID {
     constructor(private readonly categoriesRepository: IQuestionsCategoryRepository) {}
     async get(id: string): Promise<IQuestionsCategory> {
-        const exists = await this.categoriesRepository.getByID(id)
+        const exists = await this.categoriesRepository.getByField('_id', id)
         if (exists) {
             return exists
         }

@@ -4,20 +4,13 @@ import {
     IGetQuestionsCategories,
     IGetQuestionsCategoriesDTO
 } from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
+import { makeFakeCategory } from '../models/CategoryModel.mock'
 
 export const makeFakeGetQuestionsCategoies = (): IGetQuestionsCategories => {
     class GetQuestionsCategoiesStub implements IGetQuestionsCategories {
         async get(data?: IGetQuestionsCategoriesDTO): Promise<IGetAllCategoriesResponse> {
             return Promise.resolve({
-                categories: [
-                    {
-                        _id: 'any_id',
-                        title: data ? data.search : 'titulo',
-                        slug: 'title_category',
-                        image: 'image_url',
-                        created_at: new Date()
-                    }
-                ],
+                categories: [makeFakeCategory()],
                 pages: 1
             })
         }

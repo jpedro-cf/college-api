@@ -44,7 +44,7 @@ export class UpdateQuestionsCategoryController implements IController {
 
             category.image = image ? image : category.image
 
-            const { created_at, ...query } = category
+            const { createdAt, updatedAt, ...query } = category
 
             const updated = await this.updateCategory.update(query)
             return ok(updated)

@@ -6,7 +6,7 @@ import { AlreadyInUseError } from '@/utils/customErrors'
 export class CreateQuestionsCategoryUseCase implements ICreateQuestionsCategory {
     constructor(private readonly questionsCategoryRepository: IQuestionsCategoryRepository) {}
     async create(title: string, slug: string, image?: string): Promise<IQuestionsCategory> {
-        const exists = await this.questionsCategoryRepository.getBySlug(slug)
+        const exists = await this.questionsCategoryRepository.getByField('slug', slug)
         if (exists) {
             throw new AlreadyInUseError('Categoria com esse slug já existe.')
         }

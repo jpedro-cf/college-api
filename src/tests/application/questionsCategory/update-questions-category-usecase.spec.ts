@@ -1,4 +1,5 @@
 import { UpdateQuestionsCategoryUseCase } from '@/application/questionsCategories/UpdateQuestionsCategoryUseCase'
+import { makeFakeCategory } from '@/tests/mocks/models/CategoryModel.mock'
 import { makeFakeQuestionsCategoryRepo } from '@/tests/mocks/repositories/QuestionsCategoryRepository.mock'
 
 const makeSut = () => {
@@ -9,10 +10,9 @@ const makeSut = () => {
 }
 
 describe('UpdateQuestionsCategoryUseCase', () => {
-    test('should throw if repository returns null on getByID()', async () => {
+    test('should throw if repository returns null on getByField()', async () => {
         const { sut, repository } = makeSut()
-
-        jest.spyOn(repository, 'getByID').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(repository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
 
         const res = sut.update({
             _id: 'id',
@@ -20,21 +20,13 @@ describe('UpdateQuestionsCategoryUseCase', () => {
             slug: 'title_category',
             image: 'image_url'
         })
+
         expect(res).rejects.toThrow()
     })
 
-    test('should throw if repository returns a category on getBySlug()', async () => {
+    test('should throw if slug exists', async () => {
         const { sut, repository } = makeSut()
-
-        jest.spyOn(repository, 'getBySlug').mockReturnValueOnce(
-            Promise.resolve({
-                _id: 'id',
-                title: 'title category',
-                slug: 'title_category',
-                image: 'image_url',
-                created_at: new Date()
-            })
-        )
+        jest.spyOn(repository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
 
         const res = sut.update({
             _id: 'id',
@@ -49,8 +41,9 @@ describe('UpdateQuestionsCategoryUseCase', () => {
     test('should throw if repository throws', async () => {
         const { sut, repository } = makeSut()
 
-        jest.spyOn(repository, 'getBySlug').mockReturnValueOnce(Promise.resolve(null))
-        jest.spyOn(repository, 'getByID').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(repository, 'getByField').mockReturnValueOnce(Promise.resolve(makeFakeCategory()))
+        jest.spyOn(repository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(repository, 'updateCategory').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = sut.update({
             _id: 'id',
@@ -62,7 +55,8 @@ describe('UpdateQuestionsCategoryUseCase', () => {
     })
     test('should return a updated category on success', async () => {
         const { sut, repository } = makeSut()
-        jest.spyOn(repository, 'getBySlug').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(repository, 'getByField').mockReturnValueOnce(Promise.resolve(makeFakeCategory()))
+        jest.spyOn(repository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
 
         const res = await sut.update({
             _id: 'id',

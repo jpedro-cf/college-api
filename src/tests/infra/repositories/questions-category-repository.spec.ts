@@ -16,7 +16,7 @@ describe('QuestionsCategoryRepository', () => {
 
         expect(res._id).toBeTruthy()
     })
-    test('should return a category on getBySlug() success', async () => {
+    test('should return a category on getByField() success', async () => {
         const questionsCategory = new QuestionsCategoryModel({
             title: 'titulo teste',
             slug: 'titulo-teste',
@@ -25,7 +25,7 @@ describe('QuestionsCategoryRepository', () => {
         await questionsCategory.save()
         const sut = new DbQuestionsCategoryRepository()
 
-        const res = await sut.getBySlug('titulo-teste')
+        const res = await sut.getByField('slug', 'titulo-teste')
         expect(res._id).toBeTruthy()
         await QuestionsCategoryModel.deleteOne({
             slug: 'titulo-teste'
@@ -47,22 +47,7 @@ describe('QuestionsCategoryRepository', () => {
             slug: 'titulo-teste-impossivel-existir'
         })
     })
-    test('should return a category on getByID() success', async () => {
-        const questionsCategory = new QuestionsCategoryModel({
-            title: 'titulo teste impossivel existir',
-            slug: 'titulo-teste-impossivel-existir',
-            image: 'url',
-            created_at: new Date()
-        })
-        await questionsCategory.save()
-        const sut = new DbQuestionsCategoryRepository()
 
-        const res = await sut.getByID(questionsCategory._id.toString())
-        expect(res.title).toContain('impossivel')
-        await QuestionsCategoryModel.deleteOne({
-            slug: 'titulo-teste-impossivel-existir'
-        })
-    })
     test('should return a upodated category on updateCategory() success', async () => {
         const questionsCategory = new QuestionsCategoryModel({
             title: 'titulo teste impossivel existir',

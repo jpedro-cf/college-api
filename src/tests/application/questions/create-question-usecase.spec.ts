@@ -14,7 +14,7 @@ describe('CreateQuestionUseCase', () => {
     test('Should throw if categoryRepository returns null', async () => {
         const { sut, categoryRepository } = makeSut()
 
-        jest.spyOn(categoryRepository, 'getByID').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(categoryRepository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
 
         const res = sut.create(makeCreateQuestionData(), 3)
 

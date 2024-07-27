@@ -1,6 +1,6 @@
-import { IQuestionsCategory } from '@/domain/QuestionsCategory'
+import { ICategory } from '@/domain/Category'
 
-export const makeFakeCategory = (): IQuestionsCategory => {
+export const makeFakeCategory = (): ICategory => {
     return {
         _id: 'string',
         title: 'titulo categoria',

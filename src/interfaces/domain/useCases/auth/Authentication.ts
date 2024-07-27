@@ -12,4 +12,6 @@ export interface IAuthenticationResponse {
 
 export interface IAuthentication {
     auth(authentication: IAuthenticationDTO): Promise<IAuthenticationResponse>
+    verifySession(token: string): Promise<IUser>
+    logout(token: string): Promise<boolean>
 }

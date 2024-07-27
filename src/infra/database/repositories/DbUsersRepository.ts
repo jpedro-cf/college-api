@@ -4,9 +4,10 @@ import { ISignUpDTO } from '@/interfaces/domain/useCases/auth/SignUp'
 import { UserModel } from '../models/UserModel'
 import { ObjectId } from 'mongodb'
 import { IGetUsersDTO, IGetUsersResponse } from '@/interfaces/domain/useCases/users/GetUsers'
+import { DbBaseRepository } from './DbBaseRepository'
 
-export class DbUsersRepository implements IUsersRepository {
-    async getAll(data: IGetUsersDTO): Promise<IGetUsersResponse> {
+export class DbUsersRepository extends DbBaseRepository<IUserSchema> implements IUsersRepository {
+    async getAllWithFilters(data: IGetUsersDTO): Promise<IGetUsersResponse> {
         let query = {}
 
         if (data && data.search) {
@@ -32,53 +33,5 @@ export class DbUsersRepository implements IUsersRepository {
 
         const usersObjects = users.map((category) => category.toObject())
         return { users: usersObjects, pages: totalPages }
-    }
-    async getByField(field: string, value: string): Promise<IUserSchema> {
-        const query = { [field]: value }
-        const user = await UserModel.findOne(query)
-
-        if (user) {
-            return user.toObject()
-        }
-        return null
-    }
-
-    async deleteUser(id: string): Promise<boolean> {
-        const deleted = await UserModel.deleteOne({
-            _id: new ObjectId(id)
-        })
-        if (deleted) {
-            return true
-        }
-        return false
-    }
-    async updateUser(data: IUserSchema): Promise<IUserSchema> {
-        const updatedUser = await UserModel.findOneAndUpdate(
-            { _id: data._id.toString() },
-            {
-                $set: {
-                    name: data.name,
-                    email: data.email,
-                    roles: data.roles,
-                    points: data.points,
-                    access_token: data.access_token
-                }
-            },
-            { new: true }
-        )
-        return updatedUser ? updatedUser.toObject() : null
-    }
-    async create(userData: ISignUpDTO): Promise<IUserSchema> {
-        const user = new UserModel({
-            name: userData.name,
-            email: userData.email,
-            password: userData.password
-        })
-        const userCreated = await user.save()
-        if (userCreated) {
-            const userObject = userCreated.toObject()
-            return userObject
-        }
-        return null
     }
 }

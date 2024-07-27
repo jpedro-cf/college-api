@@ -1,5 +1,5 @@
-import { DeleteQuestionsCategoryUseCase } from '@/application/questionsCategories/DeleteQuestionsCategoryUseCase'
-import { DbQuestionsCategoryRepository } from '@/infra/database/repositories/DbQuestionsCategoryRepository'
+import { DeleteQuestionsCategoryUseCase } from '@/application/categories/DeleteQuestionsCategoryUseCase'
+import { DbQuestionsCategoryRepository } from '@/infra/database/repositories/DbCategoryRepository'
 import { DeleteQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/DeleteQuestionsCategoryController'
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify'
 

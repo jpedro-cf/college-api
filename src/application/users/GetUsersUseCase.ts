@@ -5,7 +5,7 @@ export class GetUsersUseCase implements IGetUsers {
     constructor(private readonly usersRepository: IUsersRepository) {}
 
     async get(data: IGetUsersDTO): Promise<IGetUsersResponse> {
-        const response = await this.usersRepository.getAll({
+        const response = await this.usersRepository.getAllWithFilters({
             search: data.search ?? '',
             order: data.order ?? 'desc',
             current_page: data.current_page ?? 1,

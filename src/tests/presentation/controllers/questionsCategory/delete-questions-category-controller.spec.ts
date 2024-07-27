@@ -1,4 +1,4 @@
-import { IDeleteQuestionsCategory } from '@/interfaces/domain/useCases/questionsCategory/DeleteQuestionsCategory'
+import { IDeleteQuestionsCategory } from '@/interfaces/domain/useCases/categories/DeleteCategory'
 import { DeleteQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/DeleteQuestionsCategoryController'
 import { NotFoundError } from '@/utils/customErrors'
 

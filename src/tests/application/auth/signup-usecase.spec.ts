@@ -25,33 +25,33 @@ describe('SignUp usecase', () => {
     test('Should throw if email in use', async () => {
         const { sut } = makeSut()
 
-        const promise = sut.signUp(makeFakeSignUpData())
+        const promise = sut.execute(makeFakeSignUpData())
         expect(promise).rejects.toThrow()
     })
     test('Should throw if hasher throws', async () => {
         const { sut, hasher, usersRepository } = makeSut()
 
-        jest.spyOn(usersRepository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(usersRepository, 'getOneByFields').mockReturnValueOnce(Promise.resolve(null))
         jest.spyOn(hasher, 'hash').mockReturnValueOnce(Promise.reject(new Error('')))
 
-        const promise = sut.signUp(makeFakeSignUpData())
+        const promise = sut.execute(makeFakeSignUpData())
         expect(promise).rejects.toThrow()
     })
     test('Should throw if UsersRepository throws', async () => {
         const { sut, usersRepository } = makeSut()
 
-        jest.spyOn(usersRepository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(usersRepository, 'getOneByFields').mockReturnValueOnce(Promise.resolve(null))
         jest.spyOn(usersRepository, 'create').mockReturnValueOnce(Promise.reject(new Error('')))
 
-        const promise = sut.signUp(makeFakeSignUpData())
+        const promise = sut.execute(makeFakeSignUpData())
         expect(promise).rejects.toThrow()
     })
 
     test('Should return an User on success', async () => {
         const { sut, usersRepository } = makeSut()
 
-        jest.spyOn(usersRepository, 'getByField').mockReturnValueOnce(Promise.resolve(null))
-        const response = await sut.signUp(makeFakeSignUpData())
+        jest.spyOn(usersRepository, 'getOneByFields').mockReturnValueOnce(Promise.resolve(null))
+        const response = await sut.execute(makeFakeSignUpData())
         expect(response._id).toBeTruthy()
     })
 })

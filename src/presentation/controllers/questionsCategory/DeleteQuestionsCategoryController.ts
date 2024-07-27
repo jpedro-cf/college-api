@@ -1,4 +1,4 @@
-import { IDeleteQuestionsCategory } from '@/interfaces/domain/useCases/questionsCategory/DeleteQuestionsCategory'
+import { IDeleteQuestionsCategory } from '@/interfaces/domain/useCases/categories/DeleteCategory'
 import { badRequest, ok } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'

@@ -7,5 +7,5 @@ export interface ISignUpDTO {
 }
 
 export interface ISignUp {
-    signUp(registerData: ISignUpDTO): Promise<IUser>
+    execute(data: ISignUpDTO): Promise<IUser>
 }

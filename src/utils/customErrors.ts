@@ -26,6 +26,13 @@ export class PermissionError extends Error {
     }
 }
 
+export class AuthenticationError extends Error {
+    constructor(message: string) {
+        super(message)
+        this.name = 'AuthenticationError'
+    }
+}
+
 export class AlreadyInUseError extends Error {
     constructor(message: string) {
         super(message)

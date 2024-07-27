@@ -1,23 +1,23 @@
 import { IHasher } from '@/interfaces/application/cryptography/Hasher'
 import { IUsersRepository } from '@/interfaces/application/repositories/UsersRepository'
 import { IUser } from '@/domain/User'
-import { ISignUpDTO, ISignUp } from '@/interfaces/domain/useCases/auth/SignUp'
 import { AlreadyInUseError } from '@/utils/customErrors'
+import { ISignUp, ISignUpDTO } from '@/interfaces/domain/useCases/auth/SignUp'
 
 export class SignUpUseCase implements ISignUp {
     constructor(private readonly usersRepository: IUsersRepository, private readonly hasher: IHasher) {}
 
-    async signUp(registerData: ISignUpDTO): Promise<IUser> {
-        const exists = await this.usersRepository.getByField('email', registerData.email)
+    async execute(data: ISignUpDTO): Promise<IUser> {
+        const exists = await this.usersRepository.getOneByFields({ email: data.email })
 
         if (exists) {
-            throw new AlreadyInUseError('Usuário com esse email já existe')
+            throw new AlreadyInUseError('Usuário com esse email já existe.')
         }
 
-        const hashedPassword = await this.hasher.hash(registerData.password)
-        registerData.password = hashedPassword
+        const hashedPassword = await this.hasher.hash(data.password)
+        data.password = hashedPassword
 
-        const createdUser = await this.usersRepository.create(registerData)
+        const createdUser = await this.usersRepository.create(data)
         if (createdUser) {
             const { password, ...user } = createdUser
             return user

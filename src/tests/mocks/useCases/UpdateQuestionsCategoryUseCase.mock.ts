@@ -1,5 +1,5 @@
 import { IQuestionsCategory } from '@/domain/QuestionsCategory'
-import { IUpdateQuestionsCategory } from '@/interfaces/domain/useCases/questionsCategory/UpdateQuestionsCategory'
+import { IUpdateQuestionsCategory } from '@/interfaces/domain/useCases/categories/UpdateQuestionsCategory'
 
 export const makeFakeUpdateQuestionsCategory = (): IUpdateQuestionsCategory => {
     class UpdateQuestionsCategoryStub implements IUpdateQuestionsCategory {

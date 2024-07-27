@@ -1,6 +1,6 @@
-import { GetQuestionsCategoryByIdUseCase } from '@/application/questionsCategories/GetQuestionsCategoryByIDUseCase'
-import { UpdateQuestionsCategoryUseCase } from '@/application/questionsCategories/UpdateQuestionsCategoryUseCase'
-import { DbQuestionsCategoryRepository } from '@/infra/database/repositories/DbQuestionsCategoryRepository'
+import { GetQuestionsCategoryByIdUseCase } from '@/application/categories/GetQuestionsCategoryByIDUseCase'
+import { UpdateQuestionsCategoryUseCase } from '@/application/categories/UpdateQuestionsCategoryUseCase'
+import { DbQuestionsCategoryRepository } from '@/infra/database/repositories/DbCategoryRepository'
 import { UpdateQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/UpdateQuestionsCategoryController'
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify'
 

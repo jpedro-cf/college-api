@@ -1,33 +1,29 @@
-import { IQuestionsCategory } from '@/domain/QuestionsCategory'
-import { IQuestionsCategoryRepository } from '@/interfaces/application/repositories/QuestionsCategoryRepository'
-import {
-    IGetAllCategoriesResponse,
-    IGetQuestionsCategoriesDTO
-} from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
+import { ICategoryRepository } from '@/interfaces/application/repositories/CategoryRepository'
 import { makeFakeCategory } from '../models/CategoryModel.mock'
+import { ICategory } from '@/domain/Category'
+import { TFieldQuery } from '@/interfaces/application/repositories/BaseRepository'
+import { IGetCategoriesDTO, IGetAllCategoriesResponse } from '@/interfaces/domain/useCases/categories/GetCategories'
 
-export const makeFakeQuestionsCategoryRepo = (): IQuestionsCategoryRepository => {
-    class QuestionsCategoryRepo implements IQuestionsCategoryRepository {
-        async getByField(field: keyof IQuestionsCategory, value: any): Promise<IQuestionsCategory> {
+export const makeFakeCategoryRepo = (): ICategoryRepository => {
+    class CategoryRepo implements ICategoryRepository {
+        async getAllWithFilters(data: IGetCategoriesDTO): Promise<IGetAllCategoriesResponse> {
+            return Promise.resolve({ categories: [makeFakeCategory()], pages: 1 })
+        }
+        async create(data: Partial<ICategory>): Promise<ICategory> {
             return Promise.resolve(makeFakeCategory())
         }
-        async deleteCategory(id: string): Promise<boolean> {
+        async delete(id: string): Promise<boolean> {
             return Promise.resolve(true)
         }
-
-        updateCategory(data: IQuestionsCategory): Promise<IQuestionsCategory> {
-            return Promise.resolve(data)
-        }
-        async getAll(data?: IGetQuestionsCategoriesDTO): Promise<IGetAllCategoriesResponse> {
-            return Promise.resolve({
-                categories: [makeFakeCategory()],
-                pages: 1
-            })
-        }
-
-        async createCategory(title: string, slug: string, image?: string): Promise<IQuestionsCategory> {
+        async getOneByFields(query: TFieldQuery<ICategory>): Promise<ICategory> {
             return Promise.resolve(makeFakeCategory())
         }
+        async update(id: string, data: TFieldQuery<ICategory>): Promise<ICategory> {
+            return Promise.resolve(makeFakeCategory())
+        }
+        async getAll(): Promise<ICategory[]> {
+            return Promise.resolve([makeFakeCategory()])
+        }
     }
-    return new QuestionsCategoryRepo()
+    return new CategoryRepo()
 }

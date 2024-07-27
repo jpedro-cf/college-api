@@ -9,5 +9,6 @@ export interface IQuestion {
     material?: string
     category_id: string
     answers: IAnswer[]
-    created_at: Date
+    createdAt: Date
+    updatedAt: Date
 }

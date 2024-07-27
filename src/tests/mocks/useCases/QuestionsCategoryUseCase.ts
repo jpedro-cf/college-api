@@ -1,5 +1,5 @@
 import { IQuestionsCategory } from '@/domain/QuestionsCategory'
-import { ICreateQuestionsCategory } from '@/interfaces/domain/useCases/questionsCategory/CreateQuestionsCategory'
+import { ICreateQuestionsCategory } from '@/interfaces/domain/useCases/categories/CreateCategory'
 import { makeFakeCategory } from '../models/CategoryModel.mock'
 
 export const makeFakeCreateQuestionsCategoryUseCase = (): ICreateQuestionsCategory => {

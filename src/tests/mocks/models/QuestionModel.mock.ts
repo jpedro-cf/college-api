@@ -21,6 +21,7 @@ export const makeFakeQuestion = (): IQuestionSchema => {
             }
         ],
         correct_answer_id: 3,
-        created_at: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
     }
 }

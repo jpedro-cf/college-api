@@ -1,35 +1,31 @@
 import { IUsersRepository } from '@/interfaces/application/repositories/UsersRepository'
-import { ISignUpDTO } from '@/interfaces/domain/useCases/auth/SignUp'
 import { IUserSchema } from '@/interfaces/application/schemas/UserSchema'
 import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
 import { IGetUsersDTO, IGetUsersResponse } from '@/interfaces/domain/useCases/users/GetUsers'
+import { TFieldQuery } from '@/interfaces/application/repositories/BaseRepository'
 
 export const makeFakeUsersRepository = (): IUsersRepository => {
     class UsersRepositoryStub implements IUsersRepository {
-        async getAll(data: IGetUsersDTO): Promise<IGetUsersResponse> {
+        async getAllWithFilters(data: IGetUsersDTO): Promise<IGetUsersResponse> {
             return Promise.resolve({
                 users: [makeFakeUserModel()],
                 pages: 1
             })
         }
-        async getByField(field: string, value: string): Promise<IUserSchema> {
+        async create(data: Partial<IUserSchema>): Promise<IUserSchema> {
             return Promise.resolve(makeFakeUserModel())
         }
-        async getByToken(token: string): Promise<IUserSchema> {
-            return Promise.resolve(makeFakeUserModel())
-        }
-        async deleteUser(id: string): Promise<boolean> {
+        async delete(id: string): Promise<boolean> {
             return Promise.resolve(true)
         }
-        async updateUser(data: IUserSchema): Promise<IUserSchema> {
-            return data
-        }
-
-        async create(userData: ISignUpDTO): Promise<IUserSchema> {
+        async getOneByFields(query: TFieldQuery<IUserSchema>): Promise<IUserSchema> {
             return Promise.resolve(makeFakeUserModel())
         }
-        async getByEmail(email: string): Promise<IUserSchema> {
+        async update(id: string, data: TFieldQuery<IUserSchema>): Promise<IUserSchema> {
             return Promise.resolve(makeFakeUserModel())
+        }
+        async getAll(): Promise<IUserSchema[]> {
+            return Promise.resolve([makeFakeUserModel()])
         }
     }
     return new UsersRepositoryStub()

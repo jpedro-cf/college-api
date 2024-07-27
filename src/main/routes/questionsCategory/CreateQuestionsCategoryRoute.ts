@@ -1,5 +1,5 @@
-import { CreateQuestionsCategoryUseCase } from '@/application/questionsCategories/CreateQuestionsCategoryUseCase'
-import { DbQuestionsCategoryRepository } from '@/infra/database/repositories/DbQuestionsCategoryRepository'
+import { CreateQuestionsCategoryUseCase } from '@/application/categories/CreateQuestionsCategoryUseCase'
+import { DbQuestionsCategoryRepository } from '@/infra/database/repositories/DbCategoryRepository'
 import { CreateQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/CreateQuestionsCategoryController'
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify'
 

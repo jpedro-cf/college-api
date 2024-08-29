@@ -69,5 +69,11 @@ describe('AuthenticationUseCase', () => {
             const res = sut.verifySession('token')
             expect(res).rejects.toThrow()
         })
+        test('should return a user on success', async () => {
+            const { sut } = makeSut()
+
+            const res = await sut.verifySession('token')
+            expect(res.email).toBeTruthy()
+        })
     })
 })

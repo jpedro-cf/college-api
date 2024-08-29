@@ -1,13 +1,7 @@
-import { IAuthentication } from '@/interfaces/domain/useCases/auth/Authentication'
 import { AuthenticationController } from '@/presentation/controllers/auth/AuthenticationController'
 import { makeFakeAuthentication } from '@/tests/mocks/useCases/AuthenticationUseCaseMock'
 
-interface ISut {
-    authentication: IAuthentication
-    sut: AuthenticationController
-}
-
-const makeSut = (): ISut => {
+const makeSut = () => {
     const authentication = makeFakeAuthentication()
     const sut = new AuthenticationController(authentication)
     return { sut, authentication }
@@ -38,5 +32,12 @@ describe('AuthenticationController', () => {
 
         const res = await sut.handle({ body: { email: 'any', password: 'any' } })
         expect(res.statusCode).toBe(403)
+    })
+    test('should return 200 on success with a token', async () => {
+        const { sut } = makeSut()
+
+        const res = await sut.handle({ body: { email: 'any', password: 'any' } })
+        expect(res.statusCode).toBe(200)
+        expect(res.cookies).toBeTruthy()
     })
 })

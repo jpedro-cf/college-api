@@ -6,10 +6,7 @@ import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'
 import { mapErrorToHttpResponse } from '@/presentation/helpers/ErrorMapper'
 
 export class CreateQuestionController implements IController {
-    constructor(
-        private readonly createQuestion: ICreateQuestion,
-        private readonly sendQuestion: IDiscordSendQuestion
-    ) {}
+    constructor(private readonly createQuestion: ICreateQuestion) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
             const { question, material, category_id, answers, correct } = httpRequest.body
@@ -34,10 +31,7 @@ export class CreateQuestionController implements IController {
 
             const created = await this.createQuestion.execute({ question, material, category_id, answers }, correct)
 
-            if (created) {
-                const sent = await this.sendQuestion.send(created)
-                return sent ? ok(created) : serverError(new Error('Ocorreu algum erro ao criar a questão.'))
-            }
+            return ok(created)
         } catch (error) {
             return mapErrorToHttpResponse(error)
         }

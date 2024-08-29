@@ -1,5 +1,4 @@
 import { IAuthentication } from '@/interfaces/domain/useCases/auth/Authentication'
-import { IGetByToken } from '@/interfaces/domain/useCases/auth/GetByToken'
 import { badRequest, ok, serverError, unauthorized } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'

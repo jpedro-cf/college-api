@@ -1,4 +1,4 @@
-import { CreateQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/CreateQuestionsCategoryController'
+import { CreateQuestionsCategoryController } from '@/presentation/controllers/categories/CreateQuestionsCategoryController'
 import { makeFakeCreateQuestionsCategoryUseCase } from '@/tests/mocks/useCases/QuestionsCategoryUseCase'
 
 const makeSut = () => {

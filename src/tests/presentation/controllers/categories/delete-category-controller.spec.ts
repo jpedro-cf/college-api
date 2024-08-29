@@ -1,5 +1,5 @@
 import { IDeleteCategory } from '@/interfaces/domain/useCases/categories/DeleteCategory'
-import { DeleteQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/DeleteQuestionsCategoryController'
+import { DeleteQuestionsCategoryController } from '@/presentation/controllers/categories/DeleteQuestionsCategoryController'
 import { NotFoundError } from '@/utils/customErrors'
 
 const makeSut = () => {

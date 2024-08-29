@@ -76,4 +76,19 @@ describe('AuthenticationUseCase', () => {
             expect(res.email).toBeTruthy()
         })
     })
+    describe('logout', () => {
+        test('should throw if repository throws', async () => {
+            const { sut, usersRepository } = makeSut()
+
+            jest.spyOn(usersRepository, 'update').mockReturnValueOnce(Promise.reject(new Error('')))
+            const res = sut.logout('token')
+            expect(res).rejects.toThrow()
+        })
+        test('should return true on success', async () => {
+            const { sut } = makeSut()
+
+            const res = await sut.logout('token')
+            expect(res).toBeTruthy()
+        })
+    })
 })

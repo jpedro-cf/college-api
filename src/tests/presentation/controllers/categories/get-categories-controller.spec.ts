@@ -1,4 +1,4 @@
-import { GetQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/GetQuestionsCategoryController'
+import { GetQuestionsCategoryController } from '@/presentation/controllers/categories/GetQuestionsCategoryController'
 import { makeFakeGetQuestionsCategoies } from '@/tests/mocks/useCases/GetQuestionsCategoriesUseCase.mock'
 
 const makeSut = () => {

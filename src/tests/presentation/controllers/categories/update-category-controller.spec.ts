@@ -1,4 +1,4 @@
-import { UpdateQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/UpdateQuestionsCategoryController'
+import { UpdateQuestionsCategoryController } from '@/presentation/controllers/categories/UpdateQuestionsCategoryController'
 import { makeFakeGetQuestionsCategoryByIdUseCase } from '@/tests/mocks/useCases/GetQuestionsCategoryByIdUseCase.mock'
 import { makeFakeUpdateQuestionsCategory } from '@/tests/mocks/useCases/UpdateQuestionsCategoryUseCase.mock'
 import { AlreadyInUseError } from '@/utils/customErrors'

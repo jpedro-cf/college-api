@@ -1,6 +1,6 @@
 import { DeleteQuestionsCategoryUseCase } from '@/application/categories/DeleteQuestionsCategoryUseCase'
 import { DbQuestionsCategoryRepository } from '@/infra/database/repositories/DbCategoryRepository'
-import { DeleteQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/DeleteQuestionsCategoryController'
+import { DeleteQuestionsCategoryController } from '@/presentation/controllers/categories/DeleteQuestionsCategoryController'
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify'
 
 export const DeleteQuestionsCategoryRoute: RouteHandlerMethod = async (

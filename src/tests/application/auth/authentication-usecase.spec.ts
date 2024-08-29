@@ -36,7 +36,7 @@ describe('AuthenticationUseCase', () => {
 
         test('Should return null if usersRepository returns null', async () => {
             const { sut, usersRepository } = makeSut()
-            jest.spyOn(usersRepository, 'getOneByFields').mockReturnValueOnce(null as any)
+            jest.spyOn(usersRepository, 'queryOne').mockReturnValueOnce(null as any)
             const accessToken = await sut.auth({ email: 'any_email@email.com', password: 'any_password' })
             expect(accessToken).toBe(null)
         })
@@ -58,7 +58,7 @@ describe('AuthenticationUseCase', () => {
         test('should throw if invalid token', async () => {
             const { sut, usersRepository } = makeSut()
 
-            jest.spyOn(usersRepository, 'getOneByFields').mockReturnValueOnce(Promise.resolve(null))
+            jest.spyOn(usersRepository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
             const res = sut.verifySession('token')
             expect(res).rejects.toThrow()
         })

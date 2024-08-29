@@ -49,11 +49,11 @@ describe('UsersRepository', () => {
             })
             await user.save()
 
-            const account = await sut.updateUser(user)
+            const account = await sut.update(user._id, { email: 'updated_email@email.com' })
 
             expect(account).toBeTruthy()
             await UserModel.deleteOne({
-                email: 'fake_email@email.com'
+                email: 'updated_email@email.com'
             })
         })
     })
@@ -68,7 +68,7 @@ describe('UsersRepository', () => {
             })
             await user.save()
 
-            const deleted = await sut.deleteUser(user.id)
+            const deleted = await sut.delete(user.id)
             expect(deleted).toBeTruthy()
         })
     })
@@ -86,7 +86,7 @@ describe('UsersRepository', () => {
 
             await user.save()
 
-            const exists = await sut.getByField('_id', user.id)
+            const exists = await sut.queryOne({ _id: { _equals: user.id } })
             expect(exists).toBeTruthy()
             await UserModel.deleteOne({
                 email: 'fake_email@email.com'
@@ -114,15 +114,9 @@ describe('UsersRepository', () => {
             await user.save()
             await user2.save()
 
-            const response = await sut.getAll({ per_page: 1 })
-            expect(response.users.length).toBeGreaterThan(0)
-            expect(response.pages).toBe(2)
-            await UserModel.deleteOne({
-                email: 'fake_email@email.com'
-            })
-            await UserModel.deleteOne({
-                email: 'other_email@email.com'
-            })
+            const response = await sut.queryMany({ query: {}, pagination: { per_page: 2, page: 1 } })
+            expect(response.items.length).toBeGreaterThan(0)
+            expect(response.total_pages).toBe(1)
         })
     })
 })

@@ -1,14 +1,14 @@
-import { IQuestionsCategory } from '@/domain/QuestionsCategory'
-import { IUpdateQuestionsCategory } from '@/interfaces/domain/useCases/categories/UpdateQuestionsCategory'
+import { ICategory } from '@/domain/Category'
+import { IUpdateCategory } from '@/interfaces/domain/useCases/categories/UpdateCategory'
 
-export const makeFakeUpdateQuestionsCategory = (): IUpdateQuestionsCategory => {
-    class UpdateQuestionsCategoryStub implements IUpdateQuestionsCategory {
-        async update(data: Omit<IQuestionsCategory, 'createdAt' | 'updatedAt'>): Promise<IQuestionsCategory> {
+export const makeFakeUpdateQuestionsCategory = (): IUpdateCategory => {
+    class UpdateQuestionsCategoryStub implements IUpdateCategory {
+        async execute(id: string, fields: Partial<ICategory>): Promise<ICategory> {
             return Promise.resolve({
-                _id: data._id,
-                title: data.title,
-                slug: data.slug,
-                image: data.image,
+                _id: fields._id,
+                title: fields.title,
+                slug: fields.slug,
+                image: fields.image,
                 createdAt: new Date(),
                 updatedAt: new Date()
             })

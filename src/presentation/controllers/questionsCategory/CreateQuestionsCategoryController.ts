@@ -2,7 +2,7 @@ import fs from 'fs'
 import { pipeline } from 'stream'
 import util from 'util'
 import path from 'path'
-import { ICreateQuestionsCategory } from '@/interfaces/domain/useCases/categories/CreateCategory'
+import { ICreateCategory } from '@/interfaces/domain/useCases/categories/CreateCategory'
 import { badRequest, ok, serverError } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse, IMultiPartFile } from '@/interfaces/presentation/http'
@@ -16,7 +16,7 @@ interface IHandleFormDataResponse {
 }
 
 export class CreateQuestionsCategoryController implements IController {
-    constructor(private readonly createCategory: ICreateQuestionsCategory) {}
+    constructor(private readonly createCategory: ICreateCategory) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
             const { image, title } = await this.handleMultpartForm(httpRequest)

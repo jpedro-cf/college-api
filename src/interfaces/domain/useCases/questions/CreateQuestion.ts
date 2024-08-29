@@ -5,5 +5,8 @@ export interface ICreateQuestionResponse extends IQuestion {
 }
 
 export interface ICreateQuestion {
-    execute(question: Omit<IQuestion, '_id'>, correct: number): Promise<ICreateQuestionResponse>
+    execute(
+        question: Omit<IQuestion, '_id' | 'createdAt' | 'updatedAt'>,
+        correct: number
+    ): Promise<ICreateQuestionResponse>
 }

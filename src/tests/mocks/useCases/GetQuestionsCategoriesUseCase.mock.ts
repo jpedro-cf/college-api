@@ -1,14 +1,13 @@
-import { IQuestionsCategory } from '@/domain/QuestionsCategory'
 import {
     IGetAllCategoriesResponse,
-    IGetQuestionsCategories,
-    IGetQuestionsCategoriesDTO
-} from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
+    IGetCategories,
+    IGetCategoriesDTO
+} from '@/interfaces/domain/useCases/categories/GetCategories'
 import { makeFakeCategory } from '../models/CategoryModel.mock'
 
-export const makeFakeGetQuestionsCategoies = (): IGetQuestionsCategories => {
-    class GetQuestionsCategoiesStub implements IGetQuestionsCategories {
-        async get(data?: IGetQuestionsCategoriesDTO): Promise<IGetAllCategoriesResponse> {
+export const makeFakeGetQuestionsCategoies = (): IGetCategories => {
+    class GetQuestionsCategoiesStub implements IGetCategories {
+        async execute(data?: IGetCategoriesDTO): Promise<IGetAllCategoriesResponse> {
             return Promise.resolve({
                 categories: [makeFakeCategory()],
                 pages: 1

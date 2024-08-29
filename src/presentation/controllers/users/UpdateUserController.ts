@@ -9,13 +9,13 @@ export class UpdateUserController implements IController {
     constructor(private readonly updateUser: IUpdateUser) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const { id, name, email, roles } = httpRequest.query
+            const { id, name, email } = httpRequest.query
 
             if (!id) {
                 return badRequest(new Error('ID é obrigatório'))
             }
 
-            const updated = await this.updateUser.update({ _id: id, name, email, roles })
+            const updated = await this.updateUser.execute(id, { name, email })
             return ok(updated)
         } catch (error) {
             return mapErrorToHttpResponse(error)

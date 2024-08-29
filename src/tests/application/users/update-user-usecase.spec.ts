@@ -12,7 +12,7 @@ describe('UpdateUserUseCase', () => {
     test('should throw if user does not exist', async () => {
         const { sut, repository } = makeSut()
 
-        jest.spyOn(repository, 'getOneByFields').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(repository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
         const res = sut.execute('123', {})
         expect(res).rejects.toThrow()
     })
@@ -20,7 +20,7 @@ describe('UpdateUserUseCase', () => {
     test('should throw if field in use', async () => {
         const { sut, repository } = makeSut()
 
-        jest.spyOn(repository, 'getOneByFields').mockReturnValueOnce(Promise.resolve(makeFakeUserModel()))
+        jest.spyOn(repository, 'queryOne').mockReturnValueOnce(Promise.resolve(makeFakeUserModel()))
         const res = sut.execute('123', { email: '123' })
         expect(res).rejects.toThrow()
     })
@@ -30,8 +30,8 @@ describe('UpdateUserUseCase', () => {
 
         const user = makeFakeUserModel()
 
-        jest.spyOn(repository, 'getOneByFields').mockReturnValueOnce(Promise.resolve(user))
-        jest.spyOn(repository, 'getOneByFields').mockReturnValueOnce(null)
+        jest.spyOn(repository, 'queryOne').mockReturnValueOnce(Promise.resolve(user))
+        jest.spyOn(repository, 'queryOne').mockReturnValueOnce(null)
 
         const res = await sut.execute('123', { email: '123' })
         expect(res._id).toBeTruthy()

@@ -15,10 +15,9 @@ const questionSchema = new Schema<IQuestionSchema>(
         category_id: { type: String, required: true, ref: 'QuestionsCategory' },
         material: String,
         answers: { type: [answerSchema], required: true },
-        correct_answer_id: { type: Number, required: true },
-        created_at: Date
+        correct_answer_id: { type: Number, required: true }
     },
-    { versionKey: false }
+    { versionKey: false, timestamps: true }
 )
 
 export const QuestionModel = model<IQuestionSchema>('Questions', questionSchema)

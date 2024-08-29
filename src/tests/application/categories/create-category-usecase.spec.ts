@@ -10,7 +10,7 @@ const makeSut = () => {
 describe('CreateQuestionCategoryUseCase', () => {
     test('Should throw in use error if repository returns a category in use', async () => {
         const { sut, questionsCategoryRepository } = makeSut()
-        jest.spyOn(questionsCategoryRepository, 'getOneByFields').mockReturnValueOnce(
+        jest.spyOn(questionsCategoryRepository, 'queryOne').mockReturnValueOnce(
             Promise.resolve({
                 _id: '1232132',
                 title: 'title category',
@@ -26,7 +26,7 @@ describe('CreateQuestionCategoryUseCase', () => {
     })
     test('Should throw if repository throws', async () => {
         const { sut, questionsCategoryRepository } = makeSut()
-        jest.spyOn(questionsCategoryRepository, 'getOneByFields').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(questionsCategoryRepository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
         jest.spyOn(questionsCategoryRepository, 'create').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = sut.create('title category', 'title-category')
@@ -35,7 +35,7 @@ describe('CreateQuestionCategoryUseCase', () => {
 
     test('Should return a questionCategory on success', async () => {
         const { sut, questionsCategoryRepository } = makeSut()
-        jest.spyOn(questionsCategoryRepository, 'getOneByFields').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(questionsCategoryRepository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
 
         const res = await sut.create('title', 'title-category')
         expect(res._id).toBeTruthy()

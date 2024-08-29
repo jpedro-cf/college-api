@@ -1,7 +1,7 @@
-import { IQuestionsCategory } from '@/domain/QuestionsCategory'
+import { ICategory } from '@/domain/Category'
 import { Schema, model } from 'mongoose'
 
-const questionsCategorySchema = new Schema<IQuestionsCategory>(
+const categorySchema = new Schema<ICategory>(
     {
         title: { type: String, required: true },
         slug: String,
@@ -18,4 +18,4 @@ const questionsCategorySchema = new Schema<IQuestionsCategory>(
 //     }
 // })
 
-export const QuestionsCategoryModel = model<IQuestionsCategory>('QuestionsCategory', questionsCategorySchema)
+export const CategoryModel = model<ICategory>('Category', categorySchema)

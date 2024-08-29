@@ -18,7 +18,7 @@ describe('UpdateQuestionsCategoryController', () => {
             return { title: 'string', image: 'string', id: 'string' }
         })
 
-        jest.spyOn(getById, 'get').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(getById, 'execute').mockReturnValueOnce(Promise.reject(new Error('')))
         const res = await sut.handle({
             parts: () => {
                 return { id: true }
@@ -34,7 +34,7 @@ describe('UpdateQuestionsCategoryController', () => {
             return { title: 'string atualizada', id: 'id' }
         })
 
-        jest.spyOn(updateCategory, 'update').mockReturnValueOnce(Promise.reject(new AlreadyInUseError('')))
+        jest.spyOn(updateCategory, 'execute').mockReturnValueOnce(Promise.reject(new AlreadyInUseError('')))
         const res = await sut.handle({
             parts: () => {
                 return { id: true }

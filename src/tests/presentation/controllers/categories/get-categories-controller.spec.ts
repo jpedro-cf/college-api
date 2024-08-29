@@ -10,7 +10,7 @@ const makeSut = () => {
 describe('GetQuestionsCategoriesController', () => {
     test('should return return 500 if getCategories throws', async () => {
         const { sut, getCategories } = makeSut()
-        jest.spyOn(getCategories, 'get').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(getCategories, 'execute').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = await sut.handle({ query: {} })
         expect(res.statusCode).toBe(500)

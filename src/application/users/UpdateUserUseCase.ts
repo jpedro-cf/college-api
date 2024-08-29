@@ -7,15 +7,14 @@ import { AlreadyInUseError, NotFoundError } from '@/utils/customErrors'
 export class UpdateUserUseCase implements IUpdateUser {
     constructor(private readonly usersRepository: IUsersRepository) {}
     async execute(id: string, data: Partial<IUserSchema>): Promise<IUser> {
-        console.log(data)
-        const user = await this.usersRepository.getOneByFields({ _id: id })
+        const user = await this.usersRepository.queryOne({ _id: { _equals: id } })
 
         if (!user) {
             throw new NotFoundError('Usuário com esse ID não encontrado.')
         }
 
         if (data.email) {
-            if (await this.usersRepository.getOneByFields({ email: data.email })) {
+            if (await this.usersRepository.queryOne({ email: { _equals: data.email } })) {
                 throw new AlreadyInUseError('Email já cadastrado.')
             }
         }

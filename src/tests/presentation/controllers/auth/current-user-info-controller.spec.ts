@@ -1,24 +1,18 @@
-import { IGetByToken } from '@/interfaces/domain/useCases/auth/GetByToken'
 import { CurrentUserInfoController } from '@/presentation/controllers/auth/CurrentUserInfoController'
-import { makeFakeGetByToken } from '@/tests/mocks/useCases/GetByTokenUseCase.mock'
+import { makeFakeAuthentication } from '@/tests/mocks/useCases/AuthenticationUseCaseMock'
 
-interface ISut {
-    getByToken: IGetByToken
-    sut: CurrentUserInfoController
-}
+const makeSut = () => {
+    const authentication = makeFakeAuthentication()
+    const sut = new CurrentUserInfoController(authentication)
 
-const makeSut = (): ISut => {
-    const getByToken = makeFakeGetByToken()
-    const sut = new CurrentUserInfoController(getByToken)
-
-    return { sut, getByToken }
+    return { sut, authentication }
 }
 
 describe('GetUserInfoController', () => {
     test('Should return 400 if no user found', async () => {
-        const { sut, getByToken } = makeSut()
+        const { sut, authentication } = makeSut()
 
-        jest.spyOn(getByToken, 'get').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(authentication, 'verifySession').mockReturnValueOnce(Promise.resolve(null))
 
         const res = await sut.handle({ cookies: { access_token: 'any_token' } })
         expect(res.statusCode).toBe(400)

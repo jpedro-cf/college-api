@@ -29,7 +29,7 @@ describe('SignUp controller', () => {
     test('Should return 400 if email already in use', async () => {
         const { sut, signUp } = makeSut()
 
-        jest.spyOn(signUp, 'signUp').mockReturnValueOnce(Promise.reject(new AlreadyInUseError('')))
+        jest.spyOn(signUp, 'execute').mockReturnValueOnce(Promise.reject(new AlreadyInUseError('')))
 
         const res = await sut.handle({
             body: {
@@ -44,7 +44,7 @@ describe('SignUp controller', () => {
     test('Should return 500 if sign up throws', async () => {
         const { sut, signUp } = makeSut()
 
-        jest.spyOn(signUp, 'signUp').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(signUp, 'execute').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = await sut.handle({
             body: {

@@ -8,7 +8,7 @@ export class SignUpUseCase implements ISignUp {
     constructor(private readonly usersRepository: IUsersRepository, private readonly hasher: IHasher) {}
 
     async execute(data: ISignUpDTO): Promise<IUser> {
-        const exists = await this.usersRepository.getOneByFields({ email: data.email })
+        const exists = await this.usersRepository.queryOne({ email: { _equals: data.email } })
 
         if (exists) {
             throw new AlreadyInUseError('Usuário com esse email já existe.')

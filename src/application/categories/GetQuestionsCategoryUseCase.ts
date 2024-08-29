@@ -9,12 +9,22 @@ export class GetCategoriesUseCase implements IGetCategories {
     constructor(private readonly categoryRepository: ICategoryRepository) {}
 
     async execute(data: IGetCategoriesDTO): Promise<IGetAllCategoriesResponse> {
-        const response = await this.categoryRepository.getAllWithFilters({
-            search: data.search ?? '',
-            order: data.order ?? 'desc',
-            current_page: data.current_page ?? 1,
-            per_page: data.per_page ?? 9
+        const response = await this.categoryRepository.queryMany({
+            query: {
+                title: { _contains: data.search ?? '' }
+            },
+            order: {
+                by: 'createdAt',
+                direction: data.order ?? 'desc'
+            },
+            pagination: {
+                page: data.current_page ?? 1,
+                per_page: data.per_page ?? 9
+            }
         })
-        return response
+        return {
+            categories: response.items,
+            pages: response.total_pages
+        }
     }
 }

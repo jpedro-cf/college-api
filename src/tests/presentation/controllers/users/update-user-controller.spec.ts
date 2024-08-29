@@ -1,6 +1,5 @@
 import { UpdateUserController } from '@/presentation/controllers/users/UpdateUserController'
 import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
-import { makeFakeGetByToken } from '@/tests/mocks/useCases/GetByTokenUseCase.mock'
 import { makeFakeUpdateUser } from '@/tests/mocks/useCases/UpdateUserUseCase.mock'
 import { NotFoundError } from '@/utils/customErrors'
 
@@ -21,7 +20,7 @@ describe('UpdateUserController', () => {
         const { sut, updateUser } = makeSut()
         const user = makeFakeUserModel()
 
-        jest.spyOn(updateUser, 'update').mockReturnValueOnce(Promise.reject(new NotFoundError('')))
+        jest.spyOn(updateUser, 'execute').mockReturnValueOnce(Promise.reject(new NotFoundError('')))
         const res = await sut.handle({ cookies: { access_token: '12312312123312' }, query: { id: user._id } })
         expect(res.statusCode).toBe(400)
     })

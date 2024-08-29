@@ -1,10 +1,10 @@
-import { IQuestionsCategory } from '@/domain/QuestionsCategory'
-import { IGetQuestionsCategoryByID } from '@/interfaces/domain/useCases/questionsCategory/GetByID'
+import { IGetCategoryByID } from '@/interfaces/domain/useCases/categories/GetByID'
 import { makeFakeCategory } from '../models/CategoryModel.mock'
+import { ICategory } from '@/domain/Category'
 
-export const makeFakeGetQuestionsCategoryByIdUseCase = (): IGetQuestionsCategoryByID => {
-    class GetQuestionsCategoryByIdStub implements IGetQuestionsCategoryByID {
-        async get(id: string): Promise<IQuestionsCategory> {
+export const makeFakeGetQuestionsCategoryByIdUseCase = (): IGetCategoryByID => {
+    class GetQuestionsCategoryByIdStub implements IGetCategoryByID {
+        async execute(id: string): Promise<ICategory> {
             return Promise.resolve(makeFakeCategory())
         }
     }

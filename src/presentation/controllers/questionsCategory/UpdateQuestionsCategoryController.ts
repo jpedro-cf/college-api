@@ -5,9 +5,9 @@ import path from 'path'
 import { badRequest, ok, serverError } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse, IMultiPartFile } from '@/interfaces/presentation/http'
-import { IUpdateQuestionsCategory } from '@/interfaces/domain/useCases/categories/UpdateQuestionsCategory'
+import { IUpdateCategory } from '@/interfaces/domain/useCases/categories/UpdateCategory'
 import { convertToSlug } from '@/utils/converToSlug'
-import { IGetQuestionsCategoryByID } from '@/interfaces/domain/useCases/questionsCategory/GetByID'
+import { IGetCategoryByID } from '@/interfaces/domain/useCases/categories/GetByID'
 import { mapErrorToHttpResponse } from '@/presentation/helpers/ErrorMapper'
 
 interface IHandleFormDataResponse {
@@ -17,19 +17,18 @@ interface IHandleFormDataResponse {
 }
 
 export class UpdateQuestionsCategoryController implements IController {
-    constructor(
-        private readonly getCategoryByID: IGetQuestionsCategoryByID,
-        private readonly updateCategory: IUpdateQuestionsCategory
-    ) {}
+    constructor(private readonly getCategoryByID: IGetCategoryByID, private readonly updateCategory: IUpdateCategory) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
             const { image, title, id } = await this.handleMultpartForm(httpRequest)
+
+            const query: any = {}
 
             if (!id) {
                 return badRequest(new Error('ID da categoria é obrigatório'))
             }
 
-            const category = await this.getCategoryByID.get(id)
+            const category = await this.getCategoryByID.execute(id)
 
             if (!category) {
                 return badRequest(new Error('Categoria não existe.'))
@@ -38,15 +37,11 @@ export class UpdateQuestionsCategoryController implements IController {
             if (title) {
                 const newSlug = convertToSlug(title)
 
-                category.title = title
-                category.slug = newSlug
+                query.title = title
+                query.slug = newSlug
             }
 
-            category.image = image ? image : category.image
-
-            const { createdAt, updatedAt, ...query } = category
-
-            const updated = await this.updateCategory.update(query)
+            const updated = await this.updateCategory.execute(id, query)
             return ok(updated)
         } catch (error) {
             return mapErrorToHttpResponse(error)

@@ -10,7 +10,7 @@ export class CreateQuestionUseCase implements ICreateQuestion {
         private readonly categoriesRepository: ICategoryRepository
     ) {}
     async execute(question: Partial<IQuestion>, correct: number): Promise<ICreateQuestionResponse> {
-        const category_exists = await this.categoriesRepository.getOneByFields({ _id: question.category_id })
+        const category_exists = await this.categoriesRepository.queryOne({ _id: { _equals: question.category_id } })
 
         if (!category_exists) {
             throw new NotFoundError('Categoria com esse id não existe.')

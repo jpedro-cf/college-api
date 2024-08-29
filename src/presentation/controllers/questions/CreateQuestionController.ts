@@ -12,7 +12,7 @@ export class CreateQuestionController implements IController {
     ) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const { question, material, category_id, answers, created_at, correct } = httpRequest.body
+            const { question, material, category_id, answers, correct } = httpRequest.body
 
             const requiredFields = ['question', 'category_id', 'answers', 'created_at', 'correct']
 
@@ -32,10 +32,7 @@ export class CreateQuestionController implements IController {
                 return badRequest(new Error('A resposta correta deve corresponder à um id de uma das respostas.'))
             }
 
-            const created = await this.createQuestion.create(
-                { question, material, category_id, answers, created_at },
-                correct
-            )
+            const created = await this.createQuestion.execute({ question, material, category_id, answers }, correct)
 
             if (created) {
                 const sent = await this.sendQuestion.send(created)

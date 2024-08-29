@@ -17,7 +17,7 @@ describe('DeleteCategoryUseCase', () => {
     })
     test('should throw if no category found with provided id', async () => {
         const { sut, repository } = makeSut()
-        jest.spyOn(repository, 'getOneByFields').mockReturnValueOnce(Promise.resolve(null))
+        jest.spyOn(repository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
 
         const res = sut.execute('any_id')
         expect(res).rejects.toThrow()

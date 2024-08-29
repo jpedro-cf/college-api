@@ -10,7 +10,7 @@ const makeSut = () => {
 describe('GetUsersUseCase', () => {
     test('should throw if repository throws', async () => {
         const { sut, repository } = makeSut()
-        jest.spyOn(repository, 'getAllWithFilters').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(repository, 'queryMany').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = sut.get({})
         expect(res).rejects.toThrow()

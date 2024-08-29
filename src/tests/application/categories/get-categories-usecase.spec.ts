@@ -11,7 +11,7 @@ describe('GetCategoriesUseCase', () => {
     test('should throw if repository throws', async () => {
         const { sut, categoryRepository } = makeSut()
 
-        jest.spyOn(categoryRepository, 'getAllWithFilters').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(categoryRepository, 'queryMany').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = sut.execute({})
         expect(res).rejects.toThrow()

@@ -18,7 +18,7 @@ export class SignUpController implements IController {
                 }
             }
 
-            await this.signUp.signUp({
+            await this.signUp.execute({
                 name,
                 email,
                 password

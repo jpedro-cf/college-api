@@ -1,13 +1,13 @@
-import { IGetQuestionsCategories } from '@/interfaces/domain/useCases/questionsCategory/GetQuestionsCategories'
+import { IGetCategories } from '@/interfaces/domain/useCases/categories/GetCategories'
 import { ok, serverError } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'
 
 export class GetQuestionsCategoryController implements IController {
-    constructor(private readonly getQuestionsCategories: IGetQuestionsCategories) {}
+    constructor(private readonly getCategories: IGetCategories) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const categories = await this.getQuestionsCategories.get({
+            const categories = await this.getCategories.execute({
                 search: httpRequest.query.search ?? '',
                 order: httpRequest.query.order ?? 'desc',
                 per_page: httpRequest.query.per_page ?? 9,

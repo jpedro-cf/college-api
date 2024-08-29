@@ -17,7 +17,7 @@ export class AuthenticationUseCase implements IAuthentication {
     ) {}
 
     async auth(authentication: IAuthenticationDTO): Promise<IAuthenticationResponse> {
-        const account = await this.usersRepository.getOneByFields({ email: authentication.email })
+        const account = await this.usersRepository.queryOne({ email: { _equals: authentication.email } })
 
         if (!account) {
             return null
@@ -40,7 +40,7 @@ export class AuthenticationUseCase implements IAuthentication {
     }
 
     async verifySession(token: string): Promise<IUser> {
-        const account = await this.usersRepository.getOneByFields({ access_token: token })
+        const account = await this.usersRepository.queryOne({ access_token: { _equals: token } })
 
         if (!account) {
             throw new AuthenticationError('Token inválido.')

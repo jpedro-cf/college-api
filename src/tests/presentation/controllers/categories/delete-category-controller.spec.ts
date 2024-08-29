@@ -1,10 +1,10 @@
-import { IDeleteQuestionsCategory } from '@/interfaces/domain/useCases/categories/DeleteCategory'
+import { IDeleteCategory } from '@/interfaces/domain/useCases/categories/DeleteCategory'
 import { DeleteQuestionsCategoryController } from '@/presentation/controllers/questionsCategory/DeleteQuestionsCategoryController'
 import { NotFoundError } from '@/utils/customErrors'
 
 const makeSut = () => {
-    class DeleteCategory implements IDeleteQuestionsCategory {
-        async delete(id: string): Promise<boolean> {
+    class DeleteCategory implements IDeleteCategory {
+        async execute(id: string): Promise<boolean> {
             return Promise.resolve(true)
         }
     }
@@ -23,7 +23,7 @@ describe('DeleteQuestionsCategoryController', () => {
     test('should return 400 if no category found', async () => {
         const { sut, deleteCategory } = makeSut()
 
-        jest.spyOn(deleteCategory, 'delete').mockReturnValueOnce(
+        jest.spyOn(deleteCategory, 'execute').mockReturnValueOnce(
             Promise.reject(new NotFoundError('Categoria não encontrada'))
         )
         const res = await sut.handle({ query: { id: '123dawda' } })
@@ -33,7 +33,7 @@ describe('DeleteQuestionsCategoryController', () => {
     test('should return 500 if server error', async () => {
         const { sut, deleteCategory } = makeSut()
 
-        jest.spyOn(deleteCategory, 'delete').mockReturnValueOnce(Promise.reject(new Error('any error')))
+        jest.spyOn(deleteCategory, 'execute').mockReturnValueOnce(Promise.reject(new Error('any error')))
         const res = await sut.handle({ query: { id: '123dawda' } })
 
         expect(res.statusCode).toBe(500)

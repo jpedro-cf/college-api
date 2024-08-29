@@ -5,7 +5,7 @@ import { IGetCategoryByID } from '@/interfaces/domain/useCases/categories/GetByI
 export class GetCategoryByIdUseCase implements IGetCategoryByID {
     constructor(private readonly categoriesRepository: ICategoryRepository) {}
     async execute(id: string): Promise<ICategory> {
-        const exists = await this.categoriesRepository.getOneByFields({ _id: id })
+        const exists = await this.categoriesRepository.queryOne({ _id: { _equals: id } })
         if (exists) {
             return exists
         }

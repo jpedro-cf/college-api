@@ -1,5 +1,5 @@
 import { QuestionModel } from '@/infra/database/models/QuestionModel'
-import { CategoryModel } from '@/infra/database/models/QuestionsCategoryModel'
+import { CategoryModel } from '@/infra/database/models/CategoryModel'
 import { DbQuestionsRepository } from '@/infra/database/repositories/DbQuestionsRepository'
 import { makeCreateQuestionData } from '@/tests/mocks/entities/Question.mock'
 import mongoose, { Collection } from 'mongoose'
@@ -12,6 +12,7 @@ const makeSut = () => {
 describe('DbQuestionsRepository', () => {
     beforeAll(async () => {
         await mongoose.connect('mongodb://127.0.0.1:27017/college-api')
+        mongoose.set('strictPopulate', false)
     }, 5000)
     afterAll(async () => {
         await QuestionModel.deleteMany({})
@@ -23,17 +24,17 @@ describe('DbQuestionsRepository', () => {
         const category = new CategoryModel({
             title: 'titulo',
             slug: 'titulo',
-            image: 'image',
             created_at: new Date()
         })
         await category.save()
 
         const data: any = makeCreateQuestionData()
-        data.category_id = category._id
+        data.categories = [category.id]
         data.correct_answer_id = 3
 
         const res = await sut.create(data)
-        expect(res._id).toBeTruthy()
+
+        expect(res.id).toBeTruthy()
         expect(res.correct_answer_id).toBeTruthy()
     })
 })

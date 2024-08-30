@@ -10,7 +10,7 @@ const makeSut = () => {
 }
 
 describe('UpdateCategoryUseCase', () => {
-    test('should throw if repository returns null on getByField()', async () => {
+    test('should throw if repository returns null on queryOne()', async () => {
         const { sut, repository } = makeSut()
         jest.spyOn(repository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
 

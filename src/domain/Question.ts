@@ -4,11 +4,12 @@ export interface IAnswer {
 }
 
 export interface IQuestion {
-    _id: string
+    id: string
     question: string
     material?: string
-    category_id: string
+    categories: string[]
     answers: IAnswer[]
+    correct_answer_id: number
     createdAt: Date
     updatedAt: Date
 }

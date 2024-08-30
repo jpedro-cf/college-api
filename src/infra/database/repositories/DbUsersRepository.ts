@@ -1,9 +1,9 @@
 import { IUsersRepository } from '@/interfaces/application/repositories/UsersRepository'
-import { IUserSchema } from '@/interfaces/application/schemas/UserSchema'
 import { UserModel } from '../models/UserModel'
 import { DbBaseRepository } from './DbBaseRepository'
+import { IUser } from '@/domain/User'
 
-export class DbUsersRepository extends DbBaseRepository<IUserSchema> implements IUsersRepository {
+export class DbUsersRepository extends DbBaseRepository<IUser> implements IUsersRepository {
     constructor() {
         super(UserModel)
     }

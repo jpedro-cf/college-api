@@ -18,10 +18,7 @@ export class SignUpUseCase implements ISignUp {
         data.password = hashedPassword
 
         const createdUser = await this.usersRepository.create(data)
-        if (createdUser) {
-            const { password, ...user } = createdUser
-            return user
-        }
-        return null
+
+        return createdUser
     }
 }

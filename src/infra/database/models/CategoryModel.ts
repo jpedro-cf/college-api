@@ -1,21 +1,18 @@
+import { v4 as uuidv4 } from 'uuid'
 import { ICategory } from '@/domain/Category'
 import { Schema, model } from 'mongoose'
 
 const categorySchema = new Schema<ICategory>(
     {
+        id: {
+            type: String,
+            default: uuidv4, // Gera um UUID v4 como valor padrão
+            unique: true // Garante que o ID seja único
+        },
         title: { type: String, required: true },
-        slug: String,
-        image: String
+        slug: String
     },
     { versionKey: false, timestamps: true }
 )
-
-// questionsCategorySchema.set('toObject', {
-//     transform: function (doc, ret) {
-//         ret.id = ret._id
-//         delete ret._id
-//         delete ret.__v
-//     }
-// })
 
 export const CategoryModel = model<ICategory>('Category', categorySchema)

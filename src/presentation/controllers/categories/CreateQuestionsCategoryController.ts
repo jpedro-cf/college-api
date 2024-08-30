@@ -27,7 +27,7 @@ export class CreateQuestionsCategoryController implements IController {
 
             const slug = convertToSlug(title)
 
-            const created = await this.createCategory.create(title, slug, image)
+            const created = await this.createCategory.execute(title, slug)
 
             return ok(created)
         } catch (error) {

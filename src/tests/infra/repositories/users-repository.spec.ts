@@ -34,7 +34,7 @@ describe('UsersRepository', () => {
             expect(account.roles).toEqual(['student'])
             expect(account.points).toBe(0)
             await UserModel.deleteOne({
-                _id: account._id
+                id: account.id
             })
         })
     })
@@ -49,7 +49,7 @@ describe('UsersRepository', () => {
             })
             await user.save()
 
-            const account = await sut.update(user._id, { email: 'updated_email@email.com' })
+            const account = await sut.update(user.id, { email: 'updated_email@email.com' })
 
             expect(account).toBeTruthy()
             await UserModel.deleteOne({
@@ -86,7 +86,7 @@ describe('UsersRepository', () => {
 
             await user.save()
 
-            const exists = await sut.queryOne({ _id: { _equals: user.id } })
+            const exists = await sut.queryOne({ id: { _equals: user.id } })
             expect(exists).toBeTruthy()
             await UserModel.deleteOne({
                 email: 'fake_email@email.com'

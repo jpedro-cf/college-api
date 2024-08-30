@@ -52,6 +52,6 @@ describe('SignUp usecase', () => {
 
         jest.spyOn(usersRepository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
         const response = await sut.execute(makeFakeSignUpData())
-        expect(response._id).toBeTruthy()
+        expect(response.id).toBeTruthy()
     })
 })

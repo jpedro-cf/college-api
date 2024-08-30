@@ -5,13 +5,8 @@ export interface IAuthenticationDTO {
     password: string
 }
 
-export interface IAuthenticationResponse {
-    user: IUser
-    token: string
-}
-
 export interface IAuthentication {
-    auth(authentication: IAuthenticationDTO): Promise<IAuthenticationResponse>
+    auth(authentication: IAuthenticationDTO): Promise<IUser>
     verifySession(token: string): Promise<IUser>
     logout(token: string): Promise<boolean>
 }

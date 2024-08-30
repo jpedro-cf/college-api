@@ -1,5 +1,4 @@
-import { IUserSchema } from '../schemas/UserSchema'
-import { IGetUsersDTO, IGetUsersResponse } from '@/interfaces/domain/useCases/users/GetUsers'
 import { IBaseRepository } from './BaseRepository'
+import { IUser } from '@/domain/User'
 
-export interface IUsersRepository extends IBaseRepository<IUserSchema> {}
+export interface IUsersRepository extends IBaseRepository<IUser> {}

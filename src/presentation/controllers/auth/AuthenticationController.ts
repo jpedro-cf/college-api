@@ -13,12 +13,12 @@ export class AuthenticationController implements IController {
                 return badRequest(new Error('Email e Senha são obrigatórios.'))
             }
 
-            const response = await this.authentication.auth({ email, password })
+            const user = await this.authentication.auth({ email, password })
 
-            if (!response) {
+            if (!user) {
                 return forbidden(new Error('Credenciais incorretas ou conta com esse email não existe.'))
             }
-            return ok(response.user, response.token)
+            return ok(user, user.access_token)
         } catch (error) {
             return serverError(error)
         }

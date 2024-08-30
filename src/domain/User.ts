@@ -1,7 +1,11 @@
 export interface IUser {
-    _id: string
+    id: string
     name: string
     email: string
     roles: string[]
     points: number
+    access_token?: string
+    password: string
+    createdAt: Date
+    updatedAt: Date
 }

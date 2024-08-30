@@ -1,8 +1,14 @@
-import { IUserSchema } from '@/interfaces/application/schemas/UserSchema'
+import { v4 as uuidv4 } from 'uuid'
 import { Schema, model } from 'mongoose'
+import { IUser } from '@/domain/User'
 
-const userSchema = new Schema<IUserSchema>(
+const userSchema = new Schema<IUser>(
     {
+        id: {
+            type: String,
+            default: uuidv4, // Gera um UUID v4 como valor padrão
+            unique: true // Garante que o ID seja único
+        },
         name: { type: String, required: true },
         email: { type: String, required: true },
         password: { type: String, required: true },
@@ -24,4 +30,4 @@ const userSchema = new Schema<IUserSchema>(
 //     }
 // })
 
-export const UserModel = model<IUserSchema>('User', userSchema)
+export const UserModel = model<IUser>('User', userSchema)

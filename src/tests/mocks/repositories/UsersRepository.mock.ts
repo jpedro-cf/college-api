@@ -1,7 +1,6 @@
 import { IUsersRepository } from '@/interfaces/application/repositories/UsersRepository'
-import { IUserSchema } from '@/interfaces/application/schemas/UserSchema'
+import { IUser } from '@/domain/User'
 import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
-import { IGetUsersDTO, IGetUsersResponse } from '@/interfaces/domain/useCases/users/GetUsers'
 import {
     IPaginatedResult,
     IQuery,
@@ -11,10 +10,10 @@ import {
 
 export const makeFakeUsersRepository = (): IUsersRepository => {
     class UsersRepositoryStub implements IUsersRepository {
-        async queryOne(query: TFiltersQuery<IUserSchema>): Promise<IUserSchema> {
+        async queryOne(query: TFiltersQuery<IUser>): Promise<IUser> {
             return Promise.resolve(makeFakeUserModel())
         }
-        async queryMany(query: IQuery<IUserSchema>): Promise<IPaginatedResult<IUserSchema>> {
+        async queryMany(query: IQuery<IUser>): Promise<IPaginatedResult<IUser>> {
             const data = {
                 items: [makeFakeUserModel()],
                 total_items: 1,
@@ -22,17 +21,17 @@ export const makeFakeUsersRepository = (): IUsersRepository => {
             }
             return Promise.resolve(data)
         }
-        async create(data: Partial<IUserSchema>): Promise<IUserSchema> {
+        async create(data: Partial<IUser>): Promise<IUser> {
             return Promise.resolve(makeFakeUserModel())
         }
         async delete(id: string): Promise<boolean> {
             return Promise.resolve(true)
         }
 
-        async update(id: string, data: TFieldQuery<IUserSchema>): Promise<IUserSchema> {
+        async update(id: string, data: TFieldQuery<IUser>): Promise<IUser> {
             return Promise.resolve(makeFakeUserModel())
         }
-        async getAll(): Promise<IUserSchema[]> {
+        async getAll(): Promise<IUser[]> {
             return Promise.resolve([makeFakeUserModel()])
         }
     }

@@ -1,10 +1,6 @@
 import { AuthenticationUseCase } from '@/application/auth/AuthenticationUseCase'
-import { IHashComparer } from '@/interfaces/application/cryptography/Hasher'
-import { IToken } from '@/interfaces/application/cryptography/Token'
-import { IUsersRepository } from '@/interfaces/application/repositories/UsersRepository'
 import { makeFakeHasherCompare } from '@/tests/mocks/cryptography/Hasher.mock'
 import { makeTokenMock } from '@/tests/mocks/cryptography/TokenMock'
-import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
 import { makeFakeUsersRepository } from '@/tests/mocks/repositories/UsersRepository.mock'
 
 const makeSut = () => {
@@ -47,10 +43,10 @@ describe('AuthenticationUseCase', () => {
             expect(accessToken).toBeNull()
         })
 
-        test('Should return token on success', async () => {
+        test('Should return user on success', async () => {
             const { sut } = makeSut()
             const res = await sut.auth({ email: 'any_email@email.com', password: 'any_password' })
-            expect(res.token).toBeTruthy()
+            expect(res.id).toBeTruthy()
         })
     })
 

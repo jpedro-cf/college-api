@@ -128,7 +128,7 @@ describe('BaseRepository', () => {
             password: '123435'
         })
 
-        const res = await sut.update(user._id.toString(), { name: 'atualizado' })
+        const res = await sut.update(user.id.toString(), { name: 'atualizado' })
 
         expect(res.name).toBe('atualizado')
     })
@@ -142,7 +142,7 @@ describe('BaseRepository', () => {
             password: '123435'
         })
 
-        const res = await sut.delete(user._id.toString())
+        const res = await sut.delete(user.id.toString())
 
         expect(res).toBeTruthy()
     })

@@ -7,7 +7,7 @@ import { AlreadyInUseError } from '@/utils/customErrors'
 export class UpdateCategoryUseCase implements IUpdateCategory {
     constructor(private readonly categoryRepository: ICategoryRepository) {}
     async execute(id: string, fields: Partial<ICategory>): Promise<ICategory> {
-        const exists = await this.categoryRepository.queryOne({ _id: { _equals: id } })
+        const exists = await this.categoryRepository.queryOne({ id: { _equals: id } })
 
         if (!exists) {
             throw new AlreadyInUseError('Categoria com esse ID não existe.')
@@ -21,7 +21,7 @@ export class UpdateCategoryUseCase implements IUpdateCategory {
             }
         }
 
-        const updated = await this.categoryRepository.update(exists._id, fields)
+        const updated = await this.categoryRepository.update(exists.id, fields)
         return updated ?? null
     }
 }

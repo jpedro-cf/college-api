@@ -5,10 +5,9 @@ export const makeFakeUpdateQuestionsCategory = (): IUpdateCategory => {
     class UpdateQuestionsCategoryStub implements IUpdateCategory {
         async execute(id: string, fields: Partial<ICategory>): Promise<ICategory> {
             return Promise.resolve({
-                _id: fields._id,
+                id: fields.id,
                 title: fields.title,
                 slug: fields.slug,
-                image: fields.image,
                 createdAt: new Date(),
                 updatedAt: new Date()
             })

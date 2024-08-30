@@ -1,4 +1,5 @@
-import { IQuestionSchema } from '@/interfaces/application/schemas/QuestionSchema'
+import { v4 as uuidv4 } from 'uuid'
+import { IQuestion } from '@/domain/Question'
 import { Schema, model } from 'mongoose'
 
 const answerSchema = new Schema(
@@ -9,10 +10,15 @@ const answerSchema = new Schema(
     { versionKey: false, id: false }
 )
 
-const questionSchema = new Schema<IQuestionSchema>(
+const questionSchema = new Schema<IQuestion>(
     {
+        id: {
+            type: String,
+            default: uuidv4, // Gera um UUID v4 como valor padrão
+            unique: true // Garante que o ID seja único
+        },
         question: { type: String, required: true },
-        category_id: { type: String, required: true, ref: 'QuestionsCategory' },
+        categories: [{ type: String, ref: 'Category' }],
         material: String,
         answers: { type: [answerSchema], required: true },
         correct_answer_id: { type: Number, required: true }
@@ -20,4 +26,4 @@ const questionSchema = new Schema<IQuestionSchema>(
     { versionKey: false, timestamps: true }
 )
 
-export const QuestionModel = model<IQuestionSchema>('Questions', questionSchema)
+export const QuestionModel = model<IQuestion>('Question', questionSchema)

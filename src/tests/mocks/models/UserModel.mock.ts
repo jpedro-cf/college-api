@@ -1,8 +1,8 @@
-import { IUserSchema } from '@/interfaces/application/schemas/UserSchema'
+import { IUser } from '@/domain/User'
 
-export const makeFakeUserModel = (): IUserSchema => {
+export const makeFakeUserModel = (): IUser => {
     return {
-        _id: 'any_id',
+        id: 'any_id',
         name: 'any_name',
         email: 'any_email@email.com',
         roles: ['student'],

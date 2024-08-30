@@ -10,9 +10,11 @@ import { Model } from 'mongoose'
 
 export class DbBaseRepository<T> implements IBaseRepository<T> {
     readonly model: Model<T>
+    readonly populated_fields: string[]
 
-    constructor(model: Model<T>) {
+    constructor(model: Model<T>, populated_fields = []) {
         this.model = model
+        this.populated_fields = populated_fields
     }
 
     async create(data: Partial<T>): Promise<T> {
@@ -22,12 +24,12 @@ export class DbBaseRepository<T> implements IBaseRepository<T> {
     }
 
     async delete(id: string): Promise<boolean> {
-        const result = await this.model.findOneAndDelete({ _id: id })
+        const result = await this.model.findOneAndDelete({ id: id })
         return result ? true : false
     }
 
     async update(id: string, data: TFieldQuery<T>): Promise<T> {
-        const filter = { _id: id }
+        const filter = { id: id }
         const update = { $set: data }
         return await this.model.findOneAndUpdate(filter, update, { new: true }).exec()
     }
@@ -39,7 +41,23 @@ export class DbBaseRepository<T> implements IBaseRepository<T> {
     async queryOne(query: TFiltersQuery<T>): Promise<T> {
         const data = this.convertFiltersToMongooseQuery(query)
 
-        return this.model.findOne(data)
+        const mongooseQuery = this.model.findOne(data)
+
+        // Verifica se há campos a serem populados
+        if (this.populated_fields.length > 0) {
+            // Cria o array de opções de população apenas se houver campos para isso
+            const populateOptions = this.populated_fields.map((field) => ({
+                path: field,
+                foreignField: 'id'
+                // Adicione outras opções se necessário
+            }))
+
+            // Aplica a população
+            return mongooseQuery.populate(populateOptions).exec() as T
+        }
+
+        // Executa a consulta e retorna o resultado
+        return mongooseQuery.exec() as T
     }
     async queryMany(query: IQuery<T>): Promise<IPaginatedResult<T>> {
         const filters = this.convertFiltersToMongooseQuery(query.query)
@@ -73,7 +91,17 @@ export class DbBaseRepository<T> implements IBaseRepository<T> {
         }
 
         // Execute the query to get the items
-        items = await mongooseQuery.exec()
+        if (this.populated_fields.length > 0) {
+            const populateOptions = this.populated_fields.map((field) => ({
+                path: field,
+                foreignField: 'id'
+                // Adicione outras opções aqui se necessário
+            }))
+
+            items = await mongooseQuery.populate(populateOptions).exec()
+        } else {
+            items = await mongooseQuery.exec()
+        }
 
         return {
             items,

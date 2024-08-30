@@ -5,7 +5,7 @@ import { NotFoundError } from '@/utils/customErrors'
 export class DeleteCategoryUseCase implements IDeleteCategory {
     constructor(private readonly categoryRepository: ICategoryRepository) {}
     async execute(id: string): Promise<boolean> {
-        const exists = await this.categoryRepository.queryOne({ _id: { _equals: id } })
+        const exists = await this.categoryRepository.queryOne({ id: { _equals: id } })
         if (!exists) {
             throw new NotFoundError('Categoria com esse ID não existe.')
         }

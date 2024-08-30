@@ -12,5 +12,5 @@ export interface IGetUsersResponse {
 }
 
 export interface IGetUsers {
-    get(data: IGetUsersDTO): Promise<IGetUsersResponse>
+    execute(data: IGetUsersDTO): Promise<IGetUsersResponse>
 }

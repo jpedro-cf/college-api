@@ -34,6 +34,6 @@ describe('UpdateUserUseCase', () => {
         jest.spyOn(repository, 'queryOne').mockReturnValueOnce(null)
 
         const res = await sut.execute('123', { email: '123' })
-        expect(res._id).toBeTruthy()
+        expect(res.id).toBeTruthy()
     })
 })

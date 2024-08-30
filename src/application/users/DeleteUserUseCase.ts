@@ -4,8 +4,8 @@ import { NotFoundError } from '@/utils/customErrors'
 
 export class DeleteUserUseCase implements IDeleteUser {
     constructor(private readonly usersRepository: IUsersRepository) {}
-    async delete(id: string): Promise<boolean> {
-        const exists = await this.usersRepository.queryOne({ _id: { _equals: id } })
+    async execute(id: string): Promise<boolean> {
+        const exists = await this.usersRepository.queryOne({ id: { _equals: id } })
         if (!exists) {
             throw new NotFoundError('Usuário com esse ID não existe.')
         }

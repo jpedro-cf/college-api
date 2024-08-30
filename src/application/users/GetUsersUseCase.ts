@@ -4,7 +4,7 @@ import { IGetUsers, IGetUsersDTO, IGetUsersResponse } from '@/interfaces/domain/
 export class GetUsersUseCase implements IGetUsers {
     constructor(private readonly usersRepository: IUsersRepository) {}
 
-    async get(data: IGetUsersDTO): Promise<IGetUsersResponse> {
+    async execute(data: IGetUsersDTO): Promise<IGetUsersResponse> {
         const response = await this.usersRepository.queryMany({
             query: {
                 name: { _contains: data.search ?? '' }

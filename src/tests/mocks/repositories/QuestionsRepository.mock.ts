@@ -1,7 +1,6 @@
 import { IQuestion } from '@/domain/Question'
 import { IQuestionsRepository } from '@/interfaces/application/repositories/QuestionsRepository'
 import { makeFakeQuestion } from '../models/QuestionModel.mock'
-import { IQuestionSchema } from '@/interfaces/application/schemas/QuestionSchema'
 import {
     IPaginatedResult,
     IQuery,
@@ -11,10 +10,10 @@ import {
 
 export const makeFakeQuestionsRepository = (): IQuestionsRepository => {
     class QuestionsRepositoryStub implements IQuestionsRepository {
-        async queryOne(query: TFiltersQuery<IQuestionSchema>): Promise<IQuestionSchema> {
+        async queryOne(query: TFiltersQuery<IQuestion>): Promise<IQuestion> {
             return Promise.resolve(makeFakeQuestion())
         }
-        async queryMany(query: IQuery<IQuestionSchema>): Promise<IPaginatedResult<IQuestionSchema>> {
+        async queryMany(query: IQuery<IQuestion>): Promise<IPaginatedResult<IQuestion>> {
             const data = {
                 items: [makeFakeQuestion()],
                 total_items: 1,
@@ -22,16 +21,16 @@ export const makeFakeQuestionsRepository = (): IQuestionsRepository => {
             }
             return Promise.resolve(data)
         }
-        async create(data: Partial<IQuestionSchema>): Promise<IQuestionSchema> {
+        async create(data: Partial<IQuestion>): Promise<IQuestion> {
             return Promise.resolve(makeFakeQuestion())
         }
         async delete(id: string): Promise<boolean> {
             return Promise.resolve(true)
         }
-        async update(id: string, data: TFieldQuery<IQuestionSchema>): Promise<IQuestionSchema> {
+        async update(id: string, data: TFieldQuery<IQuestion>): Promise<IQuestion> {
             return Promise.resolve(makeFakeQuestion())
         }
-        async getAll(): Promise<IQuestionSchema[]> {
+        async getAll(): Promise<IQuestion[]> {
             return Promise.resolve([makeFakeQuestion()])
         }
     }

@@ -21,5 +21,6 @@ describe('GetCategoriesUseCase', () => {
 
         const res = await sut.execute({ search: 'title' })
         expect(res.categories.length).toBeGreaterThan(0)
+        expect(res.pages).toBeGreaterThan(0)
     })
 })

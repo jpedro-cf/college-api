@@ -1,8 +1,4 @@
-import {
-    IAuthentication,
-    IAuthenticationDTO,
-    IAuthenticationResponse
-} from '@/interfaces/domain/useCases/auth/Authentication'
+import { IAuthentication, IAuthenticationDTO } from '@/interfaces/domain/useCases/auth/Authentication'
 import { makeFakeUserModel } from '../models/UserModel.mock'
 import { IUser } from '@/domain/User'
 
@@ -14,13 +10,10 @@ export const makeFakeAuthentication = (): IAuthentication => {
         async logout(token: string): Promise<boolean> {
             return Promise.resolve(true)
         }
-        async auth(authentication: IAuthenticationDTO): Promise<IAuthenticationResponse> {
+        async auth(authentication: IAuthenticationDTO): Promise<IUser> {
             const user = makeFakeUserModel()
             user.access_token = 'e28ujieuduy789'
-            return Promise.resolve({
-                user,
-                token: 'any_token'
-            })
+            return Promise.resolve(user)
         }
     }
     return new AuthenticationStub()

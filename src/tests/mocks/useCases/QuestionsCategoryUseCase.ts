@@ -4,7 +4,7 @@ import { makeFakeCategory } from '../models/CategoryModel.mock'
 
 export const makeFakeCreateQuestionsCategoryUseCase = (): ICreateCategory => {
     class CreateQuestionsCategoryUseCaseStub implements ICreateCategory {
-        async create(title: string, slug: string, image?: string): Promise<ICategory> {
+        async execute(title: string, slug: string): Promise<ICategory> {
             return Promise.resolve(makeFakeCategory())
         }
     }

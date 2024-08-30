@@ -1,3 +1,3 @@
 export interface IDeleteUser {
-    delete(id: string): Promise<boolean>
+    execute(id: string): Promise<boolean>
 }

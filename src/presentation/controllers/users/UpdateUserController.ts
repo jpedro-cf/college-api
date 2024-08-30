@@ -1,4 +1,3 @@
-import { IGetByToken } from '@/interfaces/domain/useCases/auth/GetByToken'
 import { IUpdateUser } from '@/interfaces/domain/useCases/users/UpdateUser'
 import { badRequest, ok, unauthorized } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'

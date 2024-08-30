@@ -1,7 +1,8 @@
+import { ICategory } from '@/domain/Category'
 import { IQuestion } from '@/domain/Question'
 import { ICategoryRepository } from '@/interfaces/application/repositories/CategoryRepository'
 import { IQuestionsRepository } from '@/interfaces/application/repositories/QuestionsRepository'
-import { ICreateQuestion, ICreateQuestionResponse } from '@/interfaces/domain/useCases/questions/CreateQuestion'
+import { ICreateQuestion } from '@/interfaces/domain/useCases/questions/CreateQuestion'
 import { NotFoundError } from '@/utils/customErrors'
 
 export class CreateQuestionUseCase implements ICreateQuestion {
@@ -9,15 +10,20 @@ export class CreateQuestionUseCase implements ICreateQuestion {
         private readonly questionsRepository: IQuestionsRepository,
         private readonly categoriesRepository: ICategoryRepository
     ) {}
-    async execute(question: Partial<IQuestion>, correct: number): Promise<ICreateQuestionResponse> {
-        const category_exists = await this.categoriesRepository.queryOne({ _id: { _equals: question.category_id } })
+    async execute(question: Partial<IQuestion>, correct: number): Promise<IQuestion> {
+        const categories = await Promise.all(
+            question.categories.map(async (category) => {
+                return await this.categoriesRepository.queryOne({ id: { _equals: category } })
+            })
+        )
 
-        if (!category_exists) {
+        const validCategories = categories.filter((category) => category !== null)
+
+        if (validCategories.length < 1) {
             throw new NotFoundError('Categoria com esse id não existe.')
         }
 
         const created = await this.questionsRepository.create({ correct_answer_id: correct, ...question })
-        const { correct_answer_id, ...data } = created
-        return { ...data, category_title: category_exists.title }
+        return created
     }
 }

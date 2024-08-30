@@ -21,7 +21,7 @@ describe('UpdateUserController', () => {
         const user = makeFakeUserModel()
 
         jest.spyOn(updateUser, 'execute').mockReturnValueOnce(Promise.reject(new NotFoundError('')))
-        const res = await sut.handle({ cookies: { access_token: '12312312123312' }, query: { id: user._id } })
+        const res = await sut.handle({ cookies: { access_token: '12312312123312' }, query: { id: user.id } })
         expect(res.statusCode).toBe(400)
     })
     test('should updated a user on success', async () => {

@@ -1,10 +1,10 @@
-import { IQuestionSchema } from '@/interfaces/application/schemas/QuestionSchema'
+import { IQuestion } from '@/domain/Question'
 
-export const makeFakeQuestion = (): IQuestionSchema => {
+export const makeFakeQuestion = (): IQuestion => {
     return {
-        _id: '321123123',
+        id: '321123123',
         question: 'Titulo da questão',
-        category_id: '213idoau2e89q',
+        categories: ['213idoau2e89q'],
         material: 'https://google.com.br',
         answers: [
             {

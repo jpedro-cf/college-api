@@ -1,8 +1,7 @@
 export interface ICategory {
-    _id: string
+    id: string
     title: string
     slug: string
-    image: string
     createdAt: Date
     updatedAt: Date
 }

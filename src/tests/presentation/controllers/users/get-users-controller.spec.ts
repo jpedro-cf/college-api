@@ -10,7 +10,7 @@ const makeSut = () => {
 describe('GetUsersController', () => {
     test('should return 500 if getUsers throws', async () => {
         const { sut, getUsers } = makeSut()
-        jest.spyOn(getUsers, 'get').mockReturnValueOnce(Promise.reject(new Error('')))
+        jest.spyOn(getUsers, 'execute').mockReturnValueOnce(Promise.reject(new Error('')))
 
         const res = await sut.handle({ query: {} })
         expect(res.statusCode).toBe(500)

@@ -1,5 +1,5 @@
 import { IDeleteCategory } from '@/interfaces/domain/useCases/categories/DeleteCategory'
-import { DeleteQuestionsCategoryController } from '@/presentation/controllers/categories/DeleteQuestionsCategoryController'
+import { DeleteCategoryController } from '@/presentation/controllers/categories/DeleteCategoryController'
 import { NotFoundError } from '@/utils/customErrors'
 
 const makeSut = () => {
@@ -9,7 +9,7 @@ const makeSut = () => {
         }
     }
     const deleteCategory = new DeleteCategory()
-    const sut = new DeleteQuestionsCategoryController(deleteCategory)
+    const sut = new DeleteCategoryController(deleteCategory)
     return { sut, deleteCategory }
 }
 

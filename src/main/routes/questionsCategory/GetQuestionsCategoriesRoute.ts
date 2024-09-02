@@ -1,6 +1,6 @@
 import { GetQuestionsCategoryUseCase } from '@/application/categories/GetQuestionsCategoryUseCase'
 import { DbQuestionsCategoryRepository } from '@/infra/database/repositories/DbCategoryRepository'
-import { GetQuestionsCategoryController } from '@/presentation/controllers/categories/GetQuestionsCategoryController'
+import { GetQuestionsCategoryController } from '@/presentation/controllers/categories/GetCategoriesController'
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify'
 
 export const GetQuestionsCategoryRoute: RouteHandlerMethod = async (request: FastifyRequest, reply: FastifyReply) => {

@@ -2,6 +2,7 @@ import { IAuthentication } from '@/interfaces/domain/useCases/auth/Authenticatio
 import { badRequest, ok, serverError, unauthorized } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'
+import { mapErrorToHttpResponse } from '@/presentation/helpers/ErrorMapper'
 
 export class CurrentUserInfoController implements IController {
     constructor(private readonly authentication: IAuthentication) {}
@@ -22,7 +23,7 @@ export class CurrentUserInfoController implements IController {
 
             return ok(user)
         } catch (error) {
-            return serverError(error)
+            return mapErrorToHttpResponse(error)
         }
     }
 }

@@ -3,7 +3,7 @@ import { ok, serverError } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'
 
-export class GetQuestionsCategoryController implements IController {
+export class GetCategoriesController implements IController {
     constructor(private readonly getCategories: IGetCategories) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {

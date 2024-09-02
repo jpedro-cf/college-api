@@ -1,33 +1,31 @@
-import { CreateQuestionsCategoryController } from '@/presentation/controllers/categories/CreateQuestionsCategoryController'
+import { CreateCategoryController } from '@/presentation/controllers/categories/CreateCategoryController'
 import { makeFakeCreateQuestionsCategoryUseCase } from '@/tests/mocks/useCases/QuestionsCategoryUseCase'
+import { AlreadyInUseError } from '@/utils/customErrors'
 
 const makeSut = () => {
     const createCategoryUseCase = makeFakeCreateQuestionsCategoryUseCase()
-    const sut = new CreateQuestionsCategoryController(createCategoryUseCase)
+    const sut = new CreateCategoryController(createCategoryUseCase)
 
     return { sut, createCategoryUseCase }
 }
-describe('CreateQuestionsCategoryController', () => {
+describe('CreateCategoryController', () => {
     test('Should return 400 if category already exists', async () => {
-        const { sut } = makeSut()
-        jest.spyOn(sut, 'handleMultpartForm').mockImplementationOnce(async () => {
-            return { title: 'string', image: null }
-        })
+        const { sut, createCategoryUseCase } = makeSut()
+
+        jest.spyOn(createCategoryUseCase, 'execute').mockReturnValueOnce(Promise.reject(new AlreadyInUseError('')))
+
         const res = await sut.handle({
-            parts: () => {
-                return { mock: true }
+            body: {
+                title: 'teste'
             }
         })
         expect(res.statusCode).toBe(400)
     })
     test('Should return 200 on success', async () => {
         const { sut } = makeSut()
-        jest.spyOn(sut, 'handleMultpartForm').mockImplementationOnce(async () => {
-            return { title: 'string', image: 'imagem' }
-        })
         const res = await sut.handle({
-            parts: () => {
-                return { mock: true }
+            body: {
+                title: 'teste'
             }
         })
         expect(res.statusCode).toBe(200)

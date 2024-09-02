@@ -4,7 +4,7 @@ import { IController } from '@/interfaces/presentation/controller'
 import { IHttpRequest, IHttpResponse } from '@/interfaces/presentation/http'
 import { mapErrorToHttpResponse } from '@/presentation/helpers/ErrorMapper'
 
-export class DeleteQuestionsCategoryController implements IController {
+export class DeleteCategoryController implements IController {
     constructor(private readonly deleteCategory: IDeleteCategory) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {

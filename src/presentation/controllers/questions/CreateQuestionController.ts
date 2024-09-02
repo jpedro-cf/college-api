@@ -1,4 +1,3 @@
-import { IDiscordSendQuestion } from '@/interfaces/domain/useCases/discord/questions/DiscordSendQuestion'
 import { ICreateQuestion } from '@/interfaces/domain/useCases/questions/CreateQuestion'
 import { badRequest, ok, serverError } from '@/interfaces/presentation/codes'
 import { IController } from '@/interfaces/presentation/controller'
@@ -29,7 +28,10 @@ export class CreateQuestionController implements IController {
                 return badRequest(new Error('A resposta correta deve corresponder à um id de uma das respostas.'))
             }
 
-            const created = await this.createQuestion.execute({ question, material, category_id, answers }, correct)
+            const created = await this.createQuestion.execute(
+                { question, material, categories: [category_id], answers },
+                correct
+            )
 
             return ok(created)
         } catch (error) {

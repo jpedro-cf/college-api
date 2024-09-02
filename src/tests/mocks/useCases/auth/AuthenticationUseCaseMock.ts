@@ -1,5 +1,5 @@
 import { IAuthentication, IAuthenticationDTO } from '@/interfaces/domain/useCases/auth/Authentication'
-import { makeFakeUserModel } from '../models/UserModel.mock'
+import { makeFakeUserModel } from '../../models/UserModel.mock'
 import { IUser } from '@/domain/User'
 
 export const makeFakeAuthentication = (): IAuthentication => {

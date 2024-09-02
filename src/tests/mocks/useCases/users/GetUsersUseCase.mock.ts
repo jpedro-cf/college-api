@@ -1,5 +1,5 @@
 import { IGetUsers, IGetUsersDTO, IGetUsersResponse } from '@/interfaces/domain/useCases/users/GetUsers'
-import { makeFakeUserModel } from '../models/UserModel.mock'
+import { makeFakeUserModel } from '../../models/UserModel.mock'
 
 export const makeFakeGetUsers = (): IGetUsers => {
     class GetUsersStub implements IGetUsers {

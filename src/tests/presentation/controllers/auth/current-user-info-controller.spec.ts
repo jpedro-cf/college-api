@@ -1,5 +1,5 @@
 import { CurrentUserInfoController } from '@/presentation/controllers/auth/CurrentUserInfoController'
-import { makeFakeAuthentication } from '@/tests/mocks/useCases/AuthenticationUseCaseMock'
+import { makeFakeAuthentication } from '@/tests/mocks/useCases/auth/AuthenticationUseCaseMock'
 
 const makeSut = () => {
     const authentication = makeFakeAuthentication()

@@ -1,7 +1,7 @@
 import { UpdateUserController } from '@/presentation/controllers/users/UpdateUserController'
 import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
-import { makeFakeAuthentication } from '@/tests/mocks/useCases/AuthenticationUseCaseMock'
-import { makeFakeUpdateUser } from '@/tests/mocks/useCases/UpdateUserUseCase.mock'
+import { makeFakeAuthentication } from '@/tests/mocks/useCases/auth/AuthenticationUseCaseMock'
+import { makeFakeUpdateUser } from '@/tests/mocks/useCases/users/UpdateUserUseCase.mock'
 import { NotFoundError } from '@/utils/customErrors'
 
 const makeSut = () => {

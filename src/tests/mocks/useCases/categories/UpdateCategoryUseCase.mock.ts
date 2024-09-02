@@ -1,8 +1,8 @@
 import { ICategory } from '@/domain/Category'
 import { IUpdateCategory } from '@/interfaces/domain/useCases/categories/UpdateCategory'
 
-export const makeFakeUpdateQuestionsCategory = (): IUpdateCategory => {
-    class UpdateQuestionsCategoryStub implements IUpdateCategory {
+export const makeFakeUpdateCategory = (): IUpdateCategory => {
+    class Stub implements IUpdateCategory {
         async execute(id: string, fields: Partial<ICategory>): Promise<ICategory> {
             return Promise.resolve({
                 id: fields.id,
@@ -13,5 +13,5 @@ export const makeFakeUpdateQuestionsCategory = (): IUpdateCategory => {
             })
         }
     }
-    return new UpdateQuestionsCategoryStub()
+    return new Stub()
 }

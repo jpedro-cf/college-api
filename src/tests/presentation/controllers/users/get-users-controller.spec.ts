@@ -1,5 +1,5 @@
 import { GetUsersController } from '@/presentation/controllers/users/GetUsersController'
-import { makeFakeGetUsers } from '@/tests/mocks/useCases/GetUsersUseCase.mock'
+import { makeFakeGetUsers } from '@/tests/mocks/useCases/users/GetUsersUseCase.mock'
 
 const makeSut = () => {
     const getUsers = makeFakeGetUsers()

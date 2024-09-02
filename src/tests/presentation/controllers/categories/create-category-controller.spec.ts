@@ -1,9 +1,9 @@
 import { CreateCategoryController } from '@/presentation/controllers/categories/CreateCategoryController'
-import { makeFakeCreateQuestionsCategoryUseCase } from '@/tests/mocks/useCases/QuestionsCategoryUseCase'
+import { makeFakeCreateCategoryUseCase } from '@/tests/mocks/useCases/categories/CreateCategoryUseCase'
 import { AlreadyInUseError } from '@/utils/customErrors'
 
 const makeSut = () => {
-    const createCategoryUseCase = makeFakeCreateQuestionsCategoryUseCase()
+    const createCategoryUseCase = makeFakeCreateCategoryUseCase()
     const sut = new CreateCategoryController(createCategoryUseCase)
 
     return { sut, createCategoryUseCase }

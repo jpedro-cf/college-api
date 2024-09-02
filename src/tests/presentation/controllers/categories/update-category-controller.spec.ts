@@ -1,16 +1,16 @@
 import { UpdateCategoryController } from '@/presentation/controllers/categories/UpdateCategoryController'
-import { makeFakeGetQuestionsCategoryByIdUseCase } from '@/tests/mocks/useCases/GetQuestionsCategoryByIdUseCase.mock'
-import { makeFakeUpdateQuestionsCategory } from '@/tests/mocks/useCases/UpdateQuestionsCategoryUseCase.mock'
+import { makeFakeGetCategoryByIdUseCase } from '@/tests/mocks/useCases/categories/GetCategoryByIdUseCase.mock'
+import { makeFakeUpdateCategory } from '@/tests/mocks/useCases/categories/UpdateCategoryUseCase.mock'
 import { AlreadyInUseError } from '@/utils/customErrors'
 
 const makeSut = () => {
-    const getById = makeFakeGetQuestionsCategoryByIdUseCase()
-    const updateCategory = makeFakeUpdateQuestionsCategory()
+    const getById = makeFakeGetCategoryByIdUseCase()
+    const updateCategory = makeFakeUpdateCategory()
     const sut = new UpdateCategoryController(getById, updateCategory)
     return { sut, getById, updateCategory }
 }
 
-describe('UpdateQuestionsCategoryController', () => {
+describe('UpdateCategoryController', () => {
     test('should return 500 if getByID throws', async () => {
         const { sut, getById } = makeSut()
 

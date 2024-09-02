@@ -1,9 +1,7 @@
-import { badRequest } from '@/interfaces/presentation/codes'
 import { SignUpController } from '@/presentation/controllers/auth/SignUpController'
-import { makeFakeAuthentication } from '@/tests/mocks/useCases/AuthenticationUseCaseMock'
-import { makeSendVerificationService } from '@/tests/mocks/useCases/SendVerificationService.mock'
-import { makeSignUpUseCaseStub } from '@/tests/mocks/useCases/SignUp.usecase.mock'
-import { AlreadyInUseError, NotFoundError } from '@/utils/customErrors'
+import { makeFakeAuthentication } from '@/tests/mocks/useCases/auth/AuthenticationUseCaseMock'
+import { makeSignUpUseCaseStub } from '@/tests/mocks/useCases/auth/SignUp.usecase.mock'
+import { AlreadyInUseError } from '@/utils/customErrors'
 
 const makeSut = () => {
     const signUp = makeSignUpUseCaseStub()

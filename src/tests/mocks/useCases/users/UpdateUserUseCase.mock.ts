@@ -1,6 +1,6 @@
 import { IUser } from '@/domain/User'
 import { IUpdateUser } from '@/interfaces/domain/useCases/users/UpdateUser'
-import { makeFakeUserModel } from '../models/UserModel.mock'
+import { makeFakeUserModel } from '../../models/UserModel.mock'
 
 export const makeFakeUpdateUser = (): IUpdateUser => {
     class UpdateUserStub implements IUpdateUser {

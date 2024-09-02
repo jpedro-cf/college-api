@@ -25,6 +25,11 @@ export class SignUpController implements IController {
             })
 
             const user = await this.authentication.auth({ email, password })
+
+            if (!user) {
+                return serverError(new Error('Ocorreu um erro ao realizar essa operação.'))
+            }
+
             return ok(user, user.access_token)
         } catch (error) {
             return mapErrorToHttpResponse(error)

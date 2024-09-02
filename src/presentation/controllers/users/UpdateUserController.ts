@@ -17,7 +17,7 @@ export class UpdateUserController implements IController {
             }
 
             const current_user = await this.authentication.verifySession(httpRequest.cookies.access_token)
-            if (current_user.id != id && !current_user.roles.includes('admin')) {
+            if ((current_user.id != id && !current_user.roles.includes('admin')) || !current_user) {
                 return unauthorized(new AuthenticationError('Você não tem permissão pra editar esse usuário.'))
             }
 

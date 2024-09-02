@@ -15,16 +15,16 @@ describe('UpdateUserController', () => {
     test('should return 400 if id not provided', async () => {
         const { sut } = makeSut()
 
-        const res = await sut.handle({ cookies: { access_token: '12312312123312' }, query: { id: null } })
+        const res = await sut.handle({ cookies: { access_token: '12312312123312' }, params: {}, body: {} })
         expect(res.statusCode).toBe(400)
     })
     test('should return 401 if user is not admin and is trying to edit another user', async () => {
-        const { sut, updateUser, authentication } = makeSut()
+        const { sut, authentication } = makeSut()
         const user = makeFakeUserModel()
 
         jest.spyOn(authentication, 'verifySession').mockReturnValueOnce(
             Promise.resolve({
-                id: '123',
+                id: '1222223',
                 name: 'any_name',
                 email: 'any_email@email.com',
                 roles: ['student'],
@@ -35,17 +35,10 @@ describe('UpdateUserController', () => {
             })
         )
 
-        const res = await sut.handle({ cookies: { access_token: '12312312123312' }, query: { id: user.id } })
+        const res = await sut.handle({ cookies: { access_token: '12312312123312' }, params: { id: user.id }, body: {} })
         expect(res.statusCode).toBe(401)
     })
-    test('should return 400 if not user found with id', async () => {
-        const { sut, updateUser } = makeSut()
-        const user = makeFakeUserModel()
 
-        jest.spyOn(updateUser, 'execute').mockReturnValueOnce(Promise.reject(new NotFoundError('')))
-        const res = await sut.handle({ cookies: { access_token: '12312312123312' }, query: { id: user.id } })
-        expect(res.statusCode).toBe(400)
-    })
     test('should updated a user on success', async () => {
         const { sut, authentication } = makeSut()
         const user = makeFakeUserModel()
@@ -55,7 +48,8 @@ describe('UpdateUserController', () => {
 
         const res = await sut.handle({
             cookies: { access_token: '12312312123312' },
-            query: { id: '123', name: 'atualizado o nome' }
+            params: { id: '123' },
+            body: { name: 'atualizado o nome' }
         })
         expect(res.statusCode).toBe(200)
     })

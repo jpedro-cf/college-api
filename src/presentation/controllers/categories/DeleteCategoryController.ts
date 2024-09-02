@@ -8,7 +8,7 @@ export class DeleteCategoryController implements IController {
     constructor(private readonly deleteCategory: IDeleteCategory) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const { id } = httpRequest.query
+            const { id } = httpRequest.params
 
             if (!id) {
                 return badRequest(new Error('ID da categoria é obrigatório.'))

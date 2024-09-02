@@ -16,9 +16,10 @@ describe('UpdateCategoryController', () => {
 
         jest.spyOn(getById, 'execute').mockReturnValueOnce(Promise.reject(new Error('')))
         const res = await sut.handle({
-            body: {
+            params: {
                 id: 'id'
-            }
+            },
+            body: {}
         })
         expect(res.statusCode).toBe(500)
     })
@@ -28,9 +29,10 @@ describe('UpdateCategoryController', () => {
 
         jest.spyOn(updateCategory, 'execute').mockReturnValueOnce(Promise.reject(new AlreadyInUseError('')))
         const res = await sut.handle({
-            body: {
+            params: {
                 id: 'id'
-            }
+            },
+            body: { title: 'title' }
         })
         expect(res.statusCode).toBe(400)
     })
@@ -38,9 +40,10 @@ describe('UpdateCategoryController', () => {
     test('Should return 200 on success', async () => {
         const { sut } = makeSut()
         const res = await sut.handle({
-            body: {
+            params: {
                 id: 'id'
-            }
+            },
+            body: { title: 'title' }
         })
         expect(res.statusCode).toBe(200)
     })

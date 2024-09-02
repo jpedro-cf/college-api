@@ -14,7 +14,8 @@ export class UpdateCategoryController implements IController {
     constructor(private readonly getCategoryByID: IGetCategoryByID, private readonly updateCategory: IUpdateCategory) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const { title, id } = httpRequest.body
+            const { title } = httpRequest.body
+            const { id } = httpRequest.params
 
             const query: any = {}
 

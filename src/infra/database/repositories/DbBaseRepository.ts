@@ -11,10 +11,12 @@ import { Model } from 'mongoose'
 export class DbBaseRepository<T> implements IBaseRepository<T> {
     readonly model: Model<T>
     readonly populated_fields: string[]
+    readonly exclude: string[]
 
-    constructor(model: Model<T>, populated_fields = []) {
+    constructor(model: Model<T>, populated_fields = [], exclude = []) {
         this.model = model
         this.populated_fields = populated_fields
+        this.exclude = exclude
     }
 
     async create(data: Partial<T>): Promise<T> {

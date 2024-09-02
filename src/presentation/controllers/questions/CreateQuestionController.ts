@@ -10,7 +10,7 @@ export class CreateQuestionController implements IController {
         try {
             const { question, material, category_id, answers, correct } = httpRequest.body
 
-            const requiredFields = ['question', 'category_id', 'answers', 'created_at', 'correct']
+            const requiredFields = ['question', 'category_id', 'answers', 'correct']
 
             for (const field of requiredFields) {
                 if (!httpRequest.body[field]) {

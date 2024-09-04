@@ -3,7 +3,9 @@ import { FastifyInstance } from 'fastify'
 import { makeAuthUseCase } from '../factories/use-cases/AuthUseCasesFactory'
 import {
     makeCreateQuestionController,
-    makeGetQuestionsController
+    makeDeleteQuestionController,
+    makeGetQuestionsController,
+    makeUpdateQuestionController
 } from '../factories/controllers/QuestionsControllersFactory'
 
 export default function questionsRoutes(app: FastifyInstance) {
@@ -19,6 +21,20 @@ export default function questionsRoutes(app: FastifyInstance) {
 
     app.get('/api/questions', { preHandler: studentPreHandler.handle.bind(studentPreHandler) }, async (req, res) => {
         const controller = makeGetQuestionsController()
+        const { statusCode, body } = await controller.handle(req)
+
+        return res.code(statusCode).send(body)
+    })
+
+    app.put('/api/questions/:id', { preHandler: adminPrehandler.handle.bind(adminPrehandler) }, async (req, res) => {
+        const controller = makeUpdateQuestionController()
+        const { statusCode, body } = await controller.handle(req)
+
+        return res.code(statusCode).send(body)
+    })
+
+    app.delete('/api/questions/:id', { preHandler: adminPrehandler.handle.bind(adminPrehandler) }, async (req, res) => {
+        const controller = makeDeleteQuestionController()
         const { statusCode, body } = await controller.handle(req)
 
         return res.code(statusCode).send(body)

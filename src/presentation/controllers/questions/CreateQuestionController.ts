@@ -10,7 +10,7 @@ export class CreateQuestionController implements IController {
         try {
             const { question, material, category_id, answers, correct } = httpRequest.body
 
-            const requiredFields = ['question', 'category_id', 'answers', 'correct']
+            const requiredFields = ['question', 'answers', 'correct']
 
             for (const field of requiredFields) {
                 if (!httpRequest.body[field]) {
@@ -29,7 +29,7 @@ export class CreateQuestionController implements IController {
             }
 
             const created = await this.createQuestion.execute(
-                { question, material, categories: [category_id], answers },
+                { question, material, categories: category_id ? [category_id] : null, answers },
                 correct
             )
 

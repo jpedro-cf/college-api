@@ -5,7 +5,7 @@ import { makeGetUsersController, makeUpdateUsersController } from '../factories/
 
 export default function usersRoutes(app: FastifyInstance) {
     const adminPrehandler = new RolesPreHandler(['admin'], makeAuthUseCase())
-    const usersPreHandler = new RolesPreHandler(['admin', 'student', 'editor', 'manager'], makeAuthUseCase())
+    const usersPreHandler = new RolesPreHandler(['admin', 'student', 'editor', 'manager', 'user'], makeAuthUseCase())
 
     app.get('/api/users', { preHandler: adminPrehandler.handle.bind(adminPrehandler) }, async (req, res) => {
         const controller = makeGetUsersController()

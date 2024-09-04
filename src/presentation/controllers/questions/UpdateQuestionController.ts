@@ -31,7 +31,7 @@ export class UpdateQuestionController implements IController {
             const updated = await this.updateQuestion.execute(id, {
                 question,
                 material,
-                categories,
+                categories: categories ?? null,
                 answers,
                 correct_answer_id: correct
             })

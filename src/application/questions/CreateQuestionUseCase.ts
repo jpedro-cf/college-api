@@ -11,17 +11,22 @@ export class CreateQuestionUseCase implements ICreateQuestion {
         private readonly categoriesRepository: ICategoryRepository
     ) {}
     async execute(question: Partial<IQuestion>, correct: number): Promise<IQuestion> {
-        const categories = await Promise.all(
-            question.categories.map(async (category) => {
-                return await this.categoriesRepository.queryOne({ id: { _equals: category } })
-            })
-        )
-
-        const validCategories = categories.filter((category) => category !== null)
-
-        if (validCategories.length < 1) {
-            throw new NotFoundError('Categoria com esse id não existe.')
+        if (question.categories && question.categories.length > 0) {
+            await Promise.all(
+                question.categories.map(async (category) => {
+                    const exists = await this.categoriesRepository.queryOne({ id: { _equals: category } })
+                    if (!exists) {
+                        throw new NotFoundError('Categoria com esse id não existe.')
+                    }
+                })
+            )
         }
+
+        // const validCategories = categories.filter((category) => category !== null)
+
+        // if (validCategories.length < 1) {
+        //     throw new NotFoundError('Categoria com esse id não existe.')
+        // }
 
         const created = await this.questionsRepository.create({ correct_answer_id: correct, ...question })
         return created

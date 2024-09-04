@@ -1,10 +1,12 @@
 import { UpdateQuestionUseCase } from '@/application/questions/UpdateQuestionUseCase'
+import { makeFakeCategoryRepo } from '@/tests/mocks/repositories/QuestionsCategoryRepository.mock'
 import { makeFakeQuestionsRepository } from '@/tests/mocks/repositories/QuestionsRepository.mock'
 
 const makeSut = () => {
     const questionsRepository = makeFakeQuestionsRepository()
-    const sut = new UpdateQuestionUseCase(questionsRepository)
-    return { sut, questionsRepository }
+    const categoriesRepository = makeFakeCategoryRepo()
+    const sut = new UpdateQuestionUseCase(questionsRepository, categoriesRepository)
+    return { sut, questionsRepository, categoriesRepository }
 }
 
 describe('UpdateQuestionUseCase', () => {
@@ -16,6 +18,16 @@ describe('UpdateQuestionUseCase', () => {
         const res = sut.execute('123', { question: 'Atualizar' })
         expect(res).rejects.toThrow()
     })
+
+    test('should category provided does not exist', async () => {
+        const { sut, categoriesRepository } = makeSut()
+
+        jest.spyOn(categoriesRepository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
+
+        const res = sut.execute('123', { question: 'Atualizar', categories: ['id_category', 'id_category_2'] })
+        expect(res).rejects.toThrow()
+    })
+
     test('should return updated question on success', async () => {
         const { sut } = makeSut()
 

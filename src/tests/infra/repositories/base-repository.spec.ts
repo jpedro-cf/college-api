@@ -88,19 +88,22 @@ describe('BaseRepository', () => {
             }
         ])
 
-        const result = await sut.queryMany({
-            query: {
-                name: { _contains: 'rafael' }
+        const result = await sut.queryMany(
+            {
+                query: {
+                    name: { _contains: 'rafael' }
+                },
+                order: {
+                    by: 'points',
+                    direction: 'asc'
+                },
+                pagination: {
+                    per_page: 1,
+                    page: 1
+                }
             },
-            order: {
-                by: 'points',
-                direction: 'asc'
-            },
-            pagination: {
-                per_page: 1,
-                page: 1
-            }
-        })
+            ['email']
+        )
 
         expect(result.items[0].points).toBe(10)
         expect(result.items[0].name).toContain('rafael')

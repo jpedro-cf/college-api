@@ -40,10 +40,19 @@ export class DbBaseRepository<T> implements IBaseRepository<T> {
         return await this.model.find().lean()
     }
 
-    async queryOne(query: TFiltersQuery<T>): Promise<T> {
+    async queryOne(query: TFiltersQuery<T>, omit?: (keyof T)[]): Promise<T> {
         const data = this.convertFiltersToMongooseQuery(query)
-
         const mongooseQuery = this.model.findOne(data)
+
+        // Se houver campos a serem omitidos, ajusta a projeção da consulta
+        if (omit && omit.length > 0) {
+            // Cria um objeto de seleção, onde o valor é 0 para omitir o campo
+            const omitFields = omit.reduce((acc, field) => {
+                acc[field as string] = 0
+                return acc
+            }, {} as Record<string, 0>)
+            mongooseQuery.select(omitFields)
+        }
 
         // Verifica se há campos a serem populados
         if (this.populated_fields.length > 0) {
@@ -61,23 +70,23 @@ export class DbBaseRepository<T> implements IBaseRepository<T> {
         // Executa a consulta e retorna o resultado
         return mongooseQuery.exec() as T
     }
-    async queryMany(query: IQuery<T>): Promise<IPaginatedResult<T>> {
+    async queryMany(query: IQuery<T>, omit?: (keyof T)[]): Promise<IPaginatedResult<T>> {
         const filters = this.convertFiltersToMongooseQuery(query.query)
 
-        // Initialize the query
+        // Inicializa a consulta
         let mongooseQuery = this.model.find(filters)
 
-        // Apply sorting if 'order' is provided
+        // Aplica ordenação se 'order' for fornecido
         if (query.order) {
             const sortOption: Record<string, 1 | -1> = {}
             sortOption[query.order.by as string] = query.order.direction === 'asc' ? 1 : -1
             mongooseQuery = mongooseQuery.sort(sortOption)
         }
 
-        // Count total items before applying pagination
+        // Conta o total de itens antes de aplicar a paginação
         const total_items = await this.model.countDocuments(filters).exec()
 
-        // Initialize pagination variables
+        // Inicializa as variáveis de paginação
         let items: T[] = []
         let total_pages = 1
 
@@ -85,14 +94,24 @@ export class DbBaseRepository<T> implements IBaseRepository<T> {
             const { page, per_page } = query.pagination
             const skip = (page - 1) * per_page
 
-            // Apply pagination
+            // Aplica a paginação
             mongooseQuery = mongooseQuery.skip(skip).limit(per_page)
 
-            // Calculate total pages
+            // Calcula o total de páginas
             total_pages = Math.ceil(total_items / per_page)
         }
 
-        // Execute the query to get the items
+        // Se houver campos a serem omitidos, ajusta a projeção da consulta
+        if (omit && omit.length > 0) {
+            // Cria um objeto de seleção, onde o valor é 0 para omitir o campo
+            const omitFields = omit.reduce((acc, field) => {
+                acc[field as string] = 0
+                return acc
+            }, {} as Record<string, 0>)
+            mongooseQuery.select(omitFields)
+        }
+
+        // Executa a consulta para obter os itens
         if (this.populated_fields.length > 0) {
             const populateOptions = this.populated_fields.map((field) => ({
                 path: field,

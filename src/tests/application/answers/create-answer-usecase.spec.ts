@@ -36,6 +36,13 @@ describe('CreateAnswerUseCase', () => {
         expect(res).rejects.toThrow()
     })
 
+    test('should throw if user already answered question', async () => {
+        const { sut } = makeSut()
+
+        const res = sut.execute(req)
+        expect(res).rejects.toThrow()
+    })
+
     test('answers repository should be called with correct=false if answer is not correct and user should lose 5 points', async () => {
         const { sut, questionsRepository, answersRepository, usersRepository } = makeSut()
 
@@ -43,6 +50,7 @@ describe('CreateAnswerUseCase', () => {
         questionModel.correct_answer_id = 1
 
         jest.spyOn(questionsRepository, 'queryOne').mockReturnValueOnce(Promise.resolve(questionModel))
+        jest.spyOn(answersRepository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
         const spy = jest.spyOn(answersRepository, 'create')
         const userSpy = jest.spyOn(usersRepository, 'update')
 

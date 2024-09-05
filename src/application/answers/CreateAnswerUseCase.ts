@@ -3,7 +3,7 @@ import { IAnswersRepository } from '@/interfaces/application/repositories/Answer
 import { IQuestionsRepository } from '@/interfaces/application/repositories/QuestionsRepository'
 import { IUsersRepository } from '@/interfaces/application/repositories/UsersRepository'
 import { ICreateAnswer, ICreateAnswerDTO } from '@/interfaces/domain/useCases/answers/CreateAnswer'
-import { NotFoundError } from '@/utils/customErrors'
+import { AlreadyInUseError, NotFoundError } from '@/utils/customErrors'
 
 export class CreateAnswerUseCase implements ICreateAnswer {
     constructor(
@@ -22,6 +22,15 @@ export class CreateAnswerUseCase implements ICreateAnswer {
 
         if (!question) {
             throw new NotFoundError('Questão não encontrada.')
+        }
+
+        if (
+            await this.answersRepository.queryOne({
+                user: { _equals: data.user_id },
+                question: { _equals: data.question_id }
+            })
+        ) {
+            throw new AlreadyInUseError('Você não pode responder a mesma questão duas vezes.')
         }
 
         const request: Partial<IAnswer> = {

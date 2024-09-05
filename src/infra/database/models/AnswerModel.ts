@@ -9,8 +9,8 @@ const answerSchema = new Schema<IAnswer>(
             default: uuidv4, // Gera um UUID v4 como valor padrão
             unique: true // Garante que o ID seja único
         },
-        user: [{ type: String, ref: 'User' }],
-        question: [{ type: String, ref: 'Question' }],
+        user: { type: String, ref: 'User' },
+        question: { type: String, ref: 'Question' },
         answer_id: { type: Number },
         correct: { type: Boolean }
     },

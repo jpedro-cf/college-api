@@ -1,7 +1,7 @@
 import { IAnswer } from '@/domain/Answer'
-import { IUser } from '@/domain/User'
 
 export interface IGetAnswersDTO {
+    user_id: string
     search?: string
     order?: 'desc' | 'asc'
     current_page?: number

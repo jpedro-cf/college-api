@@ -11,7 +11,8 @@ export class GetAnswersUseCase implements IGetAnswers {
     async get(data: IGetAnswersDTO): Promise<IGetAllAnswersResponse> {
         const response = await this.answersRepository.queryMany({
             query: {
-                question: { _contains: data.search ?? '' }
+                question: { _contains: data.search ?? '' },
+                user: { _equals: data.user_id }
             },
             order: {
                 by: 'createdAt',

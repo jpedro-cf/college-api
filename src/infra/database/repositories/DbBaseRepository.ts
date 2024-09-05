@@ -62,7 +62,6 @@ export class DbBaseRepository<T> implements IBaseRepository<T> {
                 foreignField: 'id'
                 // Adicione outras opções se necessário
             }))
-
             // Aplica a população
             return mongooseQuery.populate(populateOptions).exec() as T
         }

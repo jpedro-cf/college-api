@@ -8,19 +8,22 @@ import {
 export class GetQuestionsUseCase implements IGetQuestions {
     constructor(private readonly questionsRepository: IQuestionsRepository) {}
     async execute(data: IGetQuestionsDTO): Promise<IGetAllQuestionsResponse> {
-        const response = await this.questionsRepository.queryMany({
-            query: {
-                question: { _contains: data.search ?? '' }
+        const response = await this.questionsRepository.queryMany(
+            {
+                query: {
+                    question: { _contains: data.search ?? '' }
+                },
+                order: {
+                    by: 'createdAt',
+                    direction: data.order ?? 'desc'
+                },
+                pagination: {
+                    page: data.current_page ?? 1,
+                    per_page: data.per_page ?? 9
+                }
             },
-            order: {
-                by: 'createdAt',
-                direction: data.order ?? 'desc'
-            },
-            pagination: {
-                page: data.current_page ?? 1,
-                per_page: data.per_page ?? 9
-            }
-        })
+            ['correct_answer_id']
+        )
         return {
             questions: response.items,
             pages: response.total_pages

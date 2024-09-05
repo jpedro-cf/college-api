@@ -2,6 +2,7 @@ import { CreateQuestionUseCase } from '@/application/questions/CreateQuestionUse
 import { DeleteQuestionUseCase } from '@/application/questions/DeleteQuestionUseCase'
 import { GetQuestionsUseCase } from '@/application/questions/GetQuestionsUseCase'
 import { UpdateQuestionUseCase } from '@/application/questions/UpdateQuestionUseCase'
+import { DbAnswersRepository } from '@/infra/database/repositories/DbAnswersRepository'
 import { DbCategoryRepository } from '@/infra/database/repositories/DbCategoryRepository'
 import { DbQuestionsRepository } from '@/infra/database/repositories/DbQuestionsRepository'
 
@@ -18,5 +19,5 @@ export const makeUpdateQuestion = (): UpdateQuestionUseCase => {
 }
 
 export const makeDeleteQuestion = (): DeleteQuestionUseCase => {
-    return new DeleteQuestionUseCase(new DbQuestionsRepository())
+    return new DeleteQuestionUseCase(new DbQuestionsRepository(), new DbAnswersRepository())
 }

@@ -5,6 +5,6 @@ import { AnswerModel } from '../models/AnswerModel'
 
 export class DbAnswersRepository extends DbBaseRepository<IAnswer> implements IAnswersRepository {
     constructor() {
-        super(AnswerModel)
+        super(AnswerModel, ['question'])
     }
 }

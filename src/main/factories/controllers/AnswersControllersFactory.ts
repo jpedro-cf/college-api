@@ -9,7 +9,7 @@ export const makeCreateAnswerController = (): CreateAnswerController => {
 }
 
 export const makeGetAnswersController = (): GetAnswersController => {
-    return new GetAnswersController(makeGetAnswersUseCase())
+    return new GetAnswersController(makeAuthUseCase(), makeGetAnswersUseCase())
 }
 
 export const makeGetAnswersByIDController = (): GetAnswerByIDController => {

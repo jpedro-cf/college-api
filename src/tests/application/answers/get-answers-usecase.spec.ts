@@ -11,7 +11,7 @@ describe('GetAnswersUseCase', () => {
     test('should return a list of questions on get()', async () => {
         const { sut } = makeSut()
 
-        const res = await sut.get({ search: 'title' })
+        const res = await sut.get({ user_id: '123', search: 'title' })
         expect(res.answers.length).toBeGreaterThan(0)
         expect(res.pages).toBeGreaterThan(0)
     })

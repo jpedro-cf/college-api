@@ -27,6 +27,7 @@ export class CreateAnswerUseCase implements ICreateAnswer {
         const request: Partial<IAnswer> = {
             user: user.id,
             question: question.id,
+            answer_id: data.answer_id,
             correct: data.answer_id == question.correct_answer_id ? true : false
         }
 

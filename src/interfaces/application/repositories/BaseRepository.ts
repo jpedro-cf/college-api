@@ -40,7 +40,7 @@ export interface IBaseRepository<T> {
     create(data: Partial<T>): Promise<T>
     delete(id: string): Promise<boolean>
     update(id: string, data: TFieldQuery<T>): Promise<T>
-    queryOne(query: TFiltersQuery<T>): Promise<T>
-    queryMany(query: IQuery<T>): Promise<IPaginatedResult<T>>
+    queryOne(query: TFiltersQuery<T>, omit?: (keyof T)[]): Promise<T>
+    queryMany(query: IQuery<T>, omit?: (keyof T)[]): Promise<IPaginatedResult<T>>
     getAll(): Promise<T[]>
 }

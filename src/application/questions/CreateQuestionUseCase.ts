@@ -22,12 +22,6 @@ export class CreateQuestionUseCase implements ICreateQuestion {
             )
         }
 
-        // const validCategories = categories.filter((category) => category !== null)
-
-        // if (validCategories.length < 1) {
-        //     throw new NotFoundError('Categoria com esse id não existe.')
-        // }
-
         const created = await this.questionsRepository.create({ correct_answer_id: correct, ...question })
         return created
     }

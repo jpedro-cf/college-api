@@ -6,7 +6,7 @@ export const makeFakeUserModel = (): IUser => {
         name: 'any_name',
         email: 'any_email@email.com',
         roles: ['student'],
-        points: 0,
+        points: 15,
         password: 'hashed_data',
         createdAt: new Date(),
         updatedAt: new Date()

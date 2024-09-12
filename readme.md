@@ -18,7 +18,7 @@
 
 -   Admin only
 -   **POST** `/api/categories`: Creates a new category.
--   **GET** `/api/categories`: Retrieves all categories.
+-   **GET** `/api/categories`: Retrieves all categories (all users).
 -   **PUT** `/api/categories/:id`: Updates a specific category by its ID.
 -   **DELETE** `/api/categories/:id`: Deletes a specific category by its ID.
 

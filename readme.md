@@ -1,4 +1,4 @@
--   API made for general technology questions platform: https://github.com/jpedro-cf/college-ui
+-   API made for general technology questions for college students platform: https://github.com/jpedro-cf/college-ui
 
 # API Endpoints
 

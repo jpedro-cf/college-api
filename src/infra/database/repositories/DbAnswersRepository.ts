@@ -30,7 +30,7 @@ export class DbAnswersRepository extends DbBaseRepository<IAnswer> implements IA
             { $unwind: '$categoryDetails' },
             {
                 $group: {
-                    _id: '$questionDetails._id',
+                    _id: '$categoryDetails.id',
                     categoryId: { $first: '$categoryDetails.id' },
                     categoryTitle: { $first: '$categoryDetails.title' },
                     totalAnswers: { $sum: 1 },

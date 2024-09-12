@@ -27,7 +27,7 @@ describe('DbAnswersRepository', () => {
 
     const makeManyCategories = async () => {
         const categories = []
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 11; i++) {
             categories.push({
                 title: `categoria ${i}`,
                 slug: `categoria-${i}`
@@ -39,7 +39,7 @@ describe('DbAnswersRepository', () => {
     // Função para gerar várias perguntas com respostas e categorias relacionadas
     const makeManyQuestions = async (categories) => {
         const questions = []
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 10; i++) {
             const answers = []
             for (let j = 0; j < 10; j++) {
                 answers.push({
@@ -50,7 +50,7 @@ describe('DbAnswersRepository', () => {
 
             questions.push({
                 question: `Pergunta ${i}`,
-                categories: [categories[i].id], // Relaciona a categoria
+                categories: [categories[i % 3].id], // Relaciona a categoria
                 material: `Material de apoio para pergunta ${i}`,
                 answers: answers, // Relaciona as respostas
                 correct_answer_id: Math.floor(Math.random() * 10) + 1 // Escolhe uma resposta correta aleatória
@@ -66,12 +66,12 @@ describe('DbAnswersRepository', () => {
 
         // Cria respostas relacionadas às perguntas
         const answers = []
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 10; i++) {
             answers.push({
                 user: `user_${i % 2}`, // Alterna entre dois usuários
-                question: questions[i % questions.length].id, // Relaciona a pergunta
+                question: questions[i].id, // Relaciona a pergunta
                 correct: Math.random() < 0.5, // Randomiza entre correto/incorreto
-                createdAt: subHours(new Date(), i) // Datas variadas
+                createdAt: subDays(new Date(), i) // Datas variadas
             })
         }
 
@@ -85,9 +85,8 @@ describe('DbAnswersRepository', () => {
         test('should return correct values', async () => {
             const { sut } = makeSut()
             const res = await sut.getUserPerformance('user_0', subDays(new Date(), 250))
-            console.log(new Date())
-            console.log(res)
-            expect(res).toBeTruthy()
+            expect(res.categories.length).toBeGreaterThan(0)
+            expect(res.performance.length).toBeGreaterThan(0)
         })
     })
 })

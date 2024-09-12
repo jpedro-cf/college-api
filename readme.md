@@ -1,3 +1,5 @@
+-   API made for general technology questions platform: https://github.com/jpedro-cf/college-ui
+
 # API Endpoints
 
 ## Authentication

@@ -19,9 +19,9 @@ describe('DbAnswersRepository', () => {
     }, 5000)
 
     afterAll(async () => {
-        // await AnswerModel.deleteMany({})
-        // await CategoryModel.deleteMany({})
-        // await QuestionModel.deleteMany({})
+        await AnswerModel.deleteMany({})
+        await CategoryModel.deleteMany({})
+        await QuestionModel.deleteMany({})
         await mongoose.disconnect()
     })
 

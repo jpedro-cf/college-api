@@ -23,7 +23,7 @@ export class AnswersPerfomanceController implements IController {
                 return unauthorized(new AuthenticationError('Sessão inválida.'))
             }
 
-            const { date } = httpRequest.params
+            const { date } = httpRequest.query
 
             const perfomance = await this.getPerfomance.execute(user.id, new Date(date))
 

@@ -90,6 +90,9 @@ export class DbAnswersRepository extends DbBaseRepository<IAnswer> implements IA
                 }
             },
             {
+                $sort: { _id: 1 } // Ordena pela data (ascendente)
+            },
+            {
                 $project: {
                     _id: 0,
                     date: '$_id',

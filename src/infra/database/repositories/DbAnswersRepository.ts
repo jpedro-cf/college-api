@@ -1,7 +1,8 @@
 import { IAnswer } from '@/domain/Answer'
 import { DbBaseRepository } from './DbBaseRepository'
-import { IAnswersRepository, IPerformanceResponseDTO } from '@/interfaces/application/repositories/AnswersRepository'
+import { IAnswersRepository } from '@/interfaces/application/repositories/AnswersRepository'
 import { AnswerModel } from '../models/AnswerModel'
+import { IPerformanceResponseDTO } from '@/interfaces/domain/useCases/answers/GetAnswersPerfomance'
 
 export class DbAnswersRepository extends DbBaseRepository<IAnswer> implements IAnswersRepository {
     constructor() {

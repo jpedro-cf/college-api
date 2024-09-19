@@ -39,7 +39,7 @@ describe('AnswersPerfomanceController', () => {
             cookies: {
                 access_token: '123'
             },
-            params: {
+            query: {
                 date: subDays(new Date(), 10)
             }
         })

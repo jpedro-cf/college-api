@@ -13,4 +13,5 @@ export interface IGetAllQuestionsResponse {
 
 export interface IGetQuestions {
     execute(data: IGetQuestionsDTO): Promise<IGetAllQuestionsResponse>
+    byId(id: string): Promise<IQuestion>
 }

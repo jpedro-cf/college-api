@@ -1,3 +1,4 @@
+import { IQuestion } from '@/domain/Question'
 import { IQuestionsRepository } from '@/interfaces/application/repositories/QuestionsRepository'
 import {
     IGetAllQuestionsResponse,
@@ -7,6 +8,7 @@ import {
 
 export class GetQuestionsUseCase implements IGetQuestions {
     constructor(private readonly questionsRepository: IQuestionsRepository) {}
+
     async execute(data: IGetQuestionsDTO): Promise<IGetAllQuestionsResponse> {
         const response = await this.questionsRepository.queryMany(
             {
@@ -28,5 +30,8 @@ export class GetQuestionsUseCase implements IGetQuestions {
             questions: response.items,
             pages: response.total_pages
         }
+    }
+    async byId(id: string): Promise<IQuestion> {
+        return await this.questionsRepository.queryOne({ id: { _equals: id } })
     }
 }

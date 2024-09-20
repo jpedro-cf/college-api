@@ -8,6 +8,7 @@ import {
 import { GetQuestionsController } from '@/presentation/controllers/questions/GetQuestionsController'
 import { UpdateQuestionController } from '@/presentation/controllers/questions/UpdateQuestionController'
 import { DeleteQuestionController } from '@/presentation/controllers/questions/DeleteQuestionController'
+import { GetQuestionByIDController } from '@/presentation/controllers/questions/GetQuestionByIDController'
 
 export const makeCreateQuestionController = (): CreateQuestionController => {
     return new CreateQuestionController(makeCreateQuestion())
@@ -15,6 +16,9 @@ export const makeCreateQuestionController = (): CreateQuestionController => {
 
 export const makeGetQuestionsController = (): GetQuestionsController => {
     return new GetQuestionsController(makeGetQuestions())
+}
+export const makeGetQuestionByIDController = (): GetQuestionByIDController => {
+    return new GetQuestionByIDController(makeGetQuestions())
 }
 
 export const makeUpdateQuestionController = (): UpdateQuestionController => {

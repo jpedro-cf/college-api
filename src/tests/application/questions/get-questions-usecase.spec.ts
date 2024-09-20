@@ -23,4 +23,10 @@ describe('GetQuestionsUseCase', () => {
         expect(res.questions.length).toBeGreaterThan(0)
         expect(res.pages).toBeGreaterThan(0)
     })
+    test('should return a question on byId() method', async () => {
+        const { sut } = makeSut()
+
+        const res = await sut.byId('id')
+        expect(res.id).toBeTruthy()
+    })
 })

@@ -4,6 +4,7 @@ import { makeAuthUseCase } from '../factories/use-cases/AuthUseCasesFactory'
 import {
     makeCreateQuestionController,
     makeDeleteQuestionController,
+    makeGetQuestionByIDController,
     makeGetQuestionsController,
     makeUpdateQuestionController
 } from '../factories/controllers/QuestionsControllersFactory'
@@ -21,6 +22,12 @@ export default function questionsRoutes(app: FastifyInstance) {
 
     app.get('/api/questions', async (req, res) => {
         const controller = makeGetQuestionsController()
+        const { statusCode, body } = await controller.handle(req)
+
+        return res.code(statusCode).send(body)
+    })
+    app.get('/api/questions/:id', async (req, res) => {
+        const controller = makeGetQuestionByIDController()
         const { statusCode, body } = await controller.handle(req)
 
         return res.code(statusCode).send(body)

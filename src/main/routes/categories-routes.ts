@@ -18,7 +18,7 @@ export default function categoriesRoutes(app: FastifyInstance) {
 
         return res.code(statusCode).send(body)
     })
-    app.get('/api/categories', { preHandler: usersPreHandler.handle.bind(usersPreHandler) }, async (req, res) => {
+    app.get('/api/categories', async (req, res) => {
         const controller = makeGetCategoriesController()
         const { statusCode, body } = await controller.handle(req)
 

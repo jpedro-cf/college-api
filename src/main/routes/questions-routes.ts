@@ -26,7 +26,7 @@ export default function questionsRoutes(app: FastifyInstance) {
 
         return res.code(statusCode).send(body)
     })
-    app.get('/api/questions/:id', async (req, res) => {
+    app.get('/api/questions/:id', { preHandler: adminPrehandler.handle.bind(adminPrehandler) }, async (req, res) => {
         const controller = makeGetQuestionByIDController()
         const { statusCode, body } = await controller.handle(req)
 

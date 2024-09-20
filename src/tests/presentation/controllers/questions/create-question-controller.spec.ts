@@ -24,7 +24,7 @@ describe('CreateQuestionController', () => {
             body: {
                 question: 'Questão titulo 2',
                 material: 'https://google.com',
-                category_id: '35c468a0-08e8-4c0e-a273-04a8b39b09c1',
+                categories: ['35c468a0-08e8-4c0e-a273-04a8b39b09c1'],
                 answers: [
                     {
                         id: 1,
@@ -46,7 +46,7 @@ describe('CreateQuestionController', () => {
             body: {
                 question: 'Questão titulo 2',
                 material: 'https://google.com',
-                category_id: '35c468a0-08e8-4c0e-a273-04a8b39b09c1',
+                categories: ['35c468a0-08e8-4c0e-a273-04a8b39b09c1'],
                 answers: [
                     {
                         id: 1,
@@ -69,7 +69,7 @@ describe('CreateQuestionController', () => {
             body: {
                 question: 'Questão titulo 2',
                 material: 'https://google.com',
-                category_id: '35c468a0-08e8-4c0e-a273-04a8b39b09c1',
+                categories: ['35c468a0-08e8-4c0e-a273-04a8b39b09c1'],
                 answers: [
                     {
                         id: 1,

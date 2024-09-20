@@ -8,7 +8,7 @@ export class CreateQuestionController implements IController {
     constructor(private readonly createQuestion: ICreateQuestion) {}
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
-            const { question, material, category_id, answers, correct } = httpRequest.body
+            const { question, material, categories, answers, correct } = httpRequest.body
 
             const requiredFields = ['question', 'answers', 'correct']
 
@@ -29,7 +29,7 @@ export class CreateQuestionController implements IController {
             }
 
             const created = await this.createQuestion.execute(
-                { question, material, categories: category_id ? [category_id] : null, answers },
+                { question, material, categories: categories ?? null, answers },
                 correct
             )
 

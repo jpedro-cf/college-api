@@ -29,9 +29,13 @@ export default function answersRoutes(app: FastifyInstance) {
         res.code(statusCode).send(body)
     })
 
-    app.get('/api/performance', { preHandler: usersPreHandler.handle.bind(usersPreHandler) }, async (req, res) => {
-        const controller = makePerformanceController()
-        const { statusCode, body } = await controller.handle(req)
-        res.code(statusCode).send(body)
-    })
+    app.get(
+        '/api/answers/performance',
+        { preHandler: usersPreHandler.handle.bind(usersPreHandler) },
+        async (req, res) => {
+            const controller = makePerformanceController()
+            const { statusCode, body } = await controller.handle(req)
+            res.code(statusCode).send(body)
+        }
+    )
 }

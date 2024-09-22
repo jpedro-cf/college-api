@@ -11,13 +11,13 @@ export class RolesPreHandler implements IPreHandler {
             const { access_token } = request.cookies
             if (!access_token) {
                 reply.code(400)
-                reply.send({ message: 'Token é obrigatório.' })
+                reply.send({ message: 'Você precisa estar autenticado para realizar essa operação.' })
                 done()
             }
             const user = await this.authentication.verifySession(access_token)
             if (!user) {
                 reply.code(400)
-                reply.send({ message: 'Nenhum usuário encontrado com esse token.' })
+                reply.send({ message: 'Você precisa estar autenticado para realizar essa operação.' })
                 done()
             }
             if (!this.roles.some((r) => user.roles.includes(r))) {

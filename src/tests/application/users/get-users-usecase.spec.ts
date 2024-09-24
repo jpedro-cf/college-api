@@ -22,4 +22,17 @@ describe('GetUsersUseCase', () => {
         expect(res.users.length).toBeGreaterThan(0)
         expect(res.pages).toBeGreaterThan(0)
     })
+
+    test('should return null if repository returns null', async () => {
+        const { sut, repository } = makeSut()
+        jest.spyOn(repository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
+        const res = await sut.getByID('123')
+        expect(res).toBeNull()
+    })
+    test('should return a user by id', async () => {
+        const { sut } = makeSut()
+
+        const res = await sut.getByID('123')
+        expect(res.id).toBeTruthy()
+    })
 })

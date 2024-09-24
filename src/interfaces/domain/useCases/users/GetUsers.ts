@@ -13,4 +13,5 @@ export interface IGetUsersResponse {
 
 export interface IGetUsers {
     execute(data: IGetUsersDTO): Promise<IGetUsersResponse>
+    getByID(id: string): Promise<IUser>
 }

@@ -1,8 +1,13 @@
+import { IUser } from '@/domain/User'
 import { IUsersRepository } from '@/interfaces/application/repositories/UsersRepository'
 import { IGetUsers, IGetUsersDTO, IGetUsersResponse } from '@/interfaces/domain/useCases/users/GetUsers'
 
 export class GetUsersUseCase implements IGetUsers {
     constructor(private readonly usersRepository: IUsersRepository) {}
+
+    async getByID(id: string): Promise<IUser> {
+        return await this.usersRepository.queryOne({ id: { _equals: id } })
+    }
 
     async execute(data: IGetUsersDTO): Promise<IGetUsersResponse> {
         const response = await this.usersRepository.queryMany({

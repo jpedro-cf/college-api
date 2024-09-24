@@ -5,6 +5,7 @@ import {
     makeCreateCategoryController,
     makeDeleteCategoryController,
     makeGetCategoriesController,
+    makeGetCategoryByIDController,
     makeUpdateCategoryController
 } from '../factories/controllers/CategoriesControllersFactory'
 
@@ -20,6 +21,13 @@ export default function categoriesRoutes(app: FastifyInstance) {
     })
     app.get('/api/categories', async (req, res) => {
         const controller = makeGetCategoriesController()
+        const { statusCode, body } = await controller.handle(req)
+
+        return res.code(statusCode).send(body)
+    })
+
+    app.get('/api/categories/:id', async (req, res) => {
+        const controller = makeGetCategoryByIDController()
         const { statusCode, body } = await controller.handle(req)
 
         return res.code(statusCode).send(body)

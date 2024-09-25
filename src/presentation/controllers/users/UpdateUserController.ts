@@ -11,7 +11,7 @@ export class UpdateUserController implements IController {
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         try {
             const { id } = httpRequest.params
-            const { name, email, roles } = httpRequest.body
+            const { name, email, roles, password } = httpRequest.body
 
             if (!id) {
                 return badRequest(new InvalidParamError('ID é obrigatório'))
@@ -27,7 +27,7 @@ export class UpdateUserController implements IController {
                 return unauthorized(new AuthenticationError('Você não tem permissão pra editar os cargos do usuário.'))
             }
 
-            const updated = await this.updateUser.execute(id, { name, email, roles })
+            const updated = await this.updateUser.execute(id, { name, email, roles, password })
             return ok(updated)
         } catch (error) {
             return mapErrorToHttpResponse(error)

@@ -10,7 +10,7 @@ import {
 } from '../factories/controllers/CategoriesControllersFactory'
 
 export default function categoriesRoutes(app: FastifyInstance) {
-    const adminPrehandler = new RolesPreHandler(['admin'], makeAuthUseCase())
+    const adminPrehandler = new RolesPreHandler(['admin', 'manager'], makeAuthUseCase())
     const usersPreHandler = new RolesPreHandler(['admin', 'student', 'editor', 'manager'], makeAuthUseCase())
 
     app.post('/api/categories', { preHandler: adminPrehandler.handle.bind(adminPrehandler) }, async (req, res) => {

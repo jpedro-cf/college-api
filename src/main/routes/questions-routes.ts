@@ -10,7 +10,7 @@ import {
 } from '../factories/controllers/QuestionsControllersFactory'
 
 export default function questionsRoutes(app: FastifyInstance) {
-    const adminPrehandler = new RolesPreHandler(['admin'], makeAuthUseCase())
+    const adminPrehandler = new RolesPreHandler(['admin', 'manager'], makeAuthUseCase())
     const studentPreHandler = new RolesPreHandler(['student', 'admin', 'editor', 'manager'], makeAuthUseCase())
 
     app.post('/api/questions', { preHandler: adminPrehandler.handle.bind(adminPrehandler) }, async (req, res) => {

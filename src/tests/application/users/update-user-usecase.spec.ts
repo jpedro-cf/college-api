@@ -1,11 +1,13 @@
 import { UpdateUserUseCase } from '@/application/users/UpdateUserUseCase'
+import { makeFakeHasher } from '@/tests/mocks/cryptography/Hasher.mock'
 import { makeFakeUserModel } from '@/tests/mocks/models/UserModel.mock'
 import { makeFakeUsersRepository } from '@/tests/mocks/repositories/UsersRepository.mock'
 
 const makeSut = () => {
     const repository = makeFakeUsersRepository()
-    const sut = new UpdateUserUseCase(repository)
-    return { sut, repository }
+    const hasher = makeFakeHasher()
+    const sut = new UpdateUserUseCase(repository, hasher)
+    return { sut, repository, hasher }
 }
 
 describe('UpdateUserUseCase', () => {
@@ -23,6 +25,14 @@ describe('UpdateUserUseCase', () => {
         jest.spyOn(repository, 'queryOne').mockReturnValueOnce(Promise.resolve(makeFakeUserModel()))
         const res = sut.execute('123', { email: '123' })
         expect(res).rejects.toThrow()
+    })
+
+    test('should call hasher if password provided', async () => {
+        const { sut, hasher } = makeSut()
+
+        const spy = jest.spyOn(hasher, 'hash')
+        await sut.execute('123', { password: '123' })
+        expect(spy).toHaveBeenCalled()
     })
 
     test('should updated a user on success ', async () => {

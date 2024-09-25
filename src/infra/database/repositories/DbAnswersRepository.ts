@@ -103,7 +103,7 @@ export class DbAnswersRepository extends DbBaseRepository<IAnswer> implements IA
         ]).exec()
 
         return {
-            categories: performanceByCategory[0].categories,
+            categories: performanceByCategory[0]?.categories ?? [],
             performance: answers as any
         }
     }

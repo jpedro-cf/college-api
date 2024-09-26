@@ -42,7 +42,7 @@ export class CreateAnswerUseCase implements ICreateAnswer {
 
         const answer = await this.answersRepository.create(request)
 
-        const points = request.correct ? (user.points += 15) : (user.points -= 5)
+        const points = request.correct ? (user.points += 15) : user.points
         await this.usersRepository.update(user.id, { points })
 
         return answer

@@ -43,7 +43,7 @@ describe('CreateAnswerUseCase', () => {
         expect(res).rejects.toThrow()
     })
 
-    test('answers repository should be called with correct=false if answer is not correct and user should lose 5 points', async () => {
+    test('answers repository should be called with correct=false if answer is not correct', async () => {
         const { sut, questionsRepository, answersRepository, usersRepository } = makeSut()
 
         const questionModel = makeFakeQuestion()
@@ -52,19 +52,12 @@ describe('CreateAnswerUseCase', () => {
         jest.spyOn(questionsRepository, 'queryOne').mockReturnValueOnce(Promise.resolve(questionModel))
         jest.spyOn(answersRepository, 'queryOne').mockReturnValueOnce(Promise.resolve(null))
         const spy = jest.spyOn(answersRepository, 'create')
-        const userSpy = jest.spyOn(usersRepository, 'update')
 
         const res = await sut.execute(req)
 
         expect(spy).toHaveBeenCalledWith(
             expect.objectContaining({
                 correct: false
-            })
-        )
-        expect(userSpy).toHaveBeenCalledWith(
-            'any_id',
-            expect.objectContaining({
-                points: 10
             })
         )
         expect(res.id).toBeTruthy()

@@ -23,7 +23,11 @@ export class UpdateUserController implements IController {
                 return unauthorized(new AuthenticationError('Você não tem permissão pra editar esse usuário.'))
             }
 
-            if (roles && !current_user.roles.includes('admin')) {
+            if (roles && roles.length < 1) {
+                return badRequest(new InvalidParamError('Role não pode estar vazio'))
+            }
+
+            if (roles && roles.some((r) => !current_user.roles.includes(r)) && !current_user.roles.includes('admin')) {
                 return unauthorized(new AuthenticationError('Você não tem permissão pra editar os cargos do usuário.'))
             }
 

@@ -13,6 +13,7 @@ export class GetQuestionsController implements IController {
                 search: httpRequest.query.search ?? '',
                 order: httpRequest.query.order ?? 'desc',
                 per_page: httpRequest.query.per_page ?? 9,
+                category: httpRequest.query.category ?? null,
                 current_page: httpRequest.query.current_page ?? 1
             })
             return ok(questions)

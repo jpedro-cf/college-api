@@ -3,6 +3,7 @@ import { IQuestion } from '@/domain/Question'
 export interface IGetQuestionsDTO {
     search?: string
     order?: 'desc' | 'asc'
+    category?: string
     current_page?: number
     per_page?: number
 }

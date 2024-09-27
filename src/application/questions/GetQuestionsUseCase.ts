@@ -10,11 +10,16 @@ export class GetQuestionsUseCase implements IGetQuestions {
     constructor(private readonly questionsRepository: IQuestionsRepository) {}
 
     async execute(data: IGetQuestionsDTO): Promise<IGetAllQuestionsResponse> {
+        const query = {
+            question: { _contains: data.search ?? '' }
+        }
+        if (data.category) {
+            query['categories'] = { _contains: data.category }
+        }
+
         const response = await this.questionsRepository.queryMany(
             {
-                query: {
-                    question: { _contains: data.search ?? '' }
-                },
+                query,
                 order: {
                     by: 'createdAt',
                     direction: data.order ?? 'desc'

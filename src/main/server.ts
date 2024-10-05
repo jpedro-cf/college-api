@@ -4,10 +4,9 @@ import { appConfig } from './config/config'
 import routesConfig from './config/routes'
 import mongoose from 'mongoose'
 
-const app: FastifyInstance = fastify({ logger: false })
+export const app: FastifyInstance = fastify({ logger: false })
 appConfig(app)
 routesConfig(app)
-export { app }
 
 const start = () => {
     mongoose.connect(env.mongoUrl).then(() => {
